@@ -1,7 +1,14 @@
-import type { NextConfig } from "next";
+import { withPlausibleProxy } from 'next-plausible';
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+    compiler: {
+        styledComponents: true,
+    },
+    images: {},
+    async redirects() {
+        return [];
+    },
 };
 
-export default nextConfig;
+export default withPlausibleProxy()(nextConfig);

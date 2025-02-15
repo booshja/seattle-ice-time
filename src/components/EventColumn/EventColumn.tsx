@@ -1,0 +1,53 @@
+import { EventCell } from "../EventCell";
+import {
+    EventColumnHeaderStyled,
+    EventColumnStyled,
+    EventDateContainerStyled,
+    EventsContainerStyled,
+} from "./EventColumnStyled";
+import type { Day } from "@/types";
+import type { EventObject } from "@/types/events";
+
+interface EventColumnProps {
+    day: Day;
+    date: number;
+    events: EventObject[];
+}
+
+export const EventColumn = ({ date, day, events }: EventColumnProps) => {
+    const currentDate = new Date(Date.now()).toLocaleDateString("us-PT", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+    const splitDate = currentDate.split(" ");
+    const currentDay = splitDate[0].split(",")[0];
+    const currentDayNumber = +splitDate[2].split(",")[0];
+
+    const active = date === currentDayNumber && day === currentDay ? "true" : undefined;
+
+    return (
+        <EventColumnStyled $day={day}>
+            <EventColumnHeaderStyled>
+                <EventDateContainerStyled $active={active}>
+                    <p>{day}</p>
+                    <p>{date}</p>
+                </EventDateContainerStyled>
+            </EventColumnHeaderStyled>
+            <EventsContainerStyled>
+                {events.map((event, index) => (
+                    <EventCell
+                        key={index}
+                        color={event.color}
+                        title={event.title}
+                        startTime={event.start.time}
+                        endTime={event.end.time}
+                        location={event.location}
+                        url={event?.url}
+                    />
+                ))}
+            </EventsContainerStyled>
+        </EventColumnStyled>
+    );
+};
