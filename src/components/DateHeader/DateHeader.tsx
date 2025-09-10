@@ -1,56 +1,103 @@
 "use client";
 
-import { getDisplayDates } from "@/utils/helpers/dates";
+import {
+    getCurrentWeekMonday,
+    getDisplayDatesFromBaseDate,
+    getMondayIsoFromBaseDate,
+    parseLocalDateFromYmd,
+    getLocalIsoDate,
+} from "@/utils/helpers/dates";
 import { useWeekDisplayStore } from "@/store/currentWeek/currentWeekStoreProvider";
 import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useShallow } from "zustand/shallow";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEventsStore } from "@/store/events/eventsStoreProvider";
 
 export const DateHeader = () => {
-    const displayString = getDisplayDates();
-
-    const [currentWeek, initialWeek, setInitialWeek] = useWeekDisplayStore(
-        useShallow((state) => [
-            state.currentWeek,
-            state.initialWeek,
-            state.setInitialWeek,
-            state.setCurrentWeek,
-        ]),
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const weekStartParam = searchParams.get("weekStart");
+    const base = useMemo(() => {
+        if (weekStartParam) {
+            // Parse as local date (Y-M-D) and normalize to Monday
+            const normalized = getMondayIsoFromBaseDate(
+                parseLocalDateFromYmd(weekStartParam),
+            );
+            return parseLocalDateFromYmd(normalized);
+        }
+        return getCurrentWeekMonday();
+    }, [weekStartParam]);
+    const displayString = useMemo(
+        () => getDisplayDatesFromBaseDate(new Date(base)),
+        [base],
     );
+
+    const [currentWeek, initialWeek, setInitialWeek, setCurrentWeek] =
+        useWeekDisplayStore(
+            useShallow((state) => [
+                state.currentWeek,
+                state.initialWeek,
+                state.setInitialWeek,
+                state.setCurrentWeek,
+            ]),
+        );
+
+    const isEmptyWeek = useEventsStore((state) => state.isCurrentWeekEmpty);
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         const name = e.currentTarget.name;
-
+        const currentMonday = getCurrentWeekMonday();
+        const currentMondayISO = getLocalIsoDate(currentMonday);
+        const currentBase = new Date(base);
+        const nextBase = new Date(currentBase);
         if (name === "previous") {
-            console.log("Previous week");
+            nextBase.setDate(nextBase.getDate() - 7);
         } else {
-            console.log("Next week");
+            nextBase.setDate(nextBase.getDate() + 7);
         }
+        const nextMondayISO = getMondayIsoFromBaseDate(new Date(nextBase));
+        // Cap back navigation: if going previous would move before current week, do nothing
+        if (name === "previous" && nextMondayISO <= currentMondayISO) {
+            // Navigating back to current week: clear param
+            router.push(`${pathname}`);
+            return;
+        }
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("weekStart", nextMondayISO);
+        router.push(`${pathname}?${params.toString()}`);
     };
 
     useEffect(() => {
-        setInitialWeek(displayString);
-    }, [displayString, setInitialWeek]);
+        setInitialWeek(getDisplayDatesFromBaseDate(getCurrentWeekMonday()));
+    }, [setInitialWeek]);
+
+    useEffect(() => {
+        setCurrentWeek(displayString);
+    }, [displayString, setCurrentWeek]);
 
     return (
         <DateHeaderStyled>
             {displayString !== initialWeek && (
                 <DateChangeButtonStyled
                     name="previous"
-                    aria-label="Change calendar to previous week"
+                    aria-label="Go to previous week"
                     onClick={handleClick}
                 >
                     &lt;
                 </DateChangeButtonStyled>
             )}
             <span>{currentWeek}</span>
-            <DateChangeButtonStyled
-                name="next"
-                aria-label="Change calendar to next week"
-                onClick={handleClick}
-            >
-                &gt;
-            </DateChangeButtonStyled>
+            {!isEmptyWeek && (
+                <DateChangeButtonStyled
+                    name="next"
+                    aria-label="Go to next week"
+                    onClick={handleClick}
+                >
+                    &gt;
+                </DateChangeButtonStyled>
+            )}
         </DateHeaderStyled>
     );
 };

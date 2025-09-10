@@ -11,16 +11,28 @@ import { useRinkDisplayStore } from "@/store/rinkDisplay/rinkDisplayStoreProvide
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
 import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
 import { useEventsStore } from "@/store/events/eventsStoreProvider";
-import { getWeekDates } from "@/utils/helpers/dates";
+import {
+    getCurrentWeekMonday,
+    getWeekDates,
+    parseLocalDateFromYmd,
+    getMondayDateFromBaseDate,
+} from "@/utils/helpers/dates";
+import { useSearchParams } from "next/navigation";
 import { parseEvents } from "@/utils/helpers/parseEvents";
 
 interface EventGridProps {
     kciEvents: Array<KciEventObject>;
     licEvents: Array<LicOvaEventObject>;
     ovaEvents: Array<LicOvaEventObject>;
+    weekStartIso?: string;
 }
 
-export const EventGrid = ({ kciEvents, licEvents, ovaEvents }: EventGridProps) => {
+export const EventGrid = ({
+    kciEvents,
+    licEvents,
+    ovaEvents,
+    weekStartIso,
+}: EventGridProps) => {
     const [events, setEvents] = useState<Events | null>(null);
 
     const [showKci, showLynnwood, showOva] = useRinkDisplayStore(
@@ -33,6 +45,7 @@ export const EventGrid = ({ kciEvents, licEvents, ovaEvents }: EventGridProps) =
         setInitialKciEvents,
         setInitialLynnwoodEvents,
         setInitialOlympicviewEvents,
+        setIsCurrentWeekEmpty,
         // setKciEvents,
         // setLynnwoodEvents,
         // setOlympicviewEvents,
@@ -44,16 +57,24 @@ export const EventGrid = ({ kciEvents, licEvents, ovaEvents }: EventGridProps) =
             setInitialKciEvents: state.setInitialKciEvents,
             setInitialLynnwoodEvents: state.setInitialLynnwoodEvents,
             setInitialOlympicviewEvents: state.setInitialOlympicviewEvents,
+            setIsCurrentWeekEmpty: state.setIsCurrentWeekEmpty,
             setKciEvents: state.setKciEvents,
             setLynnwoodEvents: state.setLynnwoodEvents,
             setOlympicviewEvents: state.setOlympicviewEvents,
         })),
     );
 
-    const monday = new Date();
-    const day = monday.getDay() || 7;
-    if (day !== 1) monday.setHours(-24 * (day - 1));
-    const weekDates = getWeekDates(monday);
+    const searchParams = useSearchParams();
+    const clientWeekStart = searchParams.get("weekStart");
+    let base = getCurrentWeekMonday();
+    if (clientWeekStart) {
+        base = getMondayDateFromBaseDate(parseLocalDateFromYmd(clientWeekStart));
+    } else if (weekStartIso) {
+        base = getMondayDateFromBaseDate(
+            parseLocalDateFromYmd(weekStartIso.split("T")[0]),
+        );
+    }
+    const weekDates = getWeekDates(base);
 
     useEffect(() => {
         setInitialKciEvents(kciEvents);
@@ -76,7 +97,24 @@ export const EventGrid = ({ kciEvents, licEvents, ovaEvents }: EventGridProps) =
         });
 
         setEvents(eventsResults);
-    }, [showKci, showLynnwood, showOva, kciEventData, licEventData, ovaEventData]);
+        const empty =
+            eventsResults.Monday.length === 0 &&
+            eventsResults.Tuesday.length === 0 &&
+            eventsResults.Wednesday.length === 0 &&
+            eventsResults.Thursday.length === 0 &&
+            eventsResults.Friday.length === 0 &&
+            eventsResults.Saturday.length === 0 &&
+            eventsResults.Sunday.length === 0;
+        setIsCurrentWeekEmpty(empty);
+    }, [
+        showKci,
+        showLynnwood,
+        showOva,
+        kciEventData,
+        licEventData,
+        ovaEventData,
+        setIsCurrentWeekEmpty,
+    ]);
 
     // if (loading) {
     //     return <EventGridLoadingSkeleton weekDates={weekDates} />;
@@ -87,9 +125,19 @@ export const EventGrid = ({ kciEvents, licEvents, ovaEvents }: EventGridProps) =
     //     return <div>Error</div>;
     // }
 
+    const isEmpty =
+        !!events &&
+        events.Monday.length === 0 &&
+        events.Tuesday.length === 0 &&
+        events.Wednesday.length === 0 &&
+        events.Thursday.length === 0 &&
+        events.Friday.length === 0 &&
+        events.Saturday.length === 0 &&
+        events.Sunday.length === 0;
+
     return (
         <EventGridStyled>
-            {events && (
+            {events && !isEmpty && (
                 <>
                     <EventColumn
                         day="Monday"
@@ -127,6 +175,16 @@ export const EventGrid = ({ kciEvents, licEvents, ovaEvents }: EventGridProps) =
                         events={events.Sunday}
                     />
                 </>
+            )}
+            {events && isEmpty && (
+                <div
+                    role="status"
+                    aria-live="polite"
+                    style={{ textAlign: "center", width: "100%", padding: "24px 0" }}
+                >
+                    No events are scheduled for this week. Go back a week or refresh the
+                    page.
+                </div>
             )}
         </EventGridStyled>
     );

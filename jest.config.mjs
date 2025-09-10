@@ -1,17 +1,17 @@
-import nextJest from 'next/jest.js';
+import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({
     // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
-    dir: './',
+    dir: "./",
 });
 
 // Add any custom config to be passed to Jest
 /** @type {import('jest').Config} */
 const config = {
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-    testEnvironment: 'jest-environment-jsdom',
-    preset: 'ts-jest',
-    coverageDirectory: 'coverage',
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+    testEnvironment: "jest-environment-jsdom",
+    preset: "ts-jest",
+    coverageDirectory: "coverage",
     coverageThreshold: {
         global: {
             branches: 80,
@@ -23,14 +23,21 @@ const config = {
     clearMocks: true,
     collectCoverage: true,
     collectCoverageFrom: [
-        '**/src/**/*.{js,jsx,ts,tsx}',
-        '!**/*.test.{js,jsx,ts,tsx}',
-        '!**/node_modules/**',
-        '!**/.next/**',
-        '!**/.vscode/**',
-        '!**/lib/**',
-        '!**/types/**',
-        '!**/src/**/{(layout),(error),(global-error)}.tsx',
+        "**/src/**/*.{js,jsx,ts,tsx}",
+        "!**/*.test.{js,jsx,ts,tsx}",
+        "!**/__tests__/**",
+        "!**/src/testing/**",
+        "!**/src/components/Email/**",
+        "!**/src/fonts/**",
+        "!**/*Styled.ts",
+        "!**/*Styled.tsx",
+        "!**/src/utils/constants/strings.ts",
+        "!**/node_modules/**",
+        "!**/.next/**",
+        "!**/.vscode/**",
+        "!**/lib/**",
+        "!**/types/**",
+        "!**/src/**/{(layout),(error),(global-error)}.tsx",
     ],
 };
 
