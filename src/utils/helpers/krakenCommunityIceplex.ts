@@ -1,7 +1,10 @@
-import { fetchKciEvents } from "@/actions";
-import { COLORS, KCI_SKATER_EVENTS, RINKS } from "../constants";
+import { KciEvent, KciEventObject } from "@/types/krakenCommunityIceplex";
 import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
-import type { Day, KciEvent, KciEventObject } from "@/types";
+import { KCI_SKATER_EVENTS } from "../constants/krakenCommunityIceplex";
+import { Day } from "@/types/dates";
+import { COLORS } from "../constants/colors";
+import { RINKS } from "../constants/rinks";
+import { fetchKciEvents } from "@/actions/fetchKciEvents";
 
 function filterKciEvents(events: KciEvent[], start: string, end: string): KciEvent[] {
     const hockeyEvents = events.filter((event: KciEvent) => {

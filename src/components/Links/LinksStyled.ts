@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import styled from "styled-components";
-import { fontWeight, spacing } from "@/utils/constants";
+import { fontWeight } from "@/utils/constants/fontSizes";
+import { spacing } from "@/utils/constants/spacing";
 
 export const LinkStyled = styled(Link)`
     color: inherit;

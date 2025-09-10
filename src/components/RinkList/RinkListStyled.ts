@@ -1,7 +1,7 @@
 "use client";
 
 import styled from "styled-components";
-import { spacing } from "@/utils/constants";
+import { spacing } from "@/utils/constants/spacing";
 
 export const RinkListStyled = styled.div`
     display: flex;

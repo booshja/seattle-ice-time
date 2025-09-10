@@ -3,8 +3,8 @@
 import axios from "axios";
 import { render } from "@react-email/render";
 import React from "react";
-import { IssueEmail } from "@/components/Email";
-import { sendEmail } from "@/lib";
+import { IssueEmail } from "@/components/Email/IssueEmail";
+import { sendEmail } from "@/lib/aws/emailSender";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createGithubIssue(_: any, formData: FormData) {

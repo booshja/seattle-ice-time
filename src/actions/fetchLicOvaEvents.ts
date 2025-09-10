@@ -1,8 +1,13 @@
 "use server";
 
 import axios from "axios";
-import { LIC_OVA_EVENTS_URL, LIC_RINK_ID, OVA_RINK_ID, RINKS } from "@/utils/constants";
-import type { LicOvaEvent } from "../types";
+import {
+    LIC_OVA_EVENTS_URL,
+    LIC_RINK_ID,
+    OVA_RINK_ID,
+} from "@/utils/constants/lynnwoodOva";
+import type { LicOvaEvent } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
+import { RINKS } from "@/utils/constants/rinks";
 
 interface GetLicOvaEventsProps {
     end: string;

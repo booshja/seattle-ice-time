@@ -1,19 +1,23 @@
-import { fetchLicOvaEvents } from "@/actions";
 import {
-    COLORS,
+    LicOvaEvent,
+    LicOvaEventObject,
+} from "@/types/lynnwoodIceArenaAndOlympicViewArena";
+import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
+import {
     LIC_BOOKING_LINK,
     LIC_OVA_SKATER_EVENTS,
     OVA_BOOKING_LINK,
     OVA_LUNCH_HOCKEY_BOOKING_LINK,
-    RINKS,
-} from "../constants";
-import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
-import type { Day, LicOvaEvent, LicOvaEventObject } from "@/types";
+} from "../constants/lynnwoodOva";
+import { RINKS } from "../constants/rinks";
+import { COLORS } from "../constants/colors";
+import { Day } from "@/types/dates";
+import { fetchLicOvaEvents } from "@/actions/fetchLicOvaEvents";
 
 function filterLicOvaEvents(
     events: LicOvaEvent[],
     start: string,
-    end: string
+    end: string,
 ): LicOvaEvent[] {
     const hockeyEvents = events.filter((event: LicOvaEvent) => {
         const isDesiredEvent =
@@ -31,7 +35,7 @@ function filterLicOvaEvents(
 
 export function transformLicOvaEvents(
     events: LicOvaEvent[],
-    rink: typeof RINKS.LYNNWOOD.key | typeof RINKS.OVA.key
+    rink: typeof RINKS.LYNNWOOD.key | typeof RINKS.OVA.key,
 ): LicOvaEventObject[] {
     const transformedEvents = events.map<LicOvaEventObject>((event: LicOvaEvent) => {
         const isOva = rink === RINKS.OVA.key;
@@ -94,7 +98,7 @@ export async function getLicEvents({
     const filteredLicEvents = filterLicOvaEvents(licEvents, startDate, endDate);
     const transformedLicEvents = transformLicOvaEvents(
         filteredLicEvents,
-        RINKS.LYNNWOOD.key
+        RINKS.LYNNWOOD.key,
     );
 
     return transformedLicEvents;
@@ -127,7 +131,7 @@ export async function getOvaEvents({
     const filteredOvaEvents = filterLicOvaEvents(ovaEvents, startDate, endDate);
     const transformedOvaEvents = transformLicOvaEvents(
         filteredOvaEvents,
-        RINKS.OVA.key
+        RINKS.OVA.key,
     );
 
     return transformedOvaEvents;

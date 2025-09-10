@@ -1,5 +1,5 @@
-import { Links } from "../Links";
-import { RinkList } from "../RinkList";
+import { Links } from "../Links/Links";
+import { RinkList } from "../RinkList/RinkList";
 import { LeftRailStyled } from "./LeftRailStyled";
 
 export const LeftRail = () => {

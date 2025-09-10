@@ -1,7 +1,8 @@
 "use client";
 
 import styled, { css, keyframes } from "styled-components";
-import { COLORS, spacing } from "@/utils/constants";
+import { COLORS } from "@/utils/constants/colors";
+import { spacing } from "@/utils/constants/spacing";
 
 const background = COLORS.skeleton.background;
 const text = COLORS.skeleton.text;

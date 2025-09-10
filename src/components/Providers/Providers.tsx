@@ -1,9 +1,7 @@
-import { StyledComponentsRegistry } from "@/lib";
-import {
-    EventsStoreProvider,
-    RinkDisplayStoreProvider,
-    WeekDisplayStoreProvider,
-} from "@/store";
+import { StyledComponentsRegistry } from "@/lib/StyledComponentsRegistry";
+import { WeekDisplayStoreProvider } from "@/store/currentWeek/currentWeekStoreProvider";
+import { EventsStoreProvider } from "@/store/events/eventsStoreProvider";
+import { RinkDisplayStoreProvider } from "@/store/rinkDisplay/rinkDisplayStoreProvider";
 import type { ReactNode } from "react";
 
 export function Providers({ children }: { children: ReactNode }) {

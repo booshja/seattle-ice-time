@@ -1,8 +1,9 @@
 import PlausibleProvider from "next-plausible";
-import { Navbar, Providers } from "@/components";
-import { inter } from "@/fonts";
-import { testingIds } from "@/testing";
-import { COLORS } from "@/utils/constants";
+import { Navbar } from "@/components/Navbar/Navbar";
+import { Providers } from "@/components/Providers/Providers";
+import { inter } from "@/fonts/inter";
+import { testingIds } from "@/testing/testingIds";
+import { COLORS } from "@/utils/constants/colors";
 import "./globals.css";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";

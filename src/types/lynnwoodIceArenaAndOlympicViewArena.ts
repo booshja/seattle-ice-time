@@ -1,4 +1,4 @@
-import { RINKS } from "@/utils/constants";
+import { RINKS } from "@/utils/constants/rinks";
 import type { BaseEventObject } from "./events";
 
 export interface LicOvaEvent {

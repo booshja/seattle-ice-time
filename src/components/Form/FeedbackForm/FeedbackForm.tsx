@@ -13,8 +13,8 @@ import {
     TextAreaStyled,
     TextStyled,
 } from "../FormStyled";
-import { createFeedbackEmail } from "@/actions";
-import { FormLoading } from "../Loading";
+import { createFeedbackEmail } from "@/actions/createFeedbackEmail";
+import { FormLoading } from "../Loading/FormLoading";
 
 export const FeedbackForm = () => {
     const initialState = { status: "idle", message: "" } as

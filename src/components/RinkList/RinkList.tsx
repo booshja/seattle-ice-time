@@ -1,6 +1,6 @@
-import { RINKS } from "@/utils/constants";
+import { RINKS } from "@/utils/constants/rinks";
 import { RinkListStyled } from "./RinkListStyled";
-import { RinkToggle } from "../RinkToggle";
+import { RinkToggle } from "../RinkToggle/RinkToggle";
 
 export const RinkList = () => {
     const rinks = Object.values(RINKS);

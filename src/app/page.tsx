@@ -1,6 +1,8 @@
-import { EventGrid, LeftRail } from "@/components";
+import { EventGrid } from "@/components/EventGrid/EventGrid";
+import { LeftRail } from "@/components/LeftRail/LeftRail";
 import { PageStyled } from "./_pageStyled";
-import { getKciEvents, getLicEvents, getOvaEvents } from "@/utils/helpers";
+import { getKciEvents } from "@/utils/helpers/krakenCommunityIceplex";
+import { getLicEvents, getOvaEvents } from "@/utils/helpers/lynnwoodOva";
 
 export default async function Home() {
     const kciEvents = await getKciEvents({});

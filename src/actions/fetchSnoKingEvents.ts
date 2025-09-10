@@ -1,8 +1,8 @@
 "use server";
 
 import axios from "axios";
-import { SNO_KING_PARAMS, SNO_KING_URL } from "@/utils/constants";
-import type { SnoKingResponse } from "../types";
+import { SNO_KING_PARAMS, SNO_KING_URL } from "@/utils/constants/snoKing";
+import type { SnoKingResponse } from "@/types/snoKing";
 
 export async function fetchSnoKingEvents(date: string) {
     SNO_KING_PARAMS["filter[start_date__gte]"] = date;

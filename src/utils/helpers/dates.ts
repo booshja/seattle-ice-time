@@ -1,4 +1,4 @@
-import type { Day } from "@/types";
+import { Day } from "@/types/dates";
 
 interface GetStartEndDatesProps {
     getAsObjects?: boolean;

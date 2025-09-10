@@ -1,5 +1,6 @@
-import type { KciEventObject, LicOvaEventObject } from "@/types";
 import type { Events } from "@/types/events";
+import { KciEventObject } from "@/types/krakenCommunityIceplex";
+import { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
 
 interface ParseEventsProps {
     kciEvents: KciEventObject[] | undefined;

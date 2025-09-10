@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState } from "react";
-import { createGithubIssue } from "@/actions";
 import {
     ButtonStyled,
     FormAreaStyled,
@@ -14,20 +13,13 @@ import {
     TextAreaStyled,
     TextStyled,
 } from "../FormStyled";
-import { FormLoading } from "../Loading";
-import { IssueFormError } from "./Error";
-import { IssueFormSuccess } from "./Success";
-// import { render } from "@react-email/components";
-// import { IssueEmail } from "@/components/Email";
+import { createGithubIssue } from "@/actions/createGithubIssue";
+import { FormLoading } from "../Loading/FormLoading";
+import { IssueFormError } from "./Error/IssueFormError";
+import { IssueFormSuccess } from "./Success/IssueFormSuccess";
 
 export const IssueForm = () => {
     const initialFormActionState = { message: "" };
-
-    // TODO: Figure out how to pass the email template to the server action
-    // TODO:    but containing the form data
-    // TODO:    Maybe just link to the issues page instead of including the details?
-    // const emailHtml = render(<IssueEmail />);
-    // createGithubIssue.bind(null, emailHtml);
 
     const [{ message }, formAction, pending] = useActionState(
         createGithubIssue,

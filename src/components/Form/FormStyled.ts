@@ -1,6 +1,6 @@
 "use client";
 
-import { COLORS } from "@/utils/constants";
+import { COLORS } from "@/utils/constants/colors";
 import Image from "next/image";
 import styled, { keyframes } from "styled-components";
 

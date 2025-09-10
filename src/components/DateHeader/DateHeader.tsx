@@ -1,7 +1,7 @@
 "use client";
 
-import { getDisplayDates } from "@/utils/helpers";
-import { useWeekDisplayStore } from "@/store";
+import { getDisplayDates } from "@/utils/helpers/dates";
+import { useWeekDisplayStore } from "@/store/currentWeek/currentWeekStoreProvider";
 import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
 import { useEffect } from "react";
 import { useShallow } from "zustand/shallow";
@@ -15,7 +15,7 @@ export const DateHeader = () => {
             state.initialWeek,
             state.setInitialWeek,
             state.setCurrentWeek,
-        ])
+        ]),
     );
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {

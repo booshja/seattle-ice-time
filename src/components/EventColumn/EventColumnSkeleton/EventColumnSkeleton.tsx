@@ -1,11 +1,11 @@
-import { Day } from "@/types";
+import { Day } from "@/types/dates";
 import {
     EventColumnHeaderStyled,
     EventColumnStyled,
     EventDateContainerStyled,
     EventsContainerStyled,
 } from "../EventColumnStyled";
-import { EventCellSkeleton } from "@/components/EventCell";
+import { EventCellSkeleton } from "@/components/EventCell/EventCellSkeleton/EventCellSkeleton";
 
 interface EventColumnSkeletonProps {
     date: number;

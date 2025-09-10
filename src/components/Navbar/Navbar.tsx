@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { LinkStyled, NavbarStyled, LogoLinkStyled } from "./NavbarStyled";
-import { testingIds } from "@/testing";
-import { DateHeader } from "../DateHeader";
+import { DateHeader } from "../DateHeader/DateHeader";
+import { testingIds } from "@/testing/testingIds";
 
 const navbarIds = testingIds.components.Navbar;
 

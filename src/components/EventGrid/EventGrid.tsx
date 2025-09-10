@@ -1,15 +1,18 @@
 "use client";
 
-import { EventColumn } from "../EventColumn";
+import { EventColumn } from "../EventColumn/EventColumn";
 import { EventGridStyled } from "./EventGridStyled";
 // import { EventGridLoadingSkeleton } from "./LoadingSkeleton";
-import { getWeekDates, parseEvents } from "@/utils/helpers";
-import { useEventsStore, useRinkDisplayStore } from "@/store";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/shallow";
 // import { getSnoKingEvents } from "@/utils/helpers/snoKing";
 import type { Events } from "@/types/events";
-import { KciEventObject, LicOvaEventObject } from "@/types";
+import { useRinkDisplayStore } from "@/store/rinkDisplay/rinkDisplayStoreProvider";
+import { KciEventObject } from "@/types/krakenCommunityIceplex";
+import { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
+import { useEventsStore } from "@/store/events/eventsStoreProvider";
+import { getWeekDates } from "@/utils/helpers/dates";
+import { parseEvents } from "@/utils/helpers/parseEvents";
 
 interface EventGridProps {
     kciEvents: Array<KciEventObject>;
@@ -21,7 +24,7 @@ export const EventGrid = ({ kciEvents, licEvents, ovaEvents }: EventGridProps) =
     const [events, setEvents] = useState<Events | null>(null);
 
     const [showKci, showLynnwood, showOva] = useRinkDisplayStore(
-        useShallow((state) => [state.KCI, state.LYNNWOOD, state.OVA])
+        useShallow((state) => [state.KCI, state.LYNNWOOD, state.OVA]),
     );
     const {
         kciEventData,
@@ -44,7 +47,7 @@ export const EventGrid = ({ kciEvents, licEvents, ovaEvents }: EventGridProps) =
             setKciEvents: state.setKciEvents,
             setLynnwoodEvents: state.setLynnwoodEvents,
             setOlympicviewEvents: state.setOlympicviewEvents,
-        }))
+        })),
     );
 
     const monday = new Date();

@@ -1,7 +1,7 @@
 "use client";
 
 import styled from "styled-components";
-import { spacing } from "@/utils/constants";
+import { spacing } from "@/utils/constants/spacing";
 
 export const LeftRailStyled = styled.aside`
     width: 330px;

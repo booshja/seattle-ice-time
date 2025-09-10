@@ -1,6 +1,8 @@
 "use client";
 
-import { fontWeight, lineHeight, spacing } from "@/utils/constants";
+import { fontWeight } from "@/utils/constants/fontSizes";
+import { lineHeight } from "@/utils/constants/fontSizes";
+import { spacing } from "@/utils/constants/spacing";
 import styled from "styled-components";
 
 export const EventCellStyled = styled.div<{ color: string }>`

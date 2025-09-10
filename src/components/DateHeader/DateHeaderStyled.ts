@@ -1,6 +1,7 @@
 "use client";
 
-import { fontWeight, spacing } from "@/utils/constants";
+import { fontWeight } from "@/utils/constants/fontSizes";
+import { spacing } from "@/utils/constants/spacing";
 import styled from "styled-components";
 
 export const DateHeaderStyled = styled.div`

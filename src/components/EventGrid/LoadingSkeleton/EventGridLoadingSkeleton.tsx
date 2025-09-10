@@ -1,4 +1,4 @@
-import { EventColumnSkeleton } from "@/components/EventColumn";
+import { EventColumnSkeleton } from "@/components/EventColumn/EventColumnSkeleton/EventColumnSkeleton";
 import { EventGridStyled } from "../EventGridStyled";
 
 interface EventGridLoadingSkeletonProps {

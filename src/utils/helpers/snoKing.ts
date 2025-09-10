@@ -1,18 +1,20 @@
-import { fetchSnoKingEvents } from "@/actions";
-import { COLORS, RINKS, SNO_KING_BOOKING_URL, SNO_KING_RINKS } from "../constants";
+import { fetchSnoKingEvents } from "@/actions/fetchSnoKingEvents";
 import {
     getDailyDates,
     getDayString,
     getStartEndDates,
     getStartEndObjects,
 } from "./dates";
-import type {
-    Day,
+import {
     SnoKingEvent,
     SnoKingEventObject,
     SnoKingLocation,
     SnoKingSheet,
-} from "@/types";
+} from "@/types/snoKing";
+import { COLORS } from "../constants/colors";
+import { RINKS } from "../constants/rinks";
+import { SNO_KING_BOOKING_URL, SNO_KING_RINKS } from "../constants/snoKing";
+import { Day } from "@/types/dates";
 
 function transformSnoKingEvents(events: SnoKingEvent[]) {
     const transformedEvents = events.map<SnoKingEventObject>((event: SnoKingEvent) => {

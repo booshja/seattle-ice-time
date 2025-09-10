@@ -1,4 +1,4 @@
-import { Rink } from "@/types";
+import { Rink } from "@/types/Rink";
 import { createStore } from "zustand/vanilla";
 
 export type RinkDisplayState = {
