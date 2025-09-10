@@ -1,5 +1,5 @@
 import { IssueForm } from "@/components/Form";
 
-export default function FeedbackPage() {
+export default function IssuesPage() {
     return <IssueForm />;
 }

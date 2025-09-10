@@ -13,6 +13,7 @@ export type RinkDisplayState = {
 
 export type RinkDisplayActions = {
     toggleRink: (rink: Rink) => void;
+    setRink: (rink: Rink, value: boolean) => void;
 };
 
 export type RinkDisplayStore = RinkDisplayState & RinkDisplayActions;
@@ -40,10 +41,15 @@ export const defaultRinkDisplayInitState: RinkDisplayState = {
 };
 
 export const createRinkDisplayStore = (
-    initState: RinkDisplayState = defaultRinkDisplayInitState
+    initState: RinkDisplayState = defaultRinkDisplayInitState,
 ) => {
     return createStore<RinkDisplayStore>()((set) => ({
         ...initState,
+        setRink: (rink, value) =>
+            set((state) => ({
+                ...state,
+                [rink]: value,
+            })),
         toggleRink: (rink) =>
             set((state) => {
                 switch (rink) {

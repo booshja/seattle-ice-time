@@ -9,15 +9,14 @@ import { useShallow } from "zustand/shallow";
 export const DateHeader = () => {
     const displayString = getDisplayDates();
 
-    const [currentWeek, initialWeek, setInitialWeek, setCurrentWeek] =
-        useWeekDisplayStore(
-            useShallow((state) => [
-                state.currentWeek,
-                state.initialWeek,
-                state.setInitialWeek,
-                state.setCurrentWeek,
-            ])
-        );
+    const [currentWeek, initialWeek, setInitialWeek] = useWeekDisplayStore(
+        useShallow((state) => [
+            state.currentWeek,
+            state.initialWeek,
+            state.setInitialWeek,
+            state.setCurrentWeek,
+        ])
+    );
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         const name = e.currentTarget.name;

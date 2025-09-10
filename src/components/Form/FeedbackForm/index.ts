@@ -1,2 +1,1 @@
 export * from "./FeedbackForm";
-export * from "./IssueForm";
