@@ -1,7 +1,7 @@
-import { KciEvent, KciEventObject } from "@/types/krakenCommunityIceplex";
+import type { KciEvent, KciEventObject } from "@/types/krakenCommunityIceplex";
 import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
 import { KCI_SKATER_EVENTS } from "../constants/krakenCommunityIceplex";
-import { Day } from "@/types/dates";
+import type { Day } from "@/types/dates";
 import { COLORS } from "../constants/colors";
 import { RINKS } from "../constants/rinks";
 import { fetchKciEvents } from "@/actions/fetchKciEvents";

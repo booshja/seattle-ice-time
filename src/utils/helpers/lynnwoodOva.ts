@@ -1,4 +1,4 @@
-import {
+import type {
     LicOvaEvent,
     LicOvaEventObject,
 } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
@@ -11,7 +11,7 @@ import {
 } from "../constants/lynnwoodOva";
 import { RINKS } from "../constants/rinks";
 import { COLORS } from "../constants/colors";
-import { Day } from "@/types/dates";
+import type { Day } from "@/types/dates";
 import { fetchLicOvaEvents } from "@/actions/fetchLicOvaEvents";
 
 function filterLicOvaEvents(

@@ -1,5 +1,5 @@
-import { KciEventObject } from "@/types/krakenCommunityIceplex";
-import { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
+import type { KciEventObject } from "@/types/krakenCommunityIceplex";
+import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
 import { createStore } from "zustand/vanilla";
 
 export type EventsState = {

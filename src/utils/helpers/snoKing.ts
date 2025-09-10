@@ -5,7 +5,7 @@ import {
     getStartEndDates,
     getStartEndObjects,
 } from "./dates";
-import {
+import type {
     SnoKingEvent,
     SnoKingEventObject,
     SnoKingLocation,
@@ -14,7 +14,7 @@ import {
 import { COLORS } from "../constants/colors";
 import { RINKS } from "../constants/rinks";
 import { SNO_KING_BOOKING_URL, SNO_KING_RINKS } from "../constants/snoKing";
-import { Day } from "@/types/dates";
+import type { Day } from "@/types/dates";
 
 function transformSnoKingEvents(events: SnoKingEvent[]) {
     const transformedEvents = events.map<SnoKingEventObject>((event: SnoKingEvent) => {

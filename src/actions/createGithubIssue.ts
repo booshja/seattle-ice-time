@@ -11,9 +11,13 @@ export async function createGithubIssue(_: any, formData: FormData) {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const reporterEmail =
-        (formData.get("email") as string) || "unknown@seattle-ice-time";
+        (formData.get("email") as string) || process.env.EMAIL_FROM_ADDRESS || "N/A";
 
     try {
+        if (!process.env.GITHUB_ISSUE_TOKEN) {
+            console.error("GITHUB_ISSUE_TOKEN not configured");
+            return { message: "Issue creation failed: missing configuration" };
+        }
         const res = await axios.post(
             "https://api.github.com/repos/booshja/seattle-ice-time/issues",
             {

@@ -17,6 +17,10 @@ export const sendEmail = async ({ subject, content }: EmailSenderProps) => {
         throw new Error("AWS credentials not found");
     }
 
+    if (!process.env.EMAIL_FROM_ADDRESS || !process.env.EMAIL_TO_ADDRESS) {
+        throw new Error("Email configuration not found");
+    }
+
     const ses = new SESClient({
         apiVersion: "2010-12-01",
         region: process.env.AWS_REGION,

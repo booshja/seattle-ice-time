@@ -38,7 +38,7 @@ export const EventColumn = ({ date, day, events }: EventColumnProps) => {
             <EventsContainerStyled>
                 {events.map((event, index) => (
                     <EventCell
-                        key={index}
+                        key={`${event.title}-${event.start.military}-${event.end.military}-${event.location}-${index}`}
                         color={event.color}
                         title={event.title}
                         startTime={event.start.time}
