@@ -3,11 +3,23 @@ import { LeftRail } from "@/components/LeftRail/LeftRail";
 import { PageStyled } from "./_pageStyled";
 import { getKciEvents } from "@/utils/helpers/krakenCommunityIceplex";
 import { getLicEvents, getOvaEvents } from "@/utils/helpers/lynnwoodOva";
+import { getStartEndDatesFromBaseDate } from "@/utils/helpers/dates";
 
-export default async function Home() {
-    const kciEvents = await getKciEvents({});
-    const licEvents = await getLicEvents({});
-    const ovaEvents = await getOvaEvents({});
+interface HomeProps {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+    const sp = await searchParams;
+    const weekStartParam =
+        typeof sp?.weekStart === "string" ? (sp.weekStart as string) : undefined;
+    // Normalize to Monday to align UI dates with URL param
+    const baseDate = weekStartParam ? new Date(weekStartParam) : new Date();
+    const [start, end] = getStartEndDatesFromBaseDate(baseDate);
+
+    const kciEvents = await getKciEvents({ start, end });
+    const licEvents = await getLicEvents({ start, end });
+    const ovaEvents = await getOvaEvents({ start, end });
 
     return (
         <PageStyled>
@@ -16,6 +28,7 @@ export default async function Home() {
                 kciEvents={kciEvents}
                 licEvents={licEvents}
                 ovaEvents={ovaEvents}
+                weekStartIso={start}
             />
         </PageStyled>
     );

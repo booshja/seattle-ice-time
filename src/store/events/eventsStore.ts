@@ -9,6 +9,7 @@ export type EventsState = {
     initialKci: Array<KciEventObject>;
     initialLynnwood: Array<LicOvaEventObject>;
     initialOlympicview: Array<LicOvaEventObject>;
+    isCurrentWeekEmpty: boolean;
 };
 
 export type EventsActions = {
@@ -18,6 +19,7 @@ export type EventsActions = {
     setKciEvents: (events: Array<KciEventObject>) => void;
     setLynnwoodEvents: (events: Array<LicOvaEventObject>) => void;
     setOlympicviewEvents: (events: Array<LicOvaEventObject>) => void;
+    setIsCurrentWeekEmpty: (isEmpty: boolean) => void;
 };
 
 export type EventsStore = EventsState & EventsActions;
@@ -30,6 +32,7 @@ export const initEventsStore = (): EventsState => {
         initialKci: [],
         initialLynnwood: [],
         initialOlympicview: [],
+        isCurrentWeekEmpty: false,
     };
 };
 
@@ -40,6 +43,7 @@ export const defaultEventsInitState: EventsState = {
     initialKci: [],
     initialLynnwood: [],
     initialOlympicview: [],
+    isCurrentWeekEmpty: false,
 };
 
 export const createEventsStore = (initState: EventsState = defaultEventsInitState) => {
@@ -54,5 +58,6 @@ export const createEventsStore = (initState: EventsState = defaultEventsInitStat
         setKciEvents: (events) => set({ currentKci: events }),
         setLynnwoodEvents: (events) => set({ currentLynnwood: events }),
         setOlympicviewEvents: (events) => set({ currentOlympicview: events }),
+        setIsCurrentWeekEmpty: (isEmpty) => set({ isCurrentWeekEmpty: isEmpty }),
     }));
 };
