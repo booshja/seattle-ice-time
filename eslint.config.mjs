@@ -28,6 +28,7 @@ const eslintConfig = [
             "eslint.config.*",
             "jest.config.*",
             "next.config.*",
+            "next-env.d.ts",
             // User request: ignore SnoKing files
             "src/utils/helpers/**/snoKing*",
             "src/types/snoKing.ts",
