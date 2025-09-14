@@ -2,7 +2,7 @@
 
 import { EventColumn } from "../EventColumn/EventColumn";
 import { EventGridStyled } from "./EventGridStyled";
-// import { EventGridLoadingSkeleton } from "./LoadingSkeleton";
+import { EventGridLoadingSkeleton } from "./LoadingSkeleton/EventGridLoadingSkeleton";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/shallow";
 // import { getSnoKingEvents } from "@/utils/helpers/snoKing";
@@ -116,9 +116,9 @@ export const EventGrid = ({
         setIsCurrentWeekEmpty,
     ]);
 
-    // if (loading) {
-    //     return <EventGridLoadingSkeleton weekDates={weekDates} />;
-    // }
+    if (!events) {
+        return <EventGridLoadingSkeleton weekDates={weekDates} />;
+    }
 
     // if (error) {
     //     // TODO: Add error handling
@@ -137,7 +137,7 @@ export const EventGrid = ({
 
     return (
         <EventGridStyled>
-            {events && !isEmpty && (
+            {!isEmpty && (
                 <>
                     <EventColumn
                         day="Monday"
@@ -176,7 +176,7 @@ export const EventGrid = ({
                     />
                 </>
             )}
-            {events && isEmpty && (
+            {isEmpty && (
                 <div
                     role="status"
                     aria-live="polite"

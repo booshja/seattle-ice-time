@@ -13,7 +13,7 @@ jest.mock("next/navigation", () => {
 });
 
 describe("Navbar", () => {
-    test("renders DateHeader on root path", () => {
+    test("renders DateHeader skeleton while dynamic import loads on root path", () => {
         render(
             <Providers>
                 <Navbar />
@@ -21,7 +21,6 @@ describe("Navbar", () => {
         );
 
         expect(screen.getByText(/Seattle Area Ice Time/)).toBeInTheDocument();
-        // DateHeader renders a span with a date string
-        expect(screen.getByText(/\w+ \d+/)).toBeInTheDocument();
+        expect(screen.getByTestId("loading.dateHeader")).toBeInTheDocument();
     });
 });

@@ -5,10 +5,11 @@ import {
     LocationSkeletonStyled,
     TimeSkeletonStyled,
 } from "./EventCellSkeletonStyled";
+import { testingIds } from "@/testing/testingIds";
 
 export const EventCellSkeleton = () => {
     return (
-        <CellSkeletonStyled>
+        <CellSkeletonStyled data-testid={testingIds.loading.eventCell}>
             <HeadlineSkeletonStyled />
             <TimeSkeletonStyled />
             <LocationSkeletonStyled />

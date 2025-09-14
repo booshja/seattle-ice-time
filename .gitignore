@@ -42,3 +42,4 @@ next-env.d.ts
 
 # AI
 AI_CONTEXT.md
+.ai-docs/*

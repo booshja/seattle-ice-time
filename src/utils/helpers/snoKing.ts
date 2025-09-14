@@ -78,7 +78,6 @@ export async function getSnoKingEvents() {
             console.error(`Error fetching ${date}`);
             console.error(error);
         }
-        setTimeout(() => {}, 300);
     }
     console.log("events", events);
     const transformedEvents = transformSnoKingEvents(events);

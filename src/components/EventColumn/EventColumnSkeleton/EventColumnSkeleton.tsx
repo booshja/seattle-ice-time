@@ -6,6 +6,9 @@ import {
     EventsContainerStyled,
 } from "../EventColumnStyled";
 import { EventCellSkeleton } from "@/components/EventCell/EventCellSkeleton/EventCellSkeleton";
+import { SkeletonBlock } from "../../Skeleton/SkeletonBase";
+import { testingIds } from "@/testing/testingIds";
+import { spacing } from "@/utils/constants/spacing";
 
 interface EventColumnSkeletonProps {
     date: number;
@@ -13,17 +16,22 @@ interface EventColumnSkeletonProps {
     events: Array<number>;
 }
 
-export const EventColumnSkeleton = ({
-    events,
-    day,
-    date,
-}: EventColumnSkeletonProps) => {
+export const EventColumnSkeleton = ({ events, day }: EventColumnSkeletonProps) => {
     return (
-        <EventColumnStyled $day={day}>
+        <EventColumnStyled $day={day} data-testid={testingIds.loading.eventColumn(day)}>
             <EventColumnHeaderStyled>
                 <EventDateContainerStyled $active={undefined}>
-                    <p>{day}</p>
-                    <p>{date}</p>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: `${spacing.xs}px`,
+                        }}
+                    >
+                        <SkeletonBlock width={80} height={18} />
+                        <SkeletonBlock width={24} height={18} />
+                    </div>
                 </EventDateContainerStyled>
             </EventColumnHeaderStyled>
             <EventsContainerStyled>
