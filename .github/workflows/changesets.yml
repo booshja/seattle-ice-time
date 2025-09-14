@@ -29,6 +29,6 @@ jobs:
       - name: Create or Update Version PR
         uses: changesets/action@v1
         with:
-          version: yarn changeset version
+          version: yarn change:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
