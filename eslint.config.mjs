@@ -10,6 +10,7 @@ import jestPlugin from "eslint-plugin-jest";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import unusedImportsPlugin from "eslint-plugin-unused-imports";
 import typescriptSortKeysPlugin from "eslint-plugin-typescript-sort-keys";
+import nextPlugin from "@next/eslint-plugin-next";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -38,8 +39,14 @@ const eslintConfig = [
         ],
     },
 
-    // Next.js recommended configs (compat for legacy shareable config)
-    ...compat.extends("next/core-web-vitals", "next/typescript"),
+    // Register Next.js plugin so Next build can detect it, and keep compat extends for full config
+    {
+        plugins: {
+            "@next/next": nextPlugin,
+        },
+    },
+
+    // (placeholder; Next config appended at the end to satisfy Next.js detection)
 
     // Base ESLint recommended for JS
     js.configs.recommended,
@@ -160,6 +167,9 @@ const eslintConfig = [
             "react/display-name": "off",
         },
     },
+
+    // Append Next config last so Next.js detects the plugin and defaults
+    ...compat.config({ extends: ["next"] }),
 ];
 
 export default eslintConfig;

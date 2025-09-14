@@ -3,10 +3,14 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
+        "prepare": "husky",
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
         "lint": "eslint .",
+        "lint:fix": "eslint . --fix --cache",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,mjs,cjs,json,md,mdx,css,scss,html,yml,yaml}\"",
+        "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,mjs,cjs,json,md,mdx,css,scss,html,yml,yaml}\"",
         "test": "jest",
         "test:ci": "jest --runInBand --coverage",
         "test:watch": "jest --watch"
@@ -15,7 +19,6 @@
         "@aws-sdk/client-ses": "^3.888.0",
         "@emotion/cache": "^11.14.0",
         "@emotion/react": "^11.14.0",
-        "@emotion/server": "^11.11.0",
         "@emotion/styled": "^11.14.1",
         "@react-email/components": "^0.5.3",
         "@react-email/render": "^1.2.3",
@@ -34,7 +37,6 @@
         "@testing-library/dom": "^10.4.1",
         "@testing-library/jest-dom": "^6.8.0",
         "@testing-library/react": "^16.3.0",
-        "@testing-library/user-event": "^14.6.1",
         "@types/jest": "^30.0.0",
         "@types/node": "^24.3.3",
         "@types/nodemailer": "^7.0.1",
@@ -42,7 +44,6 @@
         "@types/react-dom": "^19.1.9",
         "eslint": "^9.35.0",
         "eslint-config-next": "^15.5.3",
-        "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-jest": "^29.0.1",
         "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -54,7 +55,20 @@
         "jest-environment-jsdom": "29.7.0",
         "ts-jest": "^29.4.1",
         "typescript": "^5.9.2",
-        "typescript-eslint": "^8.43.0"
+        "typescript-eslint": "^8.43.0",
+        "eslint-config-prettier": "^10.1.8",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.1.6",
+        "prettier": "^3.6.2"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,mjs,cjs}": [
+            "eslint --fix --cache",
+            "prettier --write"
+        ],
+        "*.{json,md,mdx,css,scss,html,yml,yaml}": [
+            "prettier --write"
+        ]
     },
     "main": "index.js",
     "repository": "git@github.com:booshja/seattle-ice-time.git",
