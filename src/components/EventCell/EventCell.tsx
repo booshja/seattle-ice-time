@@ -3,9 +3,9 @@ import { EventCellStyled, RegistrationLinkStyled } from "./EventCellStyled";
 interface EventCellProps {
     color: string;
     endTime: string;
+    location: string;
     startTime: string;
     title: string;
-    location: string;
     url: string;
 }
 

@@ -1,8 +1,10 @@
 "use client";
 
 import { RINKS } from "@/utils/constants/rinks";
-import { RinkListStyled } from "./RinkListStyled";
+
 import { RinkToggle } from "../RinkToggle/RinkToggle";
+
+import { RinkListStyled } from "./RinkListStyled";
 
 export const RinkList = () => {
     const rinks = Object.values(RINKS);

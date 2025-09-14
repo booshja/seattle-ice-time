@@ -2,6 +2,7 @@
 
 import { type ReactNode, createContext, useRef, useContext } from "react";
 import { useStore } from "zustand";
+
 import { type EventsStore, createEventsStore, initEventsStore } from "./eventsStore";
 
 export type EventsStoreApi = ReturnType<typeof createEventsStore>;

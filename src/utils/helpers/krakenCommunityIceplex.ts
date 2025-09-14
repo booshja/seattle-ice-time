@@ -1,10 +1,12 @@
-import type { KciEvent, KciEventObject } from "@/types/krakenCommunityIceplex";
-import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
-import { KCI_SKATER_EVENTS } from "../constants/krakenCommunityIceplex";
-import type { Day } from "@/types/dates";
-import { COLORS } from "../constants/colors";
-import { RINKS } from "../constants/rinks";
 import { fetchKciEvents } from "@/actions/fetchKciEvents";
+import type { Day } from "@/types/dates";
+import type { KciEvent, KciEventObject } from "@/types/krakenCommunityIceplex";
+
+import { COLORS } from "../constants/colors";
+import { KCI_SKATER_EVENTS } from "../constants/krakenCommunityIceplex";
+import { RINKS } from "../constants/rinks";
+
+import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
 
 function filterKciEvents(events: KciEvent[], start: string, end: string): KciEvent[] {
     const hockeyEvents = events.filter((event: KciEvent) => {
@@ -47,8 +49,8 @@ export async function getKciEvents({
     start,
     end,
 }: {
-    start?: string;
     end?: string;
+    start?: string;
 }): Promise<KciEventObject[]> {
     let startDate = undefined;
     let endDate = undefined;

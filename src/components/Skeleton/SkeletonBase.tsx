@@ -1,16 +1,16 @@
 "use client";
 
-import styled, { css, keyframes } from "styled-components";
 import { COLORS } from "@/utils/constants/colors";
+import styled, { css, keyframes } from "styled-components";
 
 type SkeletonBlockProps = {
-    width?: number | string;
-    height?: number | string;
-    radius?: number;
     $inline?: boolean;
     circle?: boolean;
     className?: string;
     "data-testid"?: string;
+    height?: number | string;
+    radius?: number;
+    width?: number | string;
 };
 
 const base = COLORS.skeleton.text.dark;
@@ -49,9 +49,9 @@ export const SkeletonGroup = styled.div`
 
 export type SkeletonStatusProps = {
     children?: React.ReactNode;
-    label?: string;
     className?: string;
     "data-testid"?: string;
+    label?: string;
 };
 
 export const SkeletonStatus = ({

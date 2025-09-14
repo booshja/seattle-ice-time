@@ -12,9 +12,9 @@ import {
 import * as React from "react";
 
 interface IssueEmailProps {
-    title: string;
     description: string;
     issueLink: string;
+    title: string;
 }
 
 export const IssueEmail = ({ title, description, issueLink }: IssueEmailProps) => (

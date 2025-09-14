@@ -4,13 +4,10 @@ jest.mock("../../components/Email/FeedbackEmail", () => ({
     FeedbackEmail: () => null,
 }));
 
-// Require after mocks to avoid loading heavy modules
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const renderMod = require("@react-email/render");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const emailSender = require("../../lib/aws/emailSender");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { createFeedbackEmail } = require("../createFeedbackEmail");
+import * as renderMod from "@react-email/render";
+
+import * as emailSender from "../../lib/aws/emailSender";
+import { createFeedbackEmail } from "../createFeedbackEmail";
 
 function makeFormData(entries: Record<string, string>): FormData {
     const fd = new FormData();

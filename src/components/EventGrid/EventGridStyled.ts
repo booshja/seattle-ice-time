@@ -1,8 +1,8 @@
 "use client";
 
-import styled from "styled-components";
 import { COLORS } from "@/utils/constants/colors";
 import { spacing } from "@/utils/constants/spacing";
+import styled from "styled-components";
 
 export const EventGridStyled = styled.div`
     background-color: ${COLORS.background.dark};

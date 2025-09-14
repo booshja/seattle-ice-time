@@ -1,9 +1,9 @@
 "use server";
 
-import { render } from "@react-email/render";
-import React from "react";
 import { FeedbackEmail } from "@/components/Email/FeedbackEmail";
 import { sendEmail } from "@/lib/aws/emailSender";
+import { render } from "@react-email/render";
+import React from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createFeedbackEmail(_: any, formData: FormData) {

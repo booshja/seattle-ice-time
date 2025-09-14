@@ -3,17 +3,17 @@ import { createStore } from "zustand/vanilla";
 
 export type RinkDisplayState = {
     KCI: boolean;
-    LYNNWOOD: boolean;
-    OVA: boolean;
     KENT: boolean;
     KIRKLAND: boolean;
+    LYNNWOOD: boolean;
+    OVA: boolean;
     RENTON: boolean;
     SNOQUALMIE: boolean;
 };
 
 export type RinkDisplayActions = {
-    toggleRink: (rink: Rink) => void;
     setRink: (rink: Rink, value: boolean) => void;
+    toggleRink: (rink: Rink) => void;
 };
 
 export type RinkDisplayStore = RinkDisplayState & RinkDisplayActions;

@@ -2,6 +2,7 @@
 
 import { type ReactNode, createContext, useRef, useContext } from "react";
 import { useStore } from "zustand";
+
 import {
     type WeekDisplayStore,
     createWeekDisplayStore,
@@ -11,7 +12,7 @@ import {
 export type WeekDisplayStoreApi = ReturnType<typeof createWeekDisplayStore>;
 
 export const WeekDisplayStoreContext = createContext<WeekDisplayStoreApi | undefined>(
-    undefined
+    undefined,
 );
 
 export interface WeekDisplayStoreProviderProps {
@@ -34,13 +35,13 @@ export const WeekDisplayStoreProvider = ({
 };
 
 export const useWeekDisplayStore = <T,>(
-    selector: (store: WeekDisplayStore) => T
+    selector: (store: WeekDisplayStore) => T,
 ): T => {
     const weekDisplayStoreContext = useContext(WeekDisplayStoreContext);
 
     if (!weekDisplayStoreContext) {
         throw new Error(
-            `useWeekDisplayStore must be used within WeekDisplayStoreProvider`
+            `useWeekDisplayStore must be used within WeekDisplayStoreProvider`,
         );
     }
 

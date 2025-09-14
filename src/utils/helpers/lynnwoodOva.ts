@@ -1,8 +1,11 @@
+import { fetchLicOvaEvents } from "@/actions/fetchLicOvaEvents";
+import type { Day } from "@/types/dates";
 import type {
     LicOvaEvent,
     LicOvaEventObject,
 } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
-import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
+
+import { COLORS } from "../constants/colors";
 import {
     LIC_BOOKING_LINK,
     LIC_OVA_SKATER_EVENTS,
@@ -10,9 +13,8 @@ import {
     OVA_LUNCH_HOCKEY_BOOKING_LINK,
 } from "../constants/lynnwoodOva";
 import { RINKS } from "../constants/rinks";
-import { COLORS } from "../constants/colors";
-import type { Day } from "@/types/dates";
-import { fetchLicOvaEvents } from "@/actions/fetchLicOvaEvents";
+
+import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
 
 function filterLicOvaEvents(
     events: LicOvaEvent[],
@@ -75,8 +77,8 @@ export async function getLicEvents({
     start,
     end,
 }: {
-    start?: string;
     end?: string;
+    start?: string;
 }): Promise<LicOvaEventObject[]> {
     let startDate = undefined;
     let endDate = undefined;
@@ -108,8 +110,8 @@ export async function getOvaEvents({
     start,
     end,
 }: {
-    start?: string;
     end?: string;
+    start?: string;
 }): Promise<LicOvaEventObject[]> {
     let startDate = undefined;
     let endDate = undefined;

@@ -1,7 +1,8 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { RinkToggle } from "../RinkToggle";
 import { Providers } from "@/components/Providers/Providers";
 import { RINKS } from "@/utils/constants/rinks";
+import { render, screen, fireEvent } from "@testing-library/react";
+
+import { RinkToggle } from "../RinkToggle";
 
 describe("RinkToggle", () => {
     test("renders and toggles", () => {

@@ -1,9 +1,9 @@
 "use client";
 
-import styled from "styled-components";
 import { COLORS } from "@/utils/constants/colors";
-import { spacing } from "@/utils/constants/spacing";
 import { fontWeight } from "@/utils/constants/fontSizes";
+import { spacing } from "@/utils/constants/spacing";
+import styled from "styled-components";
 
 export const RoadmapContainer = styled.main`
     max-width: 960px;

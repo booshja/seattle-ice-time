@@ -1,10 +1,11 @@
-import { render, screen } from "@testing-library/react";
 import { Providers } from "@/components/Providers/Providers";
-import { EventGrid } from "../EventGrid";
 import { testingIds } from "@/testing/testingIds";
+import { render, screen } from "@testing-library/react";
+
+import { EventGrid } from "../EventGrid";
 
 jest.mock("next/navigation", () => {
-    const actual = jest.requireActual("next/navigation");
+    const actual: Record<string, unknown> = jest.requireActual("next/navigation");
     return {
         ...actual,
         useSearchParams: () => new URLSearchParams(),

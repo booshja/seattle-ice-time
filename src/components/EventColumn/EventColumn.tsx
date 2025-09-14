@@ -1,16 +1,18 @@
+import type { Day } from "@/types/dates";
+import type { EventObject } from "@/types/events";
+
 import { EventCell } from "../EventCell/EventCell";
+
 import {
     EventColumnHeaderStyled,
     EventColumnStyled,
     EventDateContainerStyled,
     EventsContainerStyled,
 } from "./EventColumnStyled";
-import type { Day } from "@/types/dates";
-import type { EventObject } from "@/types/events";
 
 interface EventColumnProps {
-    day: Day;
     date: number;
+    day: Day;
     events: EventObject[];
 }
 
@@ -36,9 +38,9 @@ export const EventColumn = ({ date, day, events }: EventColumnProps) => {
                 </EventDateContainerStyled>
             </EventColumnHeaderStyled>
             <EventsContainerStyled>
-                {events.map((event, index) => (
+                {events.map((event) => (
                     <EventCell
-                        key={`${event.title}-${event.start.military}-${event.end.military}-${event.location}-${index}`}
+                        key={`${event.title}-${event.start.military}-${event.end.military}-${event.location}`}
                         color={event.color}
                         title={event.title}
                         startTime={event.start.time}

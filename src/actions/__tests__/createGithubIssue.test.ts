@@ -3,15 +3,11 @@ jest.mock("@react-email/render", () => ({ render: jest.fn() }));
 jest.mock("../../lib/aws/emailSender", () => ({ sendEmail: jest.fn() }));
 jest.mock("../../components/Email/IssueEmail", () => ({ IssueEmail: () => null }));
 
-// Require after mocks to avoid loading heavy modules
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const axios = require("axios");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const renderMod = require("@react-email/render");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const emailSender = require("../../lib/aws/emailSender");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { createGithubIssue } = require("../createGithubIssue");
+import * as renderMod from "@react-email/render";
+import axios from "axios";
+
+import * as emailSender from "../../lib/aws/emailSender";
+import { createGithubIssue } from "../createGithubIssue";
 
 function makeFormData(entries: Record<string, string>): FormData {
     const fd = new FormData();
@@ -33,7 +29,7 @@ describe("createGithubIssue", () => {
         process.env = OLD_ENV;
     });
 
-    test("returns failure when token missing", async () => {
+    test("returns failure when token missing", async function (this: void) {
         process.env.GITHUB_ISSUE_TOKEN = "";
         const res = await createGithubIssue(
             {},
@@ -42,7 +38,7 @@ describe("createGithubIssue", () => {
         expect(res.message).toMatch(/missing configuration/);
     });
 
-    test("creates issue and sends email", async () => {
+    test("creates issue and sends email", async function (this: void) {
         (axios.post as jest.Mock).mockResolvedValue({
             status: 201,
             data: { html_url: "http://x" },
@@ -53,13 +49,14 @@ describe("createGithubIssue", () => {
             {},
             makeFormData({ title: "Bug", description: "Desc", email: "r@example.com" }),
         );
-        expect(axios.post).toHaveBeenCalled();
+        const calls = (axios.post as jest.Mock).mock.calls;
+        expect(calls.length).toBeGreaterThan(0);
         expect(renderMod.render).toHaveBeenCalled();
         expect(emailSender.sendEmail).toHaveBeenCalled();
         expect(res.message).toMatch(/Issue created successfully/);
     });
 
-    test("handles non-201 response", async () => {
+    test("handles non-201 response", async function (this: void) {
         (axios.post as jest.Mock).mockResolvedValue({ status: 400, data: {} });
         const res = await createGithubIssue(
             {},
@@ -68,7 +65,7 @@ describe("createGithubIssue", () => {
         expect(res.message).toMatch(/Issue creation failed/);
     });
 
-    test("handles axios error and returns failure", async () => {
+    test("handles axios error and returns failure", async function (this: void) {
         (axios.post as jest.Mock).mockRejectedValue(new Error("boom"));
         const res = await createGithubIssue(
             {},
@@ -77,7 +74,7 @@ describe("createGithubIssue", () => {
         expect(res.message).toMatch(/Issue creation failed/);
     });
 
-    test("logs email send failure but still succeeds", async () => {
+    test("logs email send failure but still succeeds", async function (this: void) {
         (axios.post as jest.Mock).mockResolvedValue({
             status: 201,
             data: { html_url: "http://x" },

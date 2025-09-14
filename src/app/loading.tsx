@@ -1,8 +1,9 @@
 import { EventGridLoadingSkeleton } from "@/components/EventGrid/LoadingSkeleton/EventGridLoadingSkeleton";
 import { LeftRailSkeleton } from "@/components/LeftRail/LeftRailSkeleton";
-import { PageStyled } from "./_pageStyled";
-import { getCurrentWeekMonday, getWeekDates } from "@/utils/helpers/dates";
 import { spacing } from "@/utils/constants/spacing";
+import { getCurrentWeekMonday, getWeekDates } from "@/utils/helpers/dates";
+
+import { PageStyled } from "./_pageStyled";
 
 export default function Loading() {
     const weekDates = getWeekDates(getCurrentWeekMonday());

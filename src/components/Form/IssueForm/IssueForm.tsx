@@ -1,6 +1,8 @@
 "use client";
 
+import { createGithubIssue } from "@/actions/createGithubIssue";
 import { useActionState } from "react";
+
 import {
     ButtonStyled,
     FormAreaStyled,
@@ -13,8 +15,8 @@ import {
     TextAreaStyled,
     TextStyled,
 } from "../FormStyled";
-import { createGithubIssue } from "@/actions/createGithubIssue";
 import { FormLoading } from "../Loading/FormLoading";
+
 import { IssueFormError } from "./Error/IssueFormError";
 import { IssueFormSuccess } from "./Success/IssueFormSuccess";
 

@@ -1,58 +1,59 @@
-import { RINKS } from "@/utils/constants/rinks";
+import type { RINKS } from "@/utils/constants/rinks";
+
 import type { BaseEventObject } from "./events";
 
 export interface LicOvaEvent {
-    id: string;
-    description: string;
-    title: string;
-    eventType: string;
-    start: string;
-    end: string;
-    resourceId: string;
-    editable: boolean;
-    color: string;
-    paymentMethod: string;
-    isPaid: string;
-    isRepeat: string;
-    checkImage: string;
-    referenceId: string;
-    isMargin: null;
+    CPCPaidUnpaid: string;
+    agreementBatchId: null;
+    agreementNumber: null;
+    agreemented: number;
+    allDay: boolean;
     bPadding: string;
+    batchId: string;
+    bookingType: string;
+    bookingUsers: BookingUsers[];
+    checkImage: string;
+    color: string;
     customField1: string | null;
     customField2: string | null;
     customField3: string | null;
     customField4: string | null;
-    updated: boolean;
-    totalCost: string;
-    isMultiUser: string;
-    bookingUsers: BookingUsers[];
-    groupId: string;
+    description: string;
+    editable: boolean;
     encryptedGroupId: string;
-    bookingType: string;
+    end: string;
+    eventName: string;
+    eventType: string;
+    feed: string;
+    groupId: string;
+    groupId4: null;
+    id: string;
+    invoiceBatchId: null;
+    invoiceNumber: null;
+    invoiced: number;
+    isMargin: null;
+    isMultiUser: string;
+    isPaid: string;
     isPaidG1: string;
     isPaidG2: string;
     isPaidG3: string;
     isPaidG4: string;
-    batchId: string;
-    groupId4: null;
-    eventName: string;
+    isRepeat: string;
     note: string;
-    CPCPaidUnpaid: string;
-    invoiced: number;
-    invoiceBatchId: null;
-    agreemented: number;
-    agreementBatchId: null;
-    invoiceNumber: null;
-    agreementNumber: null;
-    feed: string;
-    allDay: boolean;
+    paymentMethod: string;
+    referenceId: string;
+    resourceId: string;
+    start: string;
+    title: string;
+    totalCost: string;
+    updated: boolean;
 }
 
 type BookingUsers = {
+    eventName: string;
     groupId: string;
     groupName: string;
     isPaid: boolean;
-    eventName: string;
 };
 
 export interface LicOvaEventObject extends BaseEventObject {

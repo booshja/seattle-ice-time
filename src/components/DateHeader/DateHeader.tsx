@@ -1,5 +1,7 @@
 "use client";
 
+import { useWeekDisplayStore } from "@/store/currentWeek/currentWeekStoreProvider";
+import { useEventsStore } from "@/store/events/eventsStoreProvider";
 import {
     getCurrentWeekMonday,
     getDisplayDatesFromBaseDate,
@@ -7,12 +9,11 @@ import {
     parseLocalDateFromYmd,
     getLocalIsoDate,
 } from "@/utils/helpers/dates";
-import { useWeekDisplayStore } from "@/store/currentWeek/currentWeekStoreProvider";
-import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { useShallow } from "zustand/shallow";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEventsStore } from "@/store/events/eventsStoreProvider";
+
+import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
 
 export const DateHeader = () => {
     const router = useRouter();

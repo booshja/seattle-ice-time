@@ -23,11 +23,11 @@ export interface BaseEventObject {
 export type EventObject = KciEventObject | LicOvaEventObject | SnoKingEventObject;
 
 export interface Events {
-    Monday: EventObject[];
-    Tuesday: EventObject[];
-    Wednesday: EventObject[];
-    Thursday: EventObject[];
     Friday: EventObject[];
+    Monday: EventObject[];
     Saturday: EventObject[];
     Sunday: EventObject[];
+    Thursday: EventObject[];
+    Tuesday: EventObject[];
+    Wednesday: EventObject[];
 }

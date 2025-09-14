@@ -1,5 +1,5 @@
-import { getSnoKingEvents } from "../snoKing";
 import * as fetchMod from "../../../actions/fetchSnoKingEvents";
+import { getSnoKingEvents } from "../snoKing";
 
 jest.mock("../../../actions/fetchSnoKingEvents");
 

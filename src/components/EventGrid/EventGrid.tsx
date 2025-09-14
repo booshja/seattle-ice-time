@@ -1,24 +1,26 @@
 "use client";
 
-import { EventColumn } from "../EventColumn/EventColumn";
-import { EventGridStyled } from "./EventGridStyled";
-import { EventGridLoadingSkeleton } from "./LoadingSkeleton/EventGridLoadingSkeleton";
-import { useEffect, useState } from "react";
-import { useShallow } from "zustand/shallow";
-// import { getSnoKingEvents } from "@/utils/helpers/snoKing";
-import type { Events } from "@/types/events";
+import { useEventsStore } from "@/store/events/eventsStoreProvider";
 import { useRinkDisplayStore } from "@/store/rinkDisplay/rinkDisplayStoreProvider";
+import type { Events } from "@/types/events";
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
 import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
-import { useEventsStore } from "@/store/events/eventsStoreProvider";
+// import { getSnoKingEvents } from "@/utils/helpers/snoKing";
 import {
     getCurrentWeekMonday,
     getWeekDates,
     parseLocalDateFromYmd,
     getMondayDateFromBaseDate,
 } from "@/utils/helpers/dates";
-import { useSearchParams } from "next/navigation";
 import { parseEvents } from "@/utils/helpers/parseEvents";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useShallow } from "zustand/shallow";
+
+import { EventColumn } from "../EventColumn/EventColumn";
+
+import { EventGridStyled } from "./EventGridStyled";
+import { EventGridLoadingSkeleton } from "./LoadingSkeleton/EventGridLoadingSkeleton";
 
 interface EventGridProps {
     kciEvents: Array<KciEventObject>;

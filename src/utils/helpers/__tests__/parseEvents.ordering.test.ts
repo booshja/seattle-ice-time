@@ -1,8 +1,9 @@
-import { parseEvents } from "../parseEvents";
 import {
     KCI_TRANSFORMED_EVENT_A,
     KCI_TRANSFORMED_EVENT_B,
 } from "@/testing/__mocks__/fixtures";
+
+import { parseEvents } from "../parseEvents";
 
 describe("parseEvents ordering", () => {
     test("events are sorted by start.military ascending", () => {
@@ -11,8 +12,8 @@ describe("parseEvents ordering", () => {
                 {
                     ...KCI_TRANSFORMED_EVENT_B,
                     end: { date: "2025-09-08", military: "1000", time: "10:00am" },
-                } as any,
-                KCI_TRANSFORMED_EVENT_A as any,
+                } as never,
+                KCI_TRANSFORMED_EVENT_A as never,
             ],
             licEvents: undefined,
             ovaEvents: undefined,

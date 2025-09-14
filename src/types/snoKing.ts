@@ -1,4 +1,5 @@
-import { RINKS } from "@/utils/constants/rinks";
+import type { RINKS } from "@/utils/constants/rinks";
+
 import type { BaseEventObject } from "./events";
 
 export type SnoKingLocation =
@@ -14,99 +15,99 @@ export interface SnoKingEventObject extends BaseEventObject {
 }
 
 export interface SnoKingResponse {
-    meta: {
-        page: {
-            "current-page": number;
-            "per-page": number;
-            from: number;
-            to: number;
-            total: number;
-            "last-page": number;
-        };
-    };
+    data: SnoKingEvent[];
     links: {
         first: string;
         last: string;
     };
-    data: SnoKingEvent[];
+    meta: {
+        page: {
+            "current-page": number;
+            from: number;
+            "last-page": number;
+            "per-page": number;
+            to: number;
+            total: number;
+        };
+    };
 }
 
 export interface SnoKingEvent {
-    type: string;
-    id: string;
     attributes: {
-        repeat_id: number;
-        resource_id: number;
-        resource_area_id: number;
-        desc: string;
-        event_type: string;
-        sub_type: string;
-        start: string;
-        start_gmt: string;
-        end: string;
-        end_gmt: string;
-        customer_id: number;
-        hteam_id: number;
-        vteam_id: null;
-        league_id: null;
-        hscore: null;
-        vscore: null;
-        publish: true;
-        outcome: string;
-        register_capacity: number;
+        best_description: string;
+        booking_id: number;
+        create_d: string;
         create_u: string;
         created_user_type: string;
-        create_d: string;
-        mod_u: string;
-        last_modified_user_type: string;
-        mod_d: string;
-        is_overtime: false;
-        booking_id: number;
+        customer_id: number;
+        desc: string;
         description: null;
-        notice: null;
-        last_resource_id: null;
-        parent_event_id: null;
+        end: string;
+        end_gmt: string;
+        event_start_time: string;
+        event_type: string;
         has_gender_locker_rooms: number;
-        locker_room_type: null;
+        hscore: null;
+        hteam_id: number;
         includes_setup_time: false;
         includes_takedown_time: false;
+        is_overtime: false;
+        last_modified_user_type: string;
+        last_resource_id: null;
+        league_id: null;
+        locker_room_type: null;
+        mod_d: string;
+        mod_u: string;
+        notice: null;
+        outcome: string;
+        parent_event_id: null;
+        publish: true;
+        register_capacity: number;
+        repeat_id: number;
+        resource_area_id: number;
+        resource_id: number;
+        start: string;
         start_date: string;
-        event_start_time: string;
-        best_description: string;
+        start_gmt: string;
+        sub_type: string;
+        vscore: null;
+        vteam_id: null;
     };
-    relationships: {
-        customer: [];
-        registrants: [];
-        registrations: [];
-        eventType: [];
-        subType: [];
-        homeTeam: [];
-        visitingTeam: [];
-        summary: [];
-        league: [];
-        booking: [];
-        parentEvent: [];
-        lockers: [];
-        lastResource: [];
-        resource: [];
-        resourceArea: [];
-        tasks: [];
-        teamGroups: [];
-        eventSeries: [];
-        statEvents: [];
-        fees: [];
-        invoices: [];
-        seriesInvoices: [];
-        invoiceItems: [];
-        employees: [];
-        eventEmployees: [];
-        additionalResources: [];
-        setupEvents: [];
-        takedownEvents: [];
-        comments: [];
-        rsvpStates: [];
-    };
+    id: string;
     links: {
         self: string;
+        type: string;
+    };
+    relationships: {
+        additionalResources: [];
+        booking: [];
+        comments: [];
+        customer: [];
+        employees: [];
+        eventEmployees: [];
+        eventSeries: [];
+        eventType: [];
+        fees: [];
+        homeTeam: [];
+        invoiceItems: [];
+        invoices: [];
+        lastResource: [];
+        league: [];
+        lockers: [];
+        parentEvent: [];
+        registrants: [];
+        registrations: [];
+        resource: [];
+        resourceArea: [];
+        rsvpStates: [];
+        seriesInvoices: [];
+        setupEvents: [];
+        statEvents: [];
+        subType: [];
+        summary: [];
+        takedownEvents: [];
+        tasks: [];
+        teamGroups: [];
+        visitingTeam: [];
     };
 }

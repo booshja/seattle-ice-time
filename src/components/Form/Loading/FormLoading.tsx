@@ -1,5 +1,6 @@
+const GoalieStick = "/images/goalie-stick.svg" as const;
+
 import { LoadingImageStyled, TextStyled } from "../FormStyled";
-import GoalieStick from "@/images/goalie-stick.svg";
 
 export const FormLoading = () => {
     return (
