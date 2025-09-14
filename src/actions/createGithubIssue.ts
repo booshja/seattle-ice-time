@@ -1,10 +1,14 @@
 "use server";
 
-import axios from "axios";
-import { render } from "@react-email/render";
-import React from "react";
 import { IssueEmail } from "@/components/Email/IssueEmail";
 import { sendEmail } from "@/lib/aws/emailSender";
+import { render } from "@react-email/render";
+import axios from "axios";
+import React from "react";
+
+interface GithubIssueResponse {
+    html_url: string;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createGithubIssue(_: any, formData: FormData) {
@@ -18,7 +22,7 @@ export async function createGithubIssue(_: any, formData: FormData) {
             console.error("GITHUB_ISSUE_TOKEN not configured");
             return { message: "Issue creation failed: missing configuration" };
         }
-        const res = await axios.post(
+        const res = await axios.post<unknown>(
             "https://api.github.com/repos/booshja/seattle-ice-time/issues",
             {
                 title,
@@ -35,7 +39,8 @@ export async function createGithubIssue(_: any, formData: FormData) {
         );
 
         if (res.status === 201) {
-            const issueLink = res.data.html_url as string;
+            const issueData = res.data as GithubIssueResponse;
+            const issueLink = issueData.html_url;
 
             const emailElement = React.createElement(IssueEmail, {
                 title,

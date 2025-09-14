@@ -1,5 +1,6 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
+
 import {
     RoadmapContainer,
     RoadmapHeading,
@@ -25,8 +26,8 @@ export default function RoadmapPage() {
                 I&apos;d love your <Link href="/feedback">feedback</Link>.
             </RoadmapIntro>
             <RoadmapList>
-                {roadmapItems.map((item, index) => (
-                    <li key={index}>{item}</li>
+                {roadmapItems.map((item) => (
+                    <li key={item}>{item}</li>
                 ))}
             </RoadmapList>
         </RoadmapContainer>

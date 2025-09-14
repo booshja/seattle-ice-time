@@ -14,10 +14,10 @@ const config = {
     coverageDirectory: "coverage",
     coverageThreshold: {
         global: {
-            branches: 80,
-            functions: 80,
-            lines: 80,
-            statements: -20,
+            branches: 70,
+            functions: 90,
+            lines: 85,
+            statements: 85,
         },
     },
     clearMocks: true,

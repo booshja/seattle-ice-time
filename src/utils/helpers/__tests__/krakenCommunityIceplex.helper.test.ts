@@ -1,10 +1,11 @@
-import { getKciEvents } from "../krakenCommunityIceplex";
-import * as fetchMod from "../../../actions/fetchKciEvents";
 import {
     KCI_API_EVENT_IN_WINDOW,
     KCI_API_EVENT_OUTSIDE_WINDOW,
     KCI_API_EVENT_WRONG_SPORT,
 } from "@/testing/__mocks__/fixtures";
+
+import * as fetchMod from "../../../actions/fetchKciEvents";
+import { getKciEvents } from "../krakenCommunityIceplex";
 
 jest.mock("../../../actions/fetchKciEvents");
 
@@ -17,7 +18,7 @@ describe("getKciEvents (helper)", () => {
             KCI_API_EVENT_IN_WINDOW,
             KCI_API_EVENT_OUTSIDE_WINDOW,
             KCI_API_EVENT_WRONG_SPORT,
-        ] as any);
+        ]);
 
         const result = await getKciEvents({ start, end });
         expect(result).toHaveLength(1);

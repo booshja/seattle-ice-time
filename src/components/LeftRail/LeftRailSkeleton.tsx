@@ -1,8 +1,9 @@
 "use client";
 
-import { SkeletonBlock, SkeletonGroup, SkeletonStatus } from "../Skeleton/SkeletonBase";
-import { spacing } from "@/utils/constants/spacing";
 import { testingIds } from "@/testing/testingIds";
+import { spacing } from "@/utils/constants/spacing";
+
+import { SkeletonBlock, SkeletonGroup, SkeletonStatus } from "../Skeleton/SkeletonBase";
 
 export const LeftRailSkeleton = () => {
     const ids = testingIds.loading;

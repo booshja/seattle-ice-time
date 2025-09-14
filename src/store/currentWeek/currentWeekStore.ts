@@ -1,13 +1,13 @@
 import { createStore } from "zustand/vanilla";
 
 export type WeekDisplayState = {
-    initialWeek: string;
     currentWeek: string;
+    initialWeek: string;
 };
 
 export type WeekDisplayActions = {
-    setInitialWeek: (week: string) => void;
     setCurrentWeek: (week: string) => void;
+    setInitialWeek: (week: string) => void;
 };
 
 export type WeekDisplayStore = WeekDisplayState & WeekDisplayActions;
@@ -25,7 +25,7 @@ export const defaultWeekDisplayInitState: WeekDisplayState = {
 };
 
 export const createWeekDisplayStore = (
-    initState: WeekDisplayState = defaultWeekDisplayInitState
+    initState: WeekDisplayState = defaultWeekDisplayInitState,
 ) => {
     return createStore<WeekDisplayStore>()((set) => ({
         ...initState,

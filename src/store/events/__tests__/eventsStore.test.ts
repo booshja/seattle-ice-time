@@ -1,5 +1,6 @@
-import { createEventsStore, initEventsStore } from "../eventsStore";
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
+
+import { createEventsStore, initEventsStore } from "../eventsStore";
 
 describe("eventsStore", () => {
     test("setters update current and initial arrays", () => {

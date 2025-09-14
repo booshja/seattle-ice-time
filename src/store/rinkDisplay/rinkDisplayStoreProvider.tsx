@@ -2,6 +2,7 @@
 
 import { type ReactNode, createContext, useRef, useContext } from "react";
 import { useStore } from "zustand";
+
 import {
     type RinkDisplayStore,
     createRinkDisplayStore,
@@ -11,7 +12,7 @@ import {
 export type RinkDisplayStoreApi = ReturnType<typeof createRinkDisplayStore>;
 
 export const RinkDisplayStoreContext = createContext<RinkDisplayStoreApi | undefined>(
-    undefined
+    undefined,
 );
 
 export interface RinkDisplayStoreProviderProps {
@@ -34,13 +35,13 @@ export const RinkDisplayStoreProvider = ({
 };
 
 export const useRinkDisplayStore = <T,>(
-    selector: (store: RinkDisplayStore) => T
+    selector: (store: RinkDisplayStore) => T,
 ): T => {
     const rinkDisplayStoreContext = useContext(RinkDisplayStoreContext);
 
     if (!rinkDisplayStoreContext) {
         throw new Error(
-            `useRinkDisplayStore must be used within RinkDisplayStoreProvider`
+            `useRinkDisplayStore must be used within RinkDisplayStoreProvider`,
         );
     }
 

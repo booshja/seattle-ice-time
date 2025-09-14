@@ -1,14 +1,15 @@
+import { EventCellSkeleton } from "@/components/EventCell/EventCellSkeleton/EventCellSkeleton";
+import { testingIds } from "@/testing/testingIds";
 import type { Day } from "@/types/dates";
+import { spacing } from "@/utils/constants/spacing";
+
+import { SkeletonBlock } from "../../Skeleton/SkeletonBase";
 import {
     EventColumnHeaderStyled,
     EventColumnStyled,
     EventDateContainerStyled,
     EventsContainerStyled,
 } from "../EventColumnStyled";
-import { EventCellSkeleton } from "@/components/EventCell/EventCellSkeleton/EventCellSkeleton";
-import { SkeletonBlock } from "../../Skeleton/SkeletonBase";
-import { testingIds } from "@/testing/testingIds";
-import { spacing } from "@/utils/constants/spacing";
 
 interface EventColumnSkeletonProps {
     date: number;
@@ -35,8 +36,8 @@ export const EventColumnSkeleton = ({ events, day }: EventColumnSkeletonProps) =
                 </EventDateContainerStyled>
             </EventColumnHeaderStyled>
             <EventsContainerStyled>
-                {events.map((_, index) => (
-                    <EventCellSkeleton key={index} />
+                {events.map((val) => (
+                    <EventCellSkeleton key={`skeleton-${val}`} />
                 ))}
             </EventsContainerStyled>
         </EventColumnStyled>

@@ -2,10 +2,11 @@
 
 import { SESClient, SendRawEmailCommand } from "@aws-sdk/client-ses";
 import nodemailer from "nodemailer";
+import type SESTransport from "nodemailer/lib/ses-transport";
 
 interface EmailSenderProps {
-    subject: string;
     content: string;
+    subject: string;
 }
 
 export const sendEmail = async ({ subject, content }: EmailSenderProps) => {
@@ -31,7 +32,7 @@ export const sendEmail = async ({ subject, content }: EmailSenderProps) => {
     });
     const transporter = nodemailer.createTransport({
         SES: { ses, aws: { SendRawEmailCommand } },
-    });
+    } as unknown as SESTransport.Options);
 
     try {
         await transporter.sendMail({

@@ -1,6 +1,15 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
+import tseslint from "typescript-eslint";
+import reactPlugin from "eslint-plugin-react";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
+import importPlugin from "eslint-plugin-import";
+import jestPlugin from "eslint-plugin-jest";
+import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
+import unusedImportsPlugin from "eslint-plugin-unused-imports";
+import typescriptSortKeysPlugin from "eslint-plugin-typescript-sort-keys";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,20 +19,62 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-    ...compat.extends("next/core-web-vitals", "next/typescript"),
+    // Ignore paths per ESLint 9 (replaces .eslintignore)
     {
-        files: ["*.ts", "*.tsx"],
-        extends: [
-            "eslint:recommended",
-            "plugin:react/recommended",
-            "plugin:react-hooks/recommended",
-            "plugin:@typescript-eslint/recommended",
-            "plugin:@typescript-eslint/recommended-requiring-type-checking",
-            "plugin:jsx-a11y/recommended",
-            "plugin:storybook/recommended",
-            "prettier",
+        ignores: [
+            "node_modules",
+            ".next",
+            "coverage",
+            "eslint.config.*",
+            "jest.config.*",
+            "next.config.*",
+            // User request: ignore SnoKing files
+            "src/utils/helpers/**/snoKing*",
+            "src/types/snoKing.ts",
+            "src/actions/**/fetchSnoKingEvents*",
+            "src/**/__tests__/**/snoKing*",
+            "src/**/__tests__/**/fetchSnoKingEvents*",
         ],
-        plugins: ["import", "jest", "typescript-sort-keys", "unused-imports"],
+    },
+
+    // Next.js recommended configs (compat for legacy shareable config)
+    ...compat.extends("next/core-web-vitals", "next/typescript"),
+
+    // Base ESLint recommended for JS
+    js.configs.recommended,
+
+    // Ensure TS type-aware rules can read project settings
+    {
+        files: ["**/*.ts", "**/*.tsx"],
+        languageOptions: {
+            parserOptions: {
+                projectService: true,
+                tsconfigRootDir: __dirname,
+            },
+        },
+    },
+
+    // TypeScript-ESLint latest recommended sets
+    ...tseslint.configs.recommended,
+    ...tseslint.configs.recommendedTypeChecked,
+
+    // Project rules and plugin mappings
+    {
+        files: ["**/*.ts", "**/*.tsx"],
+        plugins: {
+            import: importPlugin,
+            jest: jestPlugin,
+            "jsx-a11y": jsxA11yPlugin,
+            react: reactPlugin,
+            "react-hooks": reactHooksPlugin,
+            "unused-imports": unusedImportsPlugin,
+            "typescript-sort-keys": typescriptSortKeysPlugin,
+        },
+        settings: {
+            react: {
+                version: "detect",
+            },
+        },
         rules: {
             "@typescript-eslint/consistent-type-imports": "error",
             "@typescript-eslint/explicit-function-return-type": "off",
@@ -38,12 +89,11 @@ const eslintConfig = [
             ],
             "@typescript-eslint/prefer-includes": "off",
             "@typescript-eslint/restrict-plus-operands": "off",
+
             "import/order": [
                 "error",
                 {
-                    alphabetize: {
-                        order: "asc",
-                    },
+                    alphabetize: { order: "asc" },
                     "newlines-between": "always",
                     groups: [
                         "builtin",
@@ -54,13 +104,11 @@ const eslintConfig = [
                     ],
                 },
             ],
+
             "jest/no-focused-tests": "error",
-            "jsx-a11y/label-has-associated-control": [
-                "error",
-                {
-                    assert: "either",
-                },
-            ],
+
+            "jsx-a11y/label-has-associated-control": ["error", { assert: "either" }],
+
             "no-empty-function": "off",
             "no-restricted-imports": [
                 "warn",
@@ -78,21 +126,14 @@ const eslintConfig = [
                     ],
                 },
             ],
-            "no-unused-vars": [
-                "error",
-                {
-                    // Allow unused variables prefixed with an underscore or name "ignored"
-                    varsIgnorePattern: "([iI]gnored)|(_\\w+)",
-                },
-            ],
+
+            // Use the TS rule instead of base no-unused-vars in TS files
+            "no-unused-vars": "off",
+
             "react-hooks/exhaustive-deps": "error",
             "react-hooks/rules-of-hooks": "error",
-            "react/jsx-curly-spacing": [
-                "error",
-                {
-                    when: "never",
-                },
-            ],
+
+            "react/jsx-curly-spacing": ["error", { when: "never" }],
             "react/jsx-equals-spacing": ["error", "never"],
             "react/jsx-no-bind": "off",
             "react/jsx-tag-spacing": "error",
@@ -100,18 +141,18 @@ const eslintConfig = [
             "react/no-array-index-key": "error",
             "react/prop-types": "off",
             "react/self-closing-comp": "error",
-            "typescript-sort-keys/interface": [
-                "error",
-                "asc",
-                {
-                    requiredFirst: true,
-                },
-            ],
+
+            "typescript-sort-keys/interface": ["error", "asc", { requiredFirst: true }],
+
             "unused-imports/no-unused-imports": "error",
         },
     },
     {
-        files: ["*.test.*", "*.tests.*"],
+        files: ["**/*.test.*", "**/*.tests.*"],
+        plugins: {
+            jest: jestPlugin,
+            react: reactPlugin,
+        },
         rules: {
             "@typescript-eslint/no-unsafe-return": "off",
             "@typescript-eslint/no-non-null-assertion": "off",

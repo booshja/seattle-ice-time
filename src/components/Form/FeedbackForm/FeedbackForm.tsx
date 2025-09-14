@@ -1,6 +1,8 @@
 "use client";
 
+import { createFeedbackEmail } from "@/actions/createFeedbackEmail";
 import { useActionState } from "react";
+
 import {
     ButtonStyled,
     FormAreaStyled,
@@ -13,14 +15,13 @@ import {
     TextAreaStyled,
     TextStyled,
 } from "../FormStyled";
-import { createFeedbackEmail } from "@/actions/createFeedbackEmail";
 import { FormLoading } from "../Loading/FormLoading";
 
 export const FeedbackForm = () => {
-    const initialState = { status: "idle", message: "" } as
-        | { status: "idle"; message: string }
-        | { status: "success"; message: string }
-        | { status: "error"; message: string };
+    const initialState = { message: "", status: "idle" } as
+        | { message: string; status: "error" }
+        | { message: string; status: "idle" }
+        | { message: string; status: "success" };
 
     const [{ status, message }, formAction, pending] = useActionState(
         createFeedbackEmail,

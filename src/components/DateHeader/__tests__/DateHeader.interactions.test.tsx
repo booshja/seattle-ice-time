@@ -1,10 +1,13 @@
+import { Providers } from "@/components/Providers/Providers";
 import { render, screen, fireEvent } from "@testing-library/react";
 
-let pushMock: jest.Mock;
+import { DateHeader } from "../DateHeader";
+
+let pushMock: jest.Mock<void, [string]> = jest.fn<void, [string]>();
 let mockSearch: URLSearchParams;
 
 jest.mock("next/navigation", () => {
-    const actual = jest.requireActual("next/navigation");
+    const actual: Record<string, unknown> = jest.requireActual("next/navigation");
     return {
         ...actual,
         usePathname: () => "/",
@@ -13,12 +16,9 @@ jest.mock("next/navigation", () => {
     };
 });
 
-import { DateHeader } from "../DateHeader";
-import { Providers } from "@/components/Providers/Providers";
-
 describe("DateHeader interactions", () => {
     beforeEach(() => {
-        pushMock = jest.fn();
+        pushMock = jest.fn<void, [string]>();
         mockSearch = new URLSearchParams();
         jest.useFakeTimers();
         // Freeze to Wed Sep 10, 2025 UTC (Mon of that week is 2025-09-08)

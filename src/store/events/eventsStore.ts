@@ -16,10 +16,10 @@ export type EventsActions = {
     setInitialKciEvents: (events: Array<KciEventObject>) => void;
     setInitialLynnwoodEvents: (events: Array<LicOvaEventObject>) => void;
     setInitialOlympicviewEvents: (events: Array<LicOvaEventObject>) => void;
+    setIsCurrentWeekEmpty: (isEmpty: boolean) => void;
     setKciEvents: (events: Array<KciEventObject>) => void;
     setLynnwoodEvents: (events: Array<LicOvaEventObject>) => void;
     setOlympicviewEvents: (events: Array<LicOvaEventObject>) => void;
-    setIsCurrentWeekEmpty: (isEmpty: boolean) => void;
 };
 
 export type EventsStore = EventsState & EventsActions;

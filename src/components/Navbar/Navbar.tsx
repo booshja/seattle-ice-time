@@ -1,10 +1,12 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import dynamic from "next/dynamic";
-import { LinkStyled, NavbarStyled, LogoLinkStyled } from "./NavbarStyled";
-import { DateHeaderSkeleton } from "../DateHeader/DateHeaderSkeleton";
 import { testingIds } from "@/testing/testingIds";
+import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
+
+import { DateHeaderSkeleton } from "../DateHeader/DateHeaderSkeleton";
+
+import { LinkStyled, NavbarStyled, LogoLinkStyled } from "./NavbarStyled";
 
 const navbarIds = testingIds.components.Navbar;
 

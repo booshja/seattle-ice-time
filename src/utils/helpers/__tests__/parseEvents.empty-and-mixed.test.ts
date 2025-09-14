@@ -7,7 +7,10 @@ describe("parseEvents empty and mixed inputs", () => {
             licEvents: undefined,
             ovaEvents: undefined,
         });
-        expect(Object.values(res).every((arr) => arr.length === 0)).toBe(true);
+        const allEmpty = Object.values(res).every((arr: unknown) =>
+            Array.isArray(arr) ? arr.length === 0 : false,
+        );
+        expect(allEmpty).toBe(true);
     });
 
     test("merges and sorts across sources", () => {
@@ -19,11 +22,11 @@ describe("parseEvents empty and mixed inputs", () => {
                     day: "Monday",
                     end: { date: "2025-01-01", military: "10:00", time: "10:00am" },
                     location: "L1",
-                    sheet: undefined as any,
+                    sheet: undefined,
                     start: { date: "2025-01-01", military: "09:00", time: "9:00am" },
                     title: "A",
                     url: "",
-                } as any,
+                } as never,
             ],
             licEvents: [
                 // 8:30
@@ -32,11 +35,11 @@ describe("parseEvents empty and mixed inputs", () => {
                     day: "Monday",
                     end: { date: "2025-01-01", military: "09:00", time: "9:00am" },
                     location: "L2",
-                    sheet: undefined as any,
+                    sheet: undefined,
                     start: { date: "2025-01-01", military: "08:30", time: "8:30am" },
                     title: "B",
                     url: "",
-                } as any,
+                } as never,
             ],
             ovaEvents: [
                 // 12:00
@@ -45,11 +48,11 @@ describe("parseEvents empty and mixed inputs", () => {
                     day: "Monday",
                     end: { date: "2025-01-01", military: "12:30", time: "12:30pm" },
                     location: "L3",
-                    sheet: undefined as any,
+                    sheet: undefined,
                     start: { date: "2025-01-01", military: "12:00", time: "12:00pm" },
                     title: "C",
                     url: "",
-                } as any,
+                } as never,
             ],
         });
 

@@ -1,12 +1,12 @@
 "use server";
 
-import axios from "axios";
-import { KCI_EVENTS_URL } from "@/utils/constants/krakenCommunityIceplex";
 import type { KciEvent } from "@/types/krakenCommunityIceplex";
+import { KCI_EVENTS_URL } from "@/utils/constants/krakenCommunityIceplex";
+import axios from "axios";
 
 interface FetchKciEvents {
-    start: string;
     end: string;
+    start: string;
 }
 
 export async function fetchKciEvents({ start, end }: FetchKciEvents) {

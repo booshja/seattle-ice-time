@@ -1,5 +1,6 @@
+const GoalieStick = "/images/goalie-stick.svg" as const;
+
 import { LoadingImageStyled, TextStyled } from "../FormStyled";
-import GoalieStick from "@/images/goalie-stick.svg";
 
 export const FormLoading = () => {
     return (
@@ -7,6 +8,8 @@ export const FormLoading = () => {
             <LoadingImageStyled
                 src={GoalieStick}
                 alt="A line drawing of a hockey goalie stick"
+                width={500}
+                height={500}
                 priority
             />
             <TextStyled>Saucing your feedback straight to me...</TextStyled>

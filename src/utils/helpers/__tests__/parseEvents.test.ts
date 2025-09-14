@@ -7,6 +7,9 @@ describe("parseEvents", () => {
             licEvents: undefined,
             ovaEvents: undefined,
         });
-        expect(Object.values(result).every((arr) => arr.length === 0)).toBe(true);
+        const allEmpty = Object.values(result).every((arr: unknown) =>
+            Array.isArray(arr) ? arr.length === 0 : false,
+        );
+        expect(allEmpty).toBe(true);
     });
 });

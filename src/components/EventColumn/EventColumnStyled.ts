@@ -1,10 +1,10 @@
 "use client";
 
-import styled from "styled-components";
+import type { Day } from "@/types/dates";
 import { COLORS } from "@/utils/constants/colors";
 import { fontWeight } from "@/utils/constants/fontSizes";
 import { spacing } from "@/utils/constants/spacing";
-import type { Day } from "@/types/dates";
+import styled from "styled-components";
 
 export const EventColumnStyled = styled.div<{ $day: Day }>`
     border-left: 1px solid ${COLORS.text.secondary};

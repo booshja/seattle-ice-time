@@ -1,7 +1,8 @@
 import { EventColumnSkeleton } from "@/components/EventColumn/EventColumnSkeleton/EventColumnSkeleton";
-import { EventGridStyled } from "../EventGridStyled";
-import { SkeletonStatus } from "../../Skeleton/SkeletonBase";
 import { testingIds } from "@/testing/testingIds";
+
+import { SkeletonStatus } from "../../Skeleton/SkeletonBase";
+import { EventGridStyled } from "../EventGridStyled";
 
 interface EventGridLoadingSkeletonProps {
     weekDates: number[];

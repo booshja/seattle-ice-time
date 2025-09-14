@@ -3,6 +3,7 @@ import { Providers } from "@/components/Providers/Providers";
 import { inter } from "@/fonts/inter";
 import { testingIds } from "@/testing/testingIds";
 import { COLORS } from "@/utils/constants/colors";
+// eslint-disable-next-line no-restricted-imports
 import "./globals.css";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -18,7 +19,7 @@ interface RootLayoutProps {
     children: ReactNode;
 }
 
-export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
     const interFont = `${inter.className}`;
     return (
         <html lang="en">
