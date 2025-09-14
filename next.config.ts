@@ -1,9 +1,9 @@
-import { withPlausibleProxy } from 'next-plausible';
-import type { NextConfig } from 'next';
+import { withPlausibleProxy } from "next-plausible";
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
     compiler: {
-        styledComponents: true,
+        emotion: true,
     },
     images: {},
     async redirects() {
