@@ -13,7 +13,11 @@
         "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,mjs,cjs,json,md,mdx,css,scss,html,yml,yaml}\"",
         "test": "jest",
         "test:ci": "jest --runInBand --coverage",
-        "test:watch": "jest --watch"
+        "test:watch": "jest --watch",
+        "change": "changeset",
+        "change:version": "changeset version",
+        "change:empty": "changeset add --empty",
+        "release": "yarn changeset:version && git add -A && git commit -m \"chore: version packages\" && changeset tag && git push --follow-tags"
     },
     "dependencies": {
         "@aws-sdk/client-ses": "^3.888.0",
