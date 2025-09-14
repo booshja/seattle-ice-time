@@ -1,3 +1,5 @@
+"use client";
+
 import { RINKS } from "@/utils/constants/rinks";
 import { RinkListStyled } from "./RinkListStyled";
 import { RinkToggle } from "../RinkToggle/RinkToggle";

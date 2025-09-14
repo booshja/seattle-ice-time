@@ -58,9 +58,7 @@ export const DateHeader = () => {
             nextBase.setDate(nextBase.getDate() + 7);
         }
         const nextMondayISO = getMondayIsoFromBaseDate(new Date(nextBase));
-        // Cap back navigation: if going previous would move before current week, do nothing
         if (name === "previous" && nextMondayISO <= currentMondayISO) {
-            // Navigating back to current week: clear param
             router.push(`${pathname}`);
             return;
         }
