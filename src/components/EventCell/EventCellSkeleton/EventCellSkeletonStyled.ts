@@ -2,7 +2,8 @@
 
 import { COLORS } from "@/utils/constants/colors";
 import { spacing } from "@/utils/constants/spacing";
-import styled, { css, keyframes } from "styled-components";
+import { css, keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 
 const background = COLORS.skeleton.background;
 const text = COLORS.skeleton.text;
