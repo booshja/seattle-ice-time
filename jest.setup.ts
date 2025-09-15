@@ -1,8 +1,11 @@
 import "@testing-library/jest-dom";
-import "jest-styled-components";
 import { randomUUID } from "crypto";
-window.crypto.randomUUID = randomUUID;
 import { TextDecoder as NodeTextDecoder, TextEncoder as NodeTextEncoder } from "util";
+
+import { createSerializer } from "@emotion/jest";
+import React from "react";
+expect.addSnapshotSerializer(createSerializer());
+window.crypto.randomUUID = randomUUID;
 
 // Polyfill TextEncoder/TextDecoder for libs used in tests
 const globalObject = globalThis as unknown as {
@@ -17,7 +20,6 @@ if (!globalObject.TextDecoder) {
 }
 
 // Mock next/image to a simple img to avoid width/height requirements in tests
-import React from "react";
 jest.mock("next/image", () => ({
     __esModule: true,
     default: (props: React.ImgHTMLAttributes<HTMLImageElement>) =>

@@ -1,7 +1,8 @@
 "use client";
 
 import { COLORS } from "@/utils/constants/colors";
-import styled, { css, keyframes } from "styled-components";
+import { css, keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 
 type SkeletonBlockProps = {
     $inline?: boolean;

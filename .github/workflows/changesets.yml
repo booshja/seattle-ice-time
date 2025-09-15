@@ -1,0 +1,39 @@
+name: Changesets
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  version:
+    name: Create Version PR
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.15.1"
+          cache: yarn
+
+      - name: Enable Corepack (Yarn)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Create or Update Version PR
+        uses: changesets/action@v1
+        with:
+          version: yarn change:version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

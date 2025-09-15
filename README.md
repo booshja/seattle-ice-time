@@ -7,7 +7,7 @@ A web app to aggregate Hockey ice time schedules from the Greater Seattle Area i
 - Aggregated schedules from multiple rinks (KCI, LIC/OVA, Sno-King)
 - Weekly calendar grid with loading skeletons for fast perceived performance
 - Rink filters and state persisted via lightweight stores (Zustand)
-- Styled-components with SSR support
+- Emotion with SSR support
 - Feedback form emailed via AWS SES
 - Issue reporter that opens a GitHub issue and emails a summary
 - Plausible analytics (privacy-friendly), with outbound link tracking
@@ -15,12 +15,12 @@ A web app to aggregate Hockey ice time schedules from the Greater Seattle Area i
 ## Tech Stack
 
 - **Framework**: Next.js 15 (App Router), React 19
-- **Styling**: styled-components 6 with SSR
+- **Styling**: Emotion (`@emotion/react`, `@emotion/styled`) with SSR
 - **State**: Zustand
 - **Email**: AWS SES via `@aws-sdk/client-ses` + `nodemailer`, templated with `@react-email`
 - **HTTP**: axios
 - **Analytics**: `next-plausible`
-- **Testing**: Jest, Testing Library, jsdom, jest-styled-components, ts-jest
+- **Testing**: Jest, Testing Library, jsdom, @emotion/jest, ts-jest
 - **TypeScript**: 5.x
 
 ## Environment Variables
@@ -41,7 +41,7 @@ Optional (Plausible is configured via code with domain `seattleicetime.com` usin
 1. Install dependencies
 
 ```bash
-npm install
+yarn install
 ```
 
 2. Create a `.env.local` with required variables
@@ -58,20 +58,20 @@ GITHUB_ISSUE_TOKEN=...
 3. Run the development server
 
 ```bash
-npm run dev
+yarn run dev
 ```
 
 Open http://localhost:3000
 
 ## Scripts
 
-- `npm run dev` – Start Next.js dev server
-- `npm run build` – Build production bundle
-- `npm run start` – Start production server
-- `npm run lint` – Run eslint
-- `npm run test` – Run Jest tests
-- `npm run test:watch` – Jest in watch mode
-- `npm run test:ci` – Jest in band with coverage
+- `yarn run dev` – Start Next.js dev server
+- `yarn run build` – Build production bundle
+- `yarn run start` – Start production server
+- `yarn run lint` – Run eslint
+- `yarn run test` – Run Jest tests
+- `yarn run test:watch` – Jest in watch mode
+- `yarn run test:ci` – Jest in band with coverage
 
 ## Testing
 
@@ -84,7 +84,7 @@ Jest is configured via `jest.config.mjs` with:
 Run tests:
 
 ```bash
-npm test
+yarn test
 ```
 
 View coverage in `coverage/` (HTML report at `coverage/lcov-report/index.html`).

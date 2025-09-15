@@ -1,4 +1,4 @@
-import { StyledComponentsRegistry } from "@/lib/StyledComponentsRegistry";
+import { EmotionRegistry } from "@/lib/EmotionRegistry";
 import { WeekDisplayStoreProvider } from "@/store/currentWeek/currentWeekStoreProvider";
 import { EventsStoreProvider } from "@/store/events/eventsStoreProvider";
 import { RinkDisplayStoreProvider } from "@/store/rinkDisplay/rinkDisplayStoreProvider";
@@ -8,13 +8,13 @@ import type { ReactNode } from "react";
 export function Providers({ children }: { children: ReactNode }) {
     return (
         <PlausibleProvider domain="seattleicetime.com" trackOutboundLinks>
-            <StyledComponentsRegistry>
+            <EmotionRegistry>
                 <EventsStoreProvider>
                     <RinkDisplayStoreProvider>
                         <WeekDisplayStoreProvider>{children}</WeekDisplayStoreProvider>
                     </RinkDisplayStoreProvider>
                 </EventsStoreProvider>
-            </StyledComponentsRegistry>
+            </EmotionRegistry>
         </PlausibleProvider>
     );
 }

@@ -2,7 +2,7 @@
 
 import { COLORS } from "@/utils/constants/colors";
 import { spacing } from "@/utils/constants/spacing";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export const EventGridStyled = styled.div`
     background-color: ${COLORS.background.dark};

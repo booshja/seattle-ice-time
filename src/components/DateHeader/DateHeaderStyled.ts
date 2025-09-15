@@ -2,7 +2,7 @@
 
 import { fontWeight } from "@/utils/constants/fontSizes";
 import { spacing } from "@/utils/constants/spacing";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export const DateHeaderStyled = styled.div`
     font-size: ${spacing.lg}px;
