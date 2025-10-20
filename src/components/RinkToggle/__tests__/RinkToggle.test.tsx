@@ -1,16 +1,11 @@
-import { Providers } from "@/components/Providers/Providers";
+import { render, screen, fireEvent } from "@/testing/utils";
 import { RINKS } from "@/utils/constants/rinks";
-import { render, screen, fireEvent } from "@testing-library/react";
 
 import { RinkToggle } from "../RinkToggle";
 
 describe("RinkToggle", () => {
-    test("renders and toggles", () => {
-        render(
-            <Providers>
-                <RinkToggle rink={RINKS.KCI} />
-            </Providers>,
-        );
+    it("renders and toggles", () => {
+        render(<RinkToggle rink={RINKS.KCI} />);
 
         const checkbox = screen.getByRole("checkbox");
         fireEvent.click(checkbox);

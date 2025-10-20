@@ -1,14 +1,11 @@
 "use client";
 
-import { testingIds } from "@/testing/testingIds";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
 import { DateHeaderSkeleton } from "../DateHeader/DateHeaderSkeleton";
 
 import { LinkStyled, NavbarStyled, LogoLinkStyled } from "./NavbarStyled";
-
-const navbarIds = testingIds.components.Navbar;
 
 export const Navbar = () => {
     const pathname = usePathname();
@@ -26,9 +23,7 @@ export const Navbar = () => {
 
     return (
         <NavbarStyled>
-            <LogoLinkStyled href="/" data-testid={navbarIds.logoLink}>
-                Seattle Area Ice Time 🏒🥅
-            </LogoLinkStyled>
+            <LogoLinkStyled href="/">Seattle Area Ice Time 🏒🥅</LogoLinkStyled>
             {showDateHeader ? <DateHeaderClient /> : <span />}
             {showBackLink ? (
                 <LinkStyled href="/">&lt; Back to the calendar</LinkStyled>

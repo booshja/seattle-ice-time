@@ -14,7 +14,7 @@ import {
 } from "@/utils/helpers/dates";
 import { parseEvents } from "@/utils/helpers/parseEvents";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useShallow } from "zustand/shallow";
 
 import { EventColumn } from "../EventColumn/EventColumn";
@@ -68,15 +68,20 @@ export const EventGrid = ({
 
     const searchParams = useSearchParams();
     const clientWeekStart = searchParams.get("weekStart");
-    let base = getCurrentWeekMonday();
-    if (clientWeekStart) {
-        base = getMondayDateFromBaseDate(parseLocalDateFromYmd(clientWeekStart));
-    } else if (weekStartIso) {
-        base = getMondayDateFromBaseDate(
-            parseLocalDateFromYmd(weekStartIso.split("T")[0]),
-        );
-    }
-    const weekDates = getWeekDates(base);
+
+    const base = useMemo(() => {
+        if (clientWeekStart) {
+            return getMondayDateFromBaseDate(parseLocalDateFromYmd(clientWeekStart));
+        }
+        if (weekStartIso) {
+            return getMondayDateFromBaseDate(
+                parseLocalDateFromYmd(weekStartIso.split("T")[0]),
+            );
+        }
+        return getCurrentWeekMonday();
+    }, [clientWeekStart, weekStartIso]);
+
+    const weekDates = useMemo(() => getWeekDates(base), [base]);
 
     useEffect(() => {
         setInitialKciEvents(kciEvents);
@@ -91,13 +96,17 @@ export const EventGrid = ({
         setInitialOlympicviewEvents,
     ]);
 
-    useEffect(() => {
-        const eventsResults = parseEvents({
-            kciEvents: showKci ? kciEventData : undefined,
-            licEvents: showLynnwood ? licEventData : undefined,
-            ovaEvents: showOva ? ovaEventData : undefined,
-        });
+    const eventsResults = useMemo(
+        () =>
+            parseEvents({
+                kciEvents: showKci ? kciEventData : undefined,
+                licEvents: showLynnwood ? licEventData : undefined,
+                ovaEvents: showOva ? ovaEventData : undefined,
+            }),
+        [showKci, showLynnwood, showOva, kciEventData, licEventData, ovaEventData],
+    );
 
+    useEffect(() => {
         setEvents(eventsResults);
         const empty =
             eventsResults.Monday.length === 0 &&
@@ -108,15 +117,7 @@ export const EventGrid = ({
             eventsResults.Saturday.length === 0 &&
             eventsResults.Sunday.length === 0;
         setIsCurrentWeekEmpty(empty);
-    }, [
-        showKci,
-        showLynnwood,
-        showOva,
-        kciEventData,
-        licEventData,
-        ovaEventData,
-        setIsCurrentWeekEmpty,
-    ]);
+    }, [eventsResults, setIsCurrentWeekEmpty]);
 
     if (!events) {
         return <EventGridLoadingSkeleton weekDates={weekDates} />;

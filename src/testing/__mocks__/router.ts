@@ -1,9 +1,8 @@
-export function mockNextNavigation(url: string = "/") {
-    const u = new URL(url, "http://localhost");
-    const params = u.searchParams;
+export function setSearchParams(params: Record<string, string> = {}) {
+    const query = new URLSearchParams(params);
     jest.mock("next/navigation", () => ({
-        usePathname: () => u.pathname,
+        usePathname: () => "/",
         useRouter: () => ({ push: jest.fn() }),
-        useSearchParams: () => new URLSearchParams(params.toString()),
+        useSearchParams: () => new URLSearchParams(query.toString()),
     }));
 }

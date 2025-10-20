@@ -1,14 +1,12 @@
 "use client";
 
-import { testingIds } from "@/testing/testingIds";
 import { spacing } from "@/utils/constants/spacing";
 
 import { SkeletonBlock, SkeletonStatus } from "../Skeleton/SkeletonBase";
 
 export const DateHeaderSkeleton = () => {
-    const ids = testingIds.loading;
     return (
-        <SkeletonStatus data-testid={ids.dateHeader} label="Loading date range…">
+        <SkeletonStatus label="Loading date range…">
             <div
                 style={{
                     display: "flex",

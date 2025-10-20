@@ -1,5 +1,4 @@
 import { EventColumnSkeleton } from "@/components/EventColumn/EventColumnSkeleton/EventColumnSkeleton";
-import { testingIds } from "@/testing/testingIds";
 
 import { SkeletonStatus } from "../../Skeleton/SkeletonBase";
 import { EventGridStyled } from "../EventGridStyled";
@@ -11,9 +10,8 @@ interface EventGridLoadingSkeletonProps {
 export const EventGridLoadingSkeleton = ({
     weekDates,
 }: EventGridLoadingSkeletonProps) => {
-    const ids = testingIds.loading;
     return (
-        <SkeletonStatus data-testid={ids.eventGrid} label="Loading weekly schedule…">
+        <SkeletonStatus label="Loading weekly schedule…">
             <EventGridStyled>
                 <EventColumnSkeleton day="Monday" date={weekDates[0]} events={[1, 2]} />
                 <EventColumnSkeleton
