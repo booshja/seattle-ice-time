@@ -163,6 +163,13 @@ const eslintConfig = [
             react: reactPlugin,
         },
         rules: {
+            "jest/consistent-test-it": [
+                "error",
+                {
+                    fn: "it",
+                    withinDescribe: "it",
+                },
+            ],
             "@typescript-eslint/no-unsafe-return": "off",
             "@typescript-eslint/no-non-null-assertion": "off",
             "react/display-name": "off",

@@ -1,5 +1,4 @@
-import { Providers } from "@/components/Providers/Providers";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@/testing/utils";
 
 import { Navbar } from "../Navbar";
 
@@ -14,14 +13,11 @@ jest.mock("next/navigation", () => {
 });
 
 describe("Navbar", () => {
-    test("renders DateHeader skeleton while dynamic import loads on root path", () => {
-        render(
-            <Providers>
-                <Navbar />
-            </Providers>,
-        );
-
-        expect(screen.getByText(/Seattle Area Ice Time/)).toBeInTheDocument();
-        expect(screen.getByTestId("loading.dateHeader")).toBeInTheDocument();
+    describe("skeleton", () => {
+        it("renders DateHeader skeleton while dynamic import loads on root path", () => {
+            render(<Navbar />);
+            expect(screen.getByText(/Seattle Area Ice Time/)).toBeInTheDocument();
+            expect(screen.getByRole("status")).toBeInTheDocument();
+        });
     });
 });

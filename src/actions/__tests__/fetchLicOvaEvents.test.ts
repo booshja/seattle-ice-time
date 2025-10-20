@@ -6,8 +6,20 @@ import { fetchLicOvaEvents } from "../fetchLicOvaEvents";
 
 jest.mock("axios");
 
+type AxiosGetCall = [
+    string,
+    {
+        params: {
+            end: string;
+            multiview: number;
+            rink: string;
+            start: string;
+        };
+    },
+];
+
 describe("fetchLicOvaEvents", () => {
-    test("calls axios with correct params for Lynnwood", async function (this: void) {
+    it("calls axios with correct params for Lynnwood", async function (this: void) {
         (axios.get as jest.Mock).mockResolvedValue({ data: [] });
         const start = "2025-09-08T00:00:00.000Z";
         const end = "2025-09-15T00:00:00.000Z";
@@ -43,5 +55,16 @@ describe("fetchLicOvaEvents", () => {
         expect(optionsArg).toEqual({
             params: { rink: LIC_RINK_ID, multiview: 0, start, end },
         });
+    });
+
+    it("uses OVA rink id when rink=OVA", async () => {
+        (axios.get as jest.Mock).mockResolvedValue({ data: [] });
+        const start = "2025-09-08T00:00:00.000Z";
+        const end = "2025-09-15T00:00:00.000Z";
+        await fetchLicOvaEvents({ start, end, rink: RINKS.OVA.key });
+
+        const calls = (axios.get as jest.Mock).mock.calls as AxiosGetCall[];
+        const [, optionsArg] = calls[calls.length - 1];
+        expect(optionsArg.params.rink).not.toBe(LIC_RINK_ID);
     });
 });

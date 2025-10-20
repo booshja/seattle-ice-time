@@ -15,12 +15,20 @@ import { useShallow } from "zustand/shallow";
 
 import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
 
-export const DateHeader = () => {
+interface DateHeaderProps {
+    mondayDate?: Date;
+}
+
+export const DateHeader = ({ mondayDate }: DateHeaderProps) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const weekStartParam = searchParams.get("weekStart");
     const base = useMemo(() => {
+        if (mondayDate) {
+            const normalized = getMondayIsoFromBaseDate(mondayDate);
+            return parseLocalDateFromYmd(normalized);
+        }
         if (weekStartParam) {
             // Parse as local date (Y-M-D) and normalize to Monday
             const normalized = getMondayIsoFromBaseDate(
@@ -29,7 +37,7 @@ export const DateHeader = () => {
             return parseLocalDateFromYmd(normalized);
         }
         return getCurrentWeekMonday();
-    }, [weekStartParam]);
+    }, [mondayDate, weekStartParam]);
     const displayString = useMemo(
         () => getDisplayDatesFromBaseDate(new Date(base)),
         [base],

@@ -11,6 +11,7 @@ export interface BaseEventObject {
         military: string;
         time: string;
     };
+    // Numeric minutes since midnight for start time; used for fast sorting
     start: {
         date: string;
         military: string;
@@ -18,6 +19,7 @@ export interface BaseEventObject {
     };
     title: string;
     url: string;
+    startKey?: number;
 }
 
 export type EventObject = KciEventObject | LicOvaEventObject | SnoKingEventObject;

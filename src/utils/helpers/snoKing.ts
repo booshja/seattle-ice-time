@@ -47,6 +47,7 @@ function transformSnoKingEvents(events: SnoKingEvent[]) {
         const day: Day = getDayString(+startDay);
 
         const [start, end] = getStartEndObjects(startDate, endDate);
+        const startKey = startDate.getHours() * 60 + startDate.getMinutes();
 
         return {
             color,
@@ -54,6 +55,7 @@ function transformSnoKingEvents(events: SnoKingEvent[]) {
             end,
             location,
             sheet,
+            startKey,
             start,
             title: event.attributes.desc,
             url: `${SNO_KING_BOOKING_URL}${start.date}`,

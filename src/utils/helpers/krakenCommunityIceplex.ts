@@ -6,20 +6,22 @@ import { COLORS } from "../constants/colors";
 import { KCI_SKATER_EVENTS } from "../constants/krakenCommunityIceplex";
 import { RINKS } from "../constants/rinks";
 
-import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
+import { filterWithinWindow, resolveWeekWindow } from "./common";
+import { getDayString, getStartEndObjects } from "./dates";
 
 function filterKciEvents(events: KciEvent[], start: string, end: string): KciEvent[] {
-    const hockeyEvents = events.filter((event: KciEvent) => {
-        const isDesiredEvent =
-            event.title === KCI_SKATER_EVENTS.stickAndPuck ||
-            event.title === KCI_SKATER_EVENTS.dropInSkater ||
-            event.title === KCI_SKATER_EVENTS.noviceDropInSkater;
-        const isHockeyEvent = event.sportId === 20;
-        const isWithinDateBounds = event.start >= start && event.end <= end;
-        return isHockeyEvent && isDesiredEvent && isWithinDateBounds;
-    });
-
-    return hockeyEvents;
+    return filterWithinWindow(
+        events,
+        start,
+        end,
+        (e) => e.start,
+        (e) => e.end,
+        (e) =>
+            e.sportId === 20 &&
+            (e.title === KCI_SKATER_EVENTS.stickAndPuck ||
+                e.title === KCI_SKATER_EVENTS.dropInSkater ||
+                e.title === KCI_SKATER_EVENTS.noviceDropInSkater),
+    );
 }
 
 function transformKciEvents(events: KciEvent[]): KciEventObject[] {
@@ -30,12 +32,14 @@ function transformKciEvents(events: KciEvent[]): KciEventObject[] {
         const day: Day = getDayString(+startDay);
 
         const [start, end] = getStartEndObjects(startDate, endDate);
+        const startKey = startDate.getHours() * 60 + startDate.getMinutes();
 
         return {
             color: COLORS.rinks.KCI,
             day,
             end,
             location: RINKS.KCI.name,
+            startKey,
             start,
             title: event.title,
             url: event.url,
@@ -52,17 +56,7 @@ export async function getKciEvents({
     end?: string;
     start?: string;
 }): Promise<KciEventObject[]> {
-    let startDate = undefined;
-    let endDate = undefined;
-
-    if (!start || !end) {
-        const [start, end] = getStartEndDates({});
-        startDate = start as string;
-        endDate = end as string;
-    } else {
-        startDate = start;
-        endDate = end;
-    }
+    const { start: startDate, end: endDate } = resolveWeekWindow(start, end);
 
     const events = await fetchKciEvents({
         start: startDate,

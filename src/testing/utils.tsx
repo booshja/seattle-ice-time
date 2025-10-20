@@ -1,14 +1,9 @@
+import { Providers } from "@/components/Providers/Providers";
 import { render, type RenderOptions } from "@testing-library/react";
 import React, { type ReactElement } from "react";
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-    return (
-        <>
-            {/* Add providers here */}
-            {children}
-            {/* Add providers here */}
-        </>
-    );
+    return <Providers>{children}</Providers>;
 };
 
 const customRender = (ui: ReactElement, options?: Omit<RenderOptions, "wrapper">) =>

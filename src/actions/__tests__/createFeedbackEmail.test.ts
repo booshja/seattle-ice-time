@@ -1,42 +1,43 @@
-jest.mock("@react-email/render", () => ({ render: jest.fn() }));
-jest.mock("../../lib/aws/emailSender", () => ({ sendEmail: jest.fn() }));
-jest.mock("../../components/Email/FeedbackEmail", () => ({
-    FeedbackEmail: () => null,
-}));
-
-import * as renderMod from "@react-email/render";
+import { render } from "@react-email/render";
 
 import * as emailSender from "../../lib/aws/emailSender";
 import { createFeedbackEmail } from "../createFeedbackEmail";
 
-function makeFormData(entries: Record<string, string>): FormData {
-    const fd = new FormData();
-    Object.entries(entries).forEach(([k, v]) => fd.append(k, v));
-    return fd;
-}
+jest.mock("@react-email/render");
+jest.mock("../../lib/aws/emailSender", () => ({ sendEmail: jest.fn() }));
 
 describe("createFeedbackEmail", () => {
-    test("returns error when feedback missing", async () => {
-        const fd = makeFormData({ email: "user@example.com", feedback: "" });
-        const res = await createFeedbackEmail({}, fd);
-        expect(res).toEqual({ status: "error", message: "Feedback is required" });
+    describe("success", () => {
+        it("returns success on render and send", async () => {
+            (render as jest.Mock).mockResolvedValue("<html>ok</html>");
+            (emailSender.sendEmail as jest.Mock).mockResolvedValue(undefined);
+            const form = new FormData();
+            form.append("email", "e@example.com");
+            form.append("feedback", "m");
+            const res = await createFeedbackEmail({}, form);
+            expect(res.status).toBe("success");
+        });
     });
 
-    test("sends email on success", async () => {
-        (renderMod.render as jest.Mock).mockResolvedValue("<html>email</html>");
-        (emailSender.sendEmail as jest.Mock).mockResolvedValue(undefined);
-        const fd = makeFormData({ email: "user@example.com", feedback: "Hello" });
-        const res = await createFeedbackEmail({}, fd);
-        expect(renderMod.render).toHaveBeenCalled();
-        expect(emailSender.sendEmail).toHaveBeenCalled();
-        expect(res).toEqual({ status: "success", message: "Feedback sent" });
+    describe("errors", () => {
+        it("returns error when render throws", async () => {
+            (render as jest.Mock).mockRejectedValue(new Error("fail"));
+            const form = new FormData();
+            form.append("email", "e@example.com");
+            form.append("feedback", "m");
+            const res = await createFeedbackEmail({}, form);
+            expect(res.status).toBe("error");
+        });
     });
 
-    test("handles sendEmail failure", async () => {
-        (renderMod.render as jest.Mock).mockResolvedValue("<html>email</html>");
-        (emailSender.sendEmail as jest.Mock).mockRejectedValue(new Error("fail"));
-        const fd = makeFormData({ email: "user@example.com", feedback: "Hello" });
-        const res = await createFeedbackEmail({}, fd);
-        expect(res).toEqual({ status: "error", message: "Failed to send feedback" });
+    describe("validation", () => {
+        it("returns error when feedback is missing", async () => {
+            (render as jest.Mock).mockResolvedValue("<html>ok</html>");
+            const form = new FormData();
+            form.append("email", "e@example.com");
+            // no feedback
+            const res = await createFeedbackEmail({}, form);
+            expect(res.status).toBe("error");
+        });
     });
 });

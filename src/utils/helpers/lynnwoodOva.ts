@@ -14,25 +14,25 @@ import {
 } from "../constants/lynnwoodOva";
 import { RINKS } from "../constants/rinks";
 
-import { getDayString, getStartEndDates, getStartEndObjects } from "./dates";
+import { filterWithinWindow, resolveWeekWindow } from "./common";
+import { getDayString, getStartEndObjects } from "./dates";
 
 function filterLicOvaEvents(
     events: LicOvaEvent[],
     start: string,
     end: string,
 ): LicOvaEvent[] {
-    const hockeyEvents = events.filter((event: LicOvaEvent) => {
-        const isDesiredEvent =
-            event.title === LIC_OVA_SKATER_EVENTS.stickAndPuck ||
-            event.title === LIC_OVA_SKATER_EVENTS.dropIn ||
-            event.title === LIC_OVA_SKATER_EVENTS.lunchHockey;
-        const isWithinDateBounds =
-            new Date(event.start) >= new Date(start) &&
-            new Date(event.end) <= new Date(end);
-        return isDesiredEvent && isWithinDateBounds;
-    });
-
-    return hockeyEvents;
+    return filterWithinWindow(
+        events,
+        start,
+        end,
+        (e) => e.start,
+        (e) => e.end,
+        (e) =>
+            e.title === LIC_OVA_SKATER_EVENTS.stickAndPuck ||
+            e.title === LIC_OVA_SKATER_EVENTS.dropIn ||
+            e.title === LIC_OVA_SKATER_EVENTS.lunchHockey,
+    );
 }
 
 export function transformLicOvaEvents(
@@ -58,12 +58,14 @@ export function transformLicOvaEvents(
         const day: Day = getDayString(startDate.getDay());
 
         const [start, end] = getStartEndObjects(startDate, endDate);
+        const startKey = startDate.getHours() * 60 + startDate.getMinutes();
 
         return {
             color,
             day,
             end,
             location,
+            startKey,
             start,
             title: event.title,
             url,
@@ -80,17 +82,7 @@ export async function getLicEvents({
     end?: string;
     start?: string;
 }): Promise<LicOvaEventObject[]> {
-    let startDate = undefined;
-    let endDate = undefined;
-
-    if (!start || !end) {
-        const [start, end] = getStartEndDates({});
-        startDate = start as string;
-        endDate = end as string;
-    } else {
-        startDate = start;
-        endDate = end;
-    }
+    const { start: startDate, end: endDate } = resolveWeekWindow(start, end);
 
     const licEvents = await fetchLicOvaEvents({
         start: startDate,
@@ -113,17 +105,7 @@ export async function getOvaEvents({
     end?: string;
     start?: string;
 }): Promise<LicOvaEventObject[]> {
-    let startDate = undefined;
-    let endDate = undefined;
-
-    if (!start || !end) {
-        const [start, end] = getStartEndDates({});
-        startDate = start as string;
-        endDate = end as string;
-    } else {
-        startDate = start;
-        endDate = end;
-    }
+    const { start: startDate, end: endDate } = resolveWeekWindow(start, end);
 
     const ovaEvents = await fetchLicOvaEvents({
         start: startDate,

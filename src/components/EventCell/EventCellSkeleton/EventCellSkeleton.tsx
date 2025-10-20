@@ -1,5 +1,3 @@
-import { testingIds } from "@/testing/testingIds";
-
 import {
     CellSkeletonStyled,
     HeadlineSkeletonStyled,
@@ -10,7 +8,7 @@ import {
 
 export const EventCellSkeleton = () => {
     return (
-        <CellSkeletonStyled data-testid={testingIds.loading.eventCell}>
+        <CellSkeletonStyled>
             <HeadlineSkeletonStyled />
             <TimeSkeletonStyled />
             <LocationSkeletonStyled />

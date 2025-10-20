@@ -1,5 +1,4 @@
-import { Providers } from "@/components/Providers/Providers";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@/testing/utils";
 import * as React from "react";
 import { useActionState } from "react";
 
@@ -15,34 +14,26 @@ describe("FeedbackForm", () => {
         jest.restoreAllMocks();
     });
 
-    test("renders success branch", () => {
+    it("renders success branch", () => {
         (useActionState as unknown as jest.Mock).mockReturnValue([
             { status: "success", message: "Feedback sent" },
             jest.fn(),
             false,
         ]);
 
-        render(
-            <Providers>
-                <FeedbackForm />
-            </Providers>,
-        );
+        render(<FeedbackForm />);
 
         expect(screen.getByText(/Success!/i)).toBeInTheDocument();
     });
 
-    test("renders error branch", () => {
+    it("renders error branch", () => {
         (useActionState as unknown as jest.Mock).mockReturnValue([
             { status: "error", message: "Failed to send feedback" },
             jest.fn(),
             false,
         ]);
 
-        render(
-            <Providers>
-                <FeedbackForm />
-            </Providers>,
-        );
+        render(<FeedbackForm />);
 
         expect(screen.getByText(/Failed to send feedback/i)).toBeInTheDocument();
     });

@@ -1,5 +1,4 @@
-import { Providers } from "@/components/Providers/Providers";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@/testing/utils";
 import { useActionState } from "react";
 
 import { IssueForm } from "../IssueForm";
@@ -22,35 +21,27 @@ describe("IssueForm", () => {
         jest.restoreAllMocks();
     });
 
-    test("renders success component when message is success", () => {
+    it("renders success component when message is success", () => {
         (useActionState as unknown as jest.Mock).mockReturnValue([
             { message: "Issue created successfully" },
             jest.fn(),
             false,
         ]);
 
-        render(
-            <Providers>
-                <IssueForm />
-            </Providers>,
-        );
+        render(<IssueForm />);
         expect(
             screen.getByText(/Your issue was successfully logged/i),
         ).toBeInTheDocument();
     });
 
-    test("renders error component when message is failure", () => {
+    it("renders error component when message is failure", () => {
         (useActionState as unknown as jest.Mock).mockReturnValue([
             { message: "Issue creation failed" },
             jest.fn(),
             false,
         ]);
 
-        render(
-            <Providers>
-                <IssueForm />
-            </Providers>,
-        );
+        render(<IssueForm />);
         expect(screen.getByText(/Something went wrong/i)).toBeInTheDocument();
     });
 });

@@ -1,14 +1,12 @@
 "use client";
 
-import { testingIds } from "@/testing/testingIds";
 import { spacing } from "@/utils/constants/spacing";
 
 import { SkeletonBlock, SkeletonStatus } from "../Skeleton/SkeletonBase";
 
 export const NavbarSkeleton = () => {
-    const ids = testingIds.loading;
     return (
-        <SkeletonStatus data-testid={ids.navbar} label="Loading navigation…">
+        <SkeletonStatus label="Loading navigation…">
             <div
                 style={{
                     display: "flex",

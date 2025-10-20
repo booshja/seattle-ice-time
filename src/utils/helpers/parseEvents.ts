@@ -49,10 +49,15 @@ export const parseEvents = ({
     const days = Object.keys(events);
     days.forEach((day) => {
         events[day as keyof typeof events].sort((a, b) => {
-            const timeA = a.start.military.split(":").join("");
-            const timeB = b.start.military.split(":").join("");
-
-            return parseInt(timeA) - parseInt(timeB);
+            const keyA =
+                typeof a.startKey === "number"
+                    ? a.startKey
+                    : parseInt(a.start.military.split(":").join(""), 10);
+            const keyB =
+                typeof b.startKey === "number"
+                    ? b.startKey
+                    : parseInt(b.start.military.split(":").join(""), 10);
+            return keyA - keyB;
         });
     });
 

@@ -1,5 +1,4 @@
 import { EventCellSkeleton } from "@/components/EventCell/EventCellSkeleton/EventCellSkeleton";
-import { testingIds } from "@/testing/testingIds";
 import type { Day } from "@/types/dates";
 import { spacing } from "@/utils/constants/spacing";
 
@@ -19,7 +18,7 @@ interface EventColumnSkeletonProps {
 
 export const EventColumnSkeleton = ({ events, day }: EventColumnSkeletonProps) => {
     return (
-        <EventColumnStyled $day={day} data-testid={testingIds.loading.eventColumn(day)}>
+        <EventColumnStyled $day={day}>
             <EventColumnHeaderStyled>
                 <EventDateContainerStyled $active={undefined}>
                     <div
