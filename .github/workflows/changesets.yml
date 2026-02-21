@@ -23,17 +23,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22.15.1"
-          cache: yarn
 
-      - name: Enable Corepack (Yarn)
-        run: corepack enable
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Create or Update Version PR
         uses: changesets/action@v1
         with:
-          version: yarn change:version
+          version: bun run change:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

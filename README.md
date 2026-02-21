@@ -41,7 +41,7 @@ Optional (Plausible is configured via code with domain `seattleicetime.com` usin
 1. Install dependencies
 
 ```bash
-yarn install
+bun install
 ```
 
 2. Create a `.env.local` with required variables
@@ -58,20 +58,20 @@ GITHUB_ISSUE_TOKEN=...
 3. Run the development server
 
 ```bash
-yarn run dev
+bun run dev
 ```
 
 Open http://localhost:3000
 
 ## Scripts
 
-- `yarn run dev` – Start Next.js dev server
-- `yarn run build` – Build production bundle
-- `yarn run start` – Start production server
-- `yarn run lint` – Run eslint
-- `yarn run test` – Run Vitest tests
-- `yarn run test:watch` – Vitest in watch mode
-- `yarn run test:ci` – Vitest with coverage
+- `bun run dev` – Start Next.js dev server
+- `bun run build` – Build production bundle
+- `bun run start` – Start production server
+- `bun run lint` – Run eslint
+- `bun run test` – Run Vitest tests
+- `bun run test:watch` – Vitest in watch mode
+- `bun run test:ci` – Vitest with coverage
 
 ## Testing
 
@@ -83,7 +83,7 @@ Vitest is configured via `vitest.config.ts` with:
 Run tests:
 
 ```bash
-yarn test
+bun run test
 ```
 
 View coverage in `coverage/` (HTML report at `coverage/lcov-report/index.html`).

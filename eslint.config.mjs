@@ -19,7 +19,6 @@ const eslintConfig = [
     {
         ignores: [
             "node_modules",
-            ".yarn",
             ".next",
             "coverage",
             "eslint.config.*",
