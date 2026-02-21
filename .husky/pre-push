@@ -1,0 +1,4 @@
+branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$branch" != "main" ]; then
+  bun run changeset status --since=main
+fi
