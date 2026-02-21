@@ -1,11 +1,13 @@
 import axios from "axios";
 
-import { fetchLicOvaEvents } from "../fetchLicOvaEvents";
-
 import { LIC_OVA_EVENTS_URL, LIC_RINK_ID } from "@/utils/constants/lynnwoodOva";
 import { RINKS } from "@/utils/constants/rinks";
 
-jest.mock("axios");
+import { fetchLicOvaEvents } from "../fetchLicOvaEvents";
+
+import type { Mock } from "vitest";
+
+vi.mock("axios");
 
 type AxiosGetCall = [
     string,
@@ -21,7 +23,7 @@ type AxiosGetCall = [
 
 describe("fetchLicOvaEvents", () => {
     it("calls axios with correct params for Lynnwood", async function (this: void) {
-        (axios.get as jest.Mock).mockResolvedValue({ data: [] });
+        (axios.get as Mock).mockResolvedValue({ data: [] });
         const start = "2025-09-08T00:00:00.000Z";
         const end = "2025-09-15T00:00:00.000Z";
         await fetchLicOvaEvents({ start, end, rink: RINKS.LYNNWOOD.key });
@@ -37,7 +39,7 @@ describe("fetchLicOvaEvents", () => {
                     };
                 },
             ]
-        > = (axios.get as jest.Mock).mock.calls as Array<
+        > = (axios.get as Mock).mock.calls as Array<
             [
                 string,
                 {
@@ -59,12 +61,12 @@ describe("fetchLicOvaEvents", () => {
     });
 
     it("uses OVA rink id when rink=OVA", async () => {
-        (axios.get as jest.Mock).mockResolvedValue({ data: [] });
+        (axios.get as Mock).mockResolvedValue({ data: [] });
         const start = "2025-09-08T00:00:00.000Z";
         const end = "2025-09-15T00:00:00.000Z";
         await fetchLicOvaEvents({ start, end, rink: RINKS.OVA.key });
 
-        const calls = (axios.get as jest.Mock).mock.calls as AxiosGetCall[];
+        const calls = (axios.get as Mock).mock.calls as AxiosGetCall[];
         const [, optionsArg] = calls[calls.length - 1];
         expect(optionsArg.params.rink).not.toBe(LIC_RINK_ID);
     });

@@ -1,15 +1,14 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
+import { lazy, Suspense } from "react";
 
 import { DateHeaderSkeleton } from "../DateHeader/DateHeaderSkeleton";
 
 import { LinkStyled, NavbarStyled, LogoLinkStyled } from "./NavbarStyled";
 
-const DateHeaderClient = dynamic(
-    () => import("../DateHeader/DateHeader").then((m) => ({ default: m.DateHeader })),
-    { ssr: false, loading: () => <DateHeaderSkeleton /> },
+const DateHeaderLazy = lazy(() =>
+    import("../DateHeader/DateHeader").then((m) => ({ default: m.DateHeader })),
 );
 
 export const Navbar = () => {
@@ -20,7 +19,13 @@ export const Navbar = () => {
     return (
         <NavbarStyled>
             <LogoLinkStyled href="/">Seattle Area Ice Time 🏒🥅</LogoLinkStyled>
-            {showDateHeader ? <DateHeaderClient /> : <span />}
+            {showDateHeader ? (
+                <Suspense fallback={<DateHeaderSkeleton />}>
+                    <DateHeaderLazy />
+                </Suspense>
+            ) : (
+                <span />
+            )}
             {showBackLink ? (
                 <LinkStyled href="/">&lt; Back to the calendar</LinkStyled>
             ) : (

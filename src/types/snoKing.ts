@@ -1,6 +1,5 @@
-import type { RINKS } from "@/utils/constants/rinks";
-
 import type { BaseEventObject } from "./events";
+import type { RINKS } from "@/utils/constants/rinks";
 
 export type SnoKingLocation =
     | typeof RINKS.RENTON.name
@@ -41,27 +40,27 @@ export interface SnoKingEvent {
         created_user_type: string;
         customer_id: number;
         desc: string;
-        description: null;
+        description: string | null;
         end: string;
         end_gmt: string;
         event_start_time: string;
-        event_type: string;
+        event_type_id: number | string;
         has_gender_locker_rooms: number;
-        hscore: null;
+        home_score: number | null;
         hteam_id: number;
-        includes_setup_time: false;
-        includes_takedown_time: false;
-        is_overtime: false;
+        includes_setup_time: boolean;
+        includes_takedown_time: boolean;
+        is_overtime: boolean;
         last_modified_user_type: string;
-        last_resource_id: null;
-        league_id: null;
-        locker_room_type: null;
+        last_resource_id: number | null;
+        league_id: number | null;
+        locker_room_type: string | null;
         mod_d: string;
         mod_u: string;
-        notice: null;
+        notice: string | null;
         outcome: string;
-        parent_event_id: null;
-        publish: true;
+        parent_event_id: number | null;
+        publish: boolean;
         register_capacity: number;
         repeat_id: number;
         resource_area_id: number;
@@ -70,44 +69,13 @@ export interface SnoKingEvent {
         start_date: string;
         start_gmt: string;
         sub_type: string;
-        vscore: null;
-        vteam_id: null;
+        visiting_score: number | null;
+        vteam_id: number | null;
     };
     id: string;
     links: {
         self: string;
-        type: string;
     };
-    relationships: {
-        additionalResources: [];
-        booking: [];
-        comments: [];
-        customer: [];
-        employees: [];
-        eventEmployees: [];
-        eventSeries: [];
-        eventType: [];
-        fees: [];
-        homeTeam: [];
-        invoiceItems: [];
-        invoices: [];
-        lastResource: [];
-        league: [];
-        lockers: [];
-        parentEvent: [];
-        registrants: [];
-        registrations: [];
-        resource: [];
-        resourceArea: [];
-        rsvpStates: [];
-        seriesInvoices: [];
-        setupEvents: [];
-        statEvents: [];
-        subType: [];
-        summary: [];
-        takedownEvents: [];
-        tasks: [];
-        teamGroups: [];
-        visitingTeam: [];
-    };
+    relationships: Record<string, unknown[]>;
+    type: string;
 }

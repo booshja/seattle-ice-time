@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 
+import { createGithubIssue } from "@/actions/createGithubIssue";
+
 import {
     ButtonStyled,
     FormAreaStyled,
@@ -18,8 +20,6 @@ import { FormLoading } from "../Loading/FormLoading";
 
 import { IssueFormError } from "./Error/IssueFormError";
 import { IssueFormSuccess } from "./Success/IssueFormSuccess";
-
-import { createGithubIssue } from "@/actions/createGithubIssue";
 
 export const IssueForm = () => {
     const initialFormActionState = { message: "" };

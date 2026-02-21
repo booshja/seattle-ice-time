@@ -6,11 +6,11 @@ import { fontWeight } from "@/utils/constants/fontSizes";
 import { lineHeight } from "@/utils/constants/fontSizes";
 import { spacing } from "@/utils/constants/spacing";
 
-export const EventCellStyled = styled.div<{ color: string }>`
+export const EventCellStyled = styled.div<{ $bgColor: string; $textColor: string }>`
     border-radius: ${spacing.sm}px;
-    background-color: ${({ color }) => color};
+    background-color: ${({ $bgColor }) => $bgColor};
     padding: ${spacing.sm}px;
-    color: #000000;
+    color: ${({ $textColor }) => $textColor};
 
     & > p:not(:is(:first-of-type)) {
         font-size: 12px;
@@ -23,11 +23,11 @@ export const EventCellStyled = styled.div<{ color: string }>`
     }
 `;
 
-export const RegistrationLinkStyled = styled.a`
+export const RegistrationLinkStyled = styled.a<{ $textColor: string }>`
     font-size: 12px;
     line-height: ${lineHeight.md}px;
     font-weight: ${fontWeight.bold};
-    color: #000000;
+    color: ${({ $textColor }) => $textColor};
     text-decoration: underline;
     margin-top: ${spacing.xs}px;
     display: block;

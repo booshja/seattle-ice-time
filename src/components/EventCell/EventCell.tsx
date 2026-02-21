@@ -1,3 +1,5 @@
+import { getContrastTextColor } from "@/utils/constants/colors";
+
 import { EventCellStyled, RegistrationLinkStyled } from "./EventCellStyled";
 
 interface EventCellProps {
@@ -17,14 +19,16 @@ export const EventCell = ({
     location,
     url,
 }: EventCellProps) => {
+    const textColor = getContrastTextColor(color);
+
     return (
-        <EventCellStyled color={color}>
+        <EventCellStyled $bgColor={color} $textColor={textColor}>
             <p>{title}</p>
             <p>
                 {startTime} - {endTime}
             </p>
             <p>{location}</p>
-            <RegistrationLinkStyled href={url} target="_blank">
+            <RegistrationLinkStyled $textColor={textColor} href={url} target="_blank">
                 Registration link
             </RegistrationLinkStyled>
         </EventCellStyled>

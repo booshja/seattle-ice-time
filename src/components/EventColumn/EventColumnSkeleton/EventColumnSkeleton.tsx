@@ -1,3 +1,6 @@
+import { EventCellSkeleton } from "@/components/EventCell/EventCellSkeleton/EventCellSkeleton";
+import { spacing } from "@/utils/constants/spacing";
+
 import { SkeletonBlock } from "../../Skeleton/SkeletonBase";
 import {
     EventColumnHeaderStyled,
@@ -6,9 +9,7 @@ import {
     EventsContainerStyled,
 } from "../EventColumnStyled";
 
-import { EventCellSkeleton } from "@/components/EventCell/EventCellSkeleton/EventCellSkeleton";
 import type { Day } from "@/types/dates";
-import { spacing } from "@/utils/constants/spacing";
 
 interface EventColumnSkeletonProps {
     date: number;

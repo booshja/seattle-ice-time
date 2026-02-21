@@ -1,24 +1,26 @@
 import * as React from "react";
 import { useActionState } from "react";
 
-import { FeedbackForm } from "../FeedbackForm";
-
 import { render, screen } from "@/testing/utils";
 
-jest.mock("react", () => {
-    const actual: Record<string, unknown> = jest.requireActual("react");
-    return { ...actual, useActionState: jest.fn() };
+import { FeedbackForm } from "../FeedbackForm";
+
+import type { Mock } from "vitest";
+
+vi.mock("react", async () => {
+    const actual: Record<string, unknown> = await vi.importActual("react");
+    return { ...actual, useActionState: vi.fn() };
 });
 
 describe("FeedbackForm", () => {
     afterEach(() => {
-        jest.restoreAllMocks();
+        vi.restoreAllMocks();
     });
 
     it("renders success branch", () => {
-        (useActionState as unknown as jest.Mock).mockReturnValue([
+        (useActionState as unknown as Mock).mockReturnValue([
             { status: "success", message: "Feedback sent" },
-            jest.fn(),
+            vi.fn(),
             false,
         ]);
 
@@ -28,9 +30,9 @@ describe("FeedbackForm", () => {
     });
 
     it("renders error branch", () => {
-        (useActionState as unknown as jest.Mock).mockReturnValue([
+        (useActionState as unknown as Mock).mockReturnValue([
             { status: "error", message: "Failed to send feedback" },
-            jest.fn(),
+            vi.fn(),
             false,
         ]);
 

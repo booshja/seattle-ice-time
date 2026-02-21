@@ -1,9 +1,15 @@
 "use client";
 
-import { RinkCheckboxStyled, RinkLabelStyled } from "./RinkToggleStyled";
-
 import { useRinkDisplayStore } from "@/store/rinkDisplay/rinkDisplayStoreProvider";
 import { COLORS } from "@/utils/constants/colors";
+
+import {
+    RinkCheckboxStyled,
+    RinkCheckboxVisualStyled,
+    RinkLabelStyled,
+    RinkToggleContainerStyled,
+} from "./RinkToggleStyled";
+
 import type { RINKS } from "@/utils/constants/rinks";
 
 interface RinkItemProps {
@@ -20,16 +26,21 @@ export const RinkToggle = ({ rink }: RinkItemProps) => {
     };
 
     return (
-        <div>
+        <RinkToggleContainerStyled>
             <RinkCheckboxStyled
                 type="checkbox"
                 id={rink.id}
                 name={rink.key}
-                color={color}
                 checked={checked}
                 onChange={handleChange}
             />
+            <RinkCheckboxVisualStyled
+                $checked={checked}
+                $color={color}
+                onClick={() => setRink(rink.key, !checked)}
+                aria-hidden="true"
+            />
             <RinkLabelStyled htmlFor={rink.id}>{rink.name}</RinkLabelStyled>
-        </div>
+        </RinkToggleContainerStyled>
     );
 };

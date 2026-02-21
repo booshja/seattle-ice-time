@@ -54,6 +54,7 @@ export type SkeletonStatusProps = {
     className?: string;
     "data-testid"?: string;
     label?: string;
+    style?: React.CSSProperties;
 };
 
 export const SkeletonStatus = ({

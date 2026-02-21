@@ -1,7 +1,8 @@
+import { RINKS } from "@/utils/constants/rinks";
+
 import { createEventsStore, initEventsStore } from "../eventsStore";
 
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
-import { RINKS } from "@/utils/constants/rinks";
 
 describe("eventsStore", () => {
     it("setters update current and initial arrays", () => {
@@ -11,6 +12,7 @@ describe("eventsStore", () => {
                 color: "#000",
                 day: "Monday",
                 end: { date: "2025-09-08", military: "10:00", time: "10:00am" },
+                id: "test-1",
                 start: { date: "2025-09-08", military: "09:00", time: "9:00am" },
                 title: "A",
                 url: "https://example.com",

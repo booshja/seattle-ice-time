@@ -14,13 +14,13 @@ A web app to aggregate Hockey ice time schedules from the Greater Seattle Area i
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router), React 19
+- **Framework**: Next.js 16 (App Router), React 19
 - **Styling**: Emotion (`@emotion/react`, `@emotion/styled`) with SSR
 - **State**: Zustand
 - **Email**: AWS SES via `@aws-sdk/client-ses` + `nodemailer`, templated with `@react-email`
 - **HTTP**: axios
 - **Analytics**: `next-plausible`
-- **Testing**: Jest, Testing Library, jsdom, @emotion/jest, ts-jest
+- **Testing**: Vitest, Testing Library, jsdom, @emotion/jest
 - **TypeScript**: 5.x
 
 ## Environment Variables
@@ -41,7 +41,7 @@ Optional (Plausible is configured via code with domain `seattleicetime.com` usin
 1. Install dependencies
 
 ```bash
-yarn install
+bun install
 ```
 
 2. Create a `.env.local` with required variables
@@ -58,33 +58,32 @@ GITHUB_ISSUE_TOKEN=...
 3. Run the development server
 
 ```bash
-yarn run dev
+bun run dev
 ```
 
 Open http://localhost:3000
 
 ## Scripts
 
-- `yarn run dev` – Start Next.js dev server
-- `yarn run build` – Build production bundle
-- `yarn run start` – Start production server
-- `yarn run lint` – Run eslint
-- `yarn run test` – Run Jest tests
-- `yarn run test:watch` – Jest in watch mode
-- `yarn run test:ci` – Jest in band with coverage
+- `bun run dev` – Start Next.js dev server
+- `bun run build` – Build production bundle
+- `bun run start` – Start production server
+- `bun run lint` – Run eslint
+- `bun run test` – Run Vitest tests
+- `bun run test:watch` – Vitest in watch mode
+- `bun run test:ci` – Vitest with coverage
 
 ## Testing
 
-Jest is configured via `jest.config.mjs` with:
+Vitest is configured via `vitest.config.ts` with:
 
 - jsdom environment
-- ts-jest preset
 - Coverage collected for `src/**` (excluding tests, email templates, fonts, styled files, constants/strings, lib, types, and Next special files)
 
 Run tests:
 
 ```bash
-yarn test
+bun run test
 ```
 
 View coverage in `coverage/` (HTML report at `coverage/lcov-report/index.html`).

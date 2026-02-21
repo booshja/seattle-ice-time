@@ -1,13 +1,18 @@
-jest.mock("axios", () => ({ post: jest.fn() }));
-jest.mock("@react-email/render", () => ({ render: jest.fn() }));
-jest.mock("../../lib/aws/emailSender", () => ({ sendEmail: jest.fn() }));
-jest.mock("../../components/Email/IssueEmail", () => ({ IssueEmail: () => null }));
+vi.mock("axios", () => ({ default: { post: vi.fn() } }));
+vi.mock("@react-email/render", () => ({ render: vi.fn() }));
+vi.mock("../../lib/aws/emailSender", () => ({ sendEmail: vi.fn() }));
+vi.mock("../../components/Email/IssueEmail", () => ({ IssueEmail: () => null }));
+vi.mock("next/server", () => ({
+    after: (cb: () => void) => cb(),
+}));
 
 import * as renderMod from "@react-email/render";
 import axios from "axios";
 
 import * as emailSender from "../../lib/aws/emailSender";
 import { createGithubIssue } from "../createGithubIssue";
+
+import type { Mock } from "vitest";
 
 function makeFormData(entries: Record<string, string>): FormData {
     const fd = new FormData();
@@ -18,7 +23,7 @@ function makeFormData(entries: Record<string, string>): FormData {
 describe("createGithubIssue", () => {
     const OLD_ENV = process.env;
     beforeEach(() => {
-        jest.resetModules();
+        vi.resetModules();
         process.env = {
             ...OLD_ENV,
             GITHUB_ISSUE_TOKEN: "token",
@@ -42,12 +47,12 @@ describe("createGithubIssue", () => {
 
     describe("success", () => {
         it("creates issue and sends email", async () => {
-            (axios.post as jest.Mock).mockResolvedValue({
+            (axios.post as Mock).mockResolvedValue({
                 status: 201,
                 data: { html_url: "http://x" },
             });
-            (renderMod.render as jest.Mock).mockResolvedValue("<html>issue</html>");
-            (emailSender.sendEmail as jest.Mock).mockResolvedValue(undefined);
+            (renderMod.render as Mock).mockResolvedValue("<html>issue</html>");
+            (emailSender.sendEmail as Mock).mockResolvedValue(undefined);
             const res = await createGithubIssue(
                 {},
                 makeFormData({
@@ -64,7 +69,7 @@ describe("createGithubIssue", () => {
 
     describe("non-201 responses", () => {
         it("handles non-201 response", async () => {
-            (axios.post as jest.Mock).mockResolvedValue({ status: 400, data: {} });
+            (axios.post as Mock).mockResolvedValue({ status: 400, data: {} });
             const res = await createGithubIssue(
                 {},
                 makeFormData({ title: "Bug", description: "Desc" }),
@@ -75,7 +80,7 @@ describe("createGithubIssue", () => {
 
     describe("errors", () => {
         it("handles axios error and returns failure", async () => {
-            (axios.post as jest.Mock).mockRejectedValue(new Error("boom"));
+            (axios.post as Mock).mockRejectedValue(new Error("boom"));
             const res = await createGithubIssue(
                 {},
                 makeFormData({ title: "Bug", description: "Desc" }),
@@ -84,12 +89,12 @@ describe("createGithubIssue", () => {
         });
 
         it("logs email send failure but still succeeds", async () => {
-            (axios.post as jest.Mock).mockResolvedValue({
+            (axios.post as Mock).mockResolvedValue({
                 status: 201,
                 data: { html_url: "http://x" },
             });
-            (renderMod.render as jest.Mock).mockResolvedValue("<html>issue</html>");
-            (emailSender.sendEmail as jest.Mock).mockRejectedValue(new Error("smtp"));
+            (renderMod.render as Mock).mockResolvedValue("<html>issue</html>");
+            (emailSender.sendEmail as Mock).mockRejectedValue(new Error("smtp"));
             const res = await createGithubIssue(
                 {},
                 makeFormData({ title: "Bug", description: "Desc" }),

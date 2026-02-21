@@ -6,6 +6,7 @@ describe("parseEvents", () => {
             kciEvents: undefined,
             licEvents: undefined,
             ovaEvents: undefined,
+            snoKingEvents: undefined,
         });
         const allEmpty = Object.values(result).every((arr: unknown) =>
             Array.isArray(arr) ? arr.length === 0 : false,
@@ -42,6 +43,7 @@ describe("parseEvents", () => {
                 ],
                 licEvents: undefined,
                 ovaEvents: undefined,
+                snoKingEvents: undefined,
             });
 
             expect(events.Monday.map((e) => e.title)).toEqual(["A", "B"]);
@@ -73,6 +75,7 @@ describe("parseEvents", () => {
                 ],
                 licEvents: undefined,
                 ovaEvents: undefined,
+                snoKingEvents: undefined,
             });
 
             expect(events.Monday.map((e) => e.title)).toEqual(["A", "B"]);
@@ -115,6 +118,7 @@ describe("parseEvents", () => {
                     },
                 ],
                 ovaEvents: undefined,
+                snoKingEvents: undefined,
             });
 
             expect(events.Tuesday.map((e) => e.title)).toEqual(["KCI A", "LIC B"]);
@@ -127,6 +131,7 @@ describe("parseEvents", () => {
                 kciEvents: undefined,
                 licEvents: undefined,
                 ovaEvents: undefined,
+                snoKingEvents: undefined,
             });
             const allEmpty = Object.values(res).every((arr: unknown) =>
                 Array.isArray(arr) ? arr.length === 0 : false,
@@ -187,6 +192,7 @@ describe("parseEvents", () => {
                         url: "",
                     } as never,
                 ],
+                snoKingEvents: undefined,
             });
 
             const monday = res.Monday.map((e) => e.start.military);
