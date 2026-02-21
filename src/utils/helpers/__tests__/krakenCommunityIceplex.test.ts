@@ -1,13 +1,13 @@
-import type { Mocked } from "vitest";
-
-import * as fetchMod from "../../../actions/fetchKciEvents";
-import { getKciEvents } from "../krakenCommunityIceplex";
-
 import {
     KCI_API_EVENT_IN_WINDOW,
     KCI_API_EVENT_OUTSIDE_WINDOW,
     KCI_API_EVENT_WRONG_SPORT,
 } from "@/testing/__mocks__/fixtures";
+
+import * as fetchMod from "../../../actions/fetchKciEvents";
+import { getKciEvents } from "../krakenCommunityIceplex";
+
+import type { Mocked } from "vitest";
 
 vi.mock("../../../actions/fetchKciEvents");
 

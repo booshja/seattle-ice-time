@@ -1,5 +1,7 @@
 import {
     getCurrentWeekMonday,
+    getDayString,
+    getDisplayDates,
     getDisplayDatesFromBaseDate,
     getStartEndDatesFromBaseDate,
     getWeekDates,
@@ -91,10 +93,34 @@ describe("dates helpers", () => {
             expect(mondayIso).toBe("2025-09-08");
         });
 
+        it("base date that is already a Monday stays on that Monday", () => {
+            const base = parseLocalDateFromYmd("2025-09-08");
+            const s = getDisplayDatesFromBaseDate(base);
+            expect(s).toMatch(/September\s+8-14\s+2025/);
+        });
+
+        it("leap year boundary Feb 24 - Mar 2", () => {
+            const base = parseLocalDateFromYmd("2028-02-28");
+            const s = getDisplayDatesFromBaseDate(base);
+            expect(s).toMatch(/February\s+28\s+-\s+March\s+5\s+2028/);
+        });
+
+        it("non-leap year Feb crosses into March", () => {
+            const base = parseLocalDateFromYmd("2025-02-27");
+            const s = getDisplayDatesFromBaseDate(base);
+            expect(s).toMatch(/February\s+24\s+-\s+March\s+2\s+2025/);
+        });
+
+        it("week entirely within short month (February same-month)", () => {
+            const base = parseLocalDateFromYmd("2025-02-12");
+            const s = getDisplayDatesFromBaseDate(base);
+            expect(s).toMatch(/February\s+10-16\s+2025/);
+        });
+
         describe("DST behaviors", () => {
             beforeAll(() => {
                 vi.useFakeTimers();
-                vi.setSystemTime(new Date("2024-03-10T10:00:00.000Z")); // DST change period US
+                vi.setSystemTime(new Date("2024-03-10T10:00:00.000Z"));
             });
             afterAll(() => {
                 vi.useRealTimers();
@@ -125,6 +151,48 @@ describe("dates helpers", () => {
                 expect(arr[0]).toBe(8);
                 expect(arr[6]).toBe(14);
             });
+        });
+    });
+
+    describe("getDisplayDates (parameterless)", () => {
+        afterEach(() => {
+            vi.useRealTimers();
+        });
+
+        it("same-month week for a mid-month date", () => {
+            vi.useFakeTimers();
+            vi.setSystemTime(new Date("2025-09-10T12:00:00.000Z"));
+            const s = getDisplayDates();
+            expect(s).toMatch(/September\s+8-14\s+2025/);
+        });
+
+        it("cross-month week", () => {
+            vi.useFakeTimers();
+            vi.setSystemTime(new Date("2025-03-31T12:00:00.000Z"));
+            const s = getDisplayDates();
+            expect(s).toMatch(/March\s+31\s+-\s+April\s+6\s+2025/);
+        });
+
+        it("cross-year week", () => {
+            vi.useFakeTimers();
+            vi.setSystemTime(new Date("2025-12-31T12:00:00.000Z"));
+            const s = getDisplayDates();
+            expect(s).toMatch(/December\s+29,\s+2025\s+-\s+January\s+4,\s+2026/);
+        });
+    });
+
+    describe("getDayString", () => {
+        it("returns Sunday for 0 (default case)", () => {
+            expect(getDayString(0)).toBe("Sunday");
+        });
+
+        it("returns Monday through Saturday for 1-6", () => {
+            expect(getDayString(1)).toBe("Monday");
+            expect(getDayString(2)).toBe("Tuesday");
+            expect(getDayString(3)).toBe("Wednesday");
+            expect(getDayString(4)).toBe("Thursday");
+            expect(getDayString(5)).toBe("Friday");
+            expect(getDayString(6)).toBe("Saturday");
         });
     });
 });

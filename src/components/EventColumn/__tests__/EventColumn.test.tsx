@@ -1,8 +1,9 @@
+import { render, screen } from "@/testing/utils";
+import { RINKS } from "@/utils/constants/rinks";
+
 import { EventColumn } from "../EventColumn";
 
-import { render, screen } from "@/testing/utils";
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
-import { RINKS } from "@/utils/constants/rinks";
 
 describe("EventColumn", () => {
     describe("no events", () => {
@@ -20,6 +21,7 @@ describe("EventColumn", () => {
             color: "#000",
             day: "Monday",
             end: { date: "2025-09-08", military: "10:00", time: "10:00am" },
+            id: "test-event-1",
             start: { date: "2025-09-08", military: "09:00", time: "9:00am" },
             title: "Open Skate",
             url: "https://example.com",

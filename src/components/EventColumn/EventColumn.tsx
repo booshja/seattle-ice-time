@@ -31,12 +31,16 @@ export const EventColumn = ({ date, day, events, isToday }: EventColumnProps) =>
             <EventsContainerStyled>
                 {events.map((event) => (
                     <EventCell
-                        key={`${event.title}-${event.start.military}-${event.end.military}-${event.location}`}
+                        key={event.id}
                         color={event.color}
                         title={event.title}
                         startTime={event.start.time}
                         endTime={event.end.time}
-                        location={event.location}
+                        location={
+                            event.sheet
+                                ? `${event.location} (${event.sheet})`
+                                : event.location
+                        }
                         url={event?.url}
                     />
                 ))}

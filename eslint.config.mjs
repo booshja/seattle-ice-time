@@ -26,12 +26,6 @@ const eslintConfig = [
             "vitest.setup.*",
             "next.config.*",
             "next-env.d.ts",
-            // User request: ignore SnoKing files
-            "src/utils/helpers/**/snoKing*",
-            "src/types/snoKing.ts",
-            "src/actions/**/fetchSnoKingEvents*",
-            "src/**/__tests__/**/snoKing*",
-            "src/**/__tests__/**/fetchSnoKingEvents*",
         ],
     },
 
@@ -103,11 +97,15 @@ const eslintConfig = [
                     "newlines-between": "always",
                     groups: [
                         "builtin",
-                        ["external", "internal"],
+                        "external",
+                        "internal",
                         "parent",
                         "sibling",
                         "index",
+                        "type",
                     ],
+                    pathGroups: [{ pattern: "@/**", group: "internal" }],
+                    pathGroupsExcludedImportTypes: ["type"],
                 },
             ],
 

@@ -1,6 +1,6 @@
-import { RinkList } from "../RinkList";
-
 import { render, screen } from "@/testing/utils";
+
+import { RinkList } from "../RinkList";
 
 describe("RinkList", () => {
     describe("loading", () => {

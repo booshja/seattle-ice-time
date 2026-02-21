@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { TextStyled, TryAgainButtonStyled } from "../../FormStyled";
-
 import SadTorontoGoalie from "@/images/sad-toronto-goalie.avif";
+
+import { TextStyled, TryAgainButtonStyled } from "../../FormStyled";
 
 export const IssueFormError = () => {
     const router = useRouter();

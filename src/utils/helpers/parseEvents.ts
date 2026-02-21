@@ -1,17 +1,20 @@
 import type { Events } from "@/types/events";
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
 import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
+import type { SnoKingEventObject } from "@/types/snoKing";
 
 interface ParseEventsProps {
     kciEvents: KciEventObject[] | undefined;
     licEvents: LicOvaEventObject[] | undefined;
     ovaEvents: LicOvaEventObject[] | undefined;
+    snoKingEvents: SnoKingEventObject[] | undefined;
 }
 
 export const parseEvents = ({
     kciEvents,
     licEvents,
     ovaEvents,
+    snoKingEvents,
 }: ParseEventsProps): Events => {
     const events: Events = {
         Monday: [],
@@ -27,6 +30,7 @@ export const parseEvents = ({
         ...(kciEvents ?? []),
         ...(licEvents ?? []),
         ...(ovaEvents ?? []),
+        ...(snoKingEvents ?? []),
     ];
 
     for (const event of allEvents) {

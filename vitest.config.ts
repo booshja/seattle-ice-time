@@ -39,6 +39,8 @@ export default defineConfig({
                 "**/lib/**",
                 "**/types/**",
                 "**/src/**/{layout,error,global-error}.tsx",
+                "**/src/instrumentation*.ts",
+                "**/src/components/Navbar/NavbarSkeleton.tsx",
             ],
         },
     },

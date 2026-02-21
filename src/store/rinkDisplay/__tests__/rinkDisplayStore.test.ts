@@ -11,7 +11,7 @@ describe("rinkDisplayStore", () => {
         expect(s.KCI).toBe(true);
         expect(s.LYNNWOOD).toBe(true);
         expect(s.OVA).toBe(true);
-        expect(s.RENTON).toBe(false);
+        expect(s.RENTON).toBe(true);
     });
 
     it("toggle and setRink update state", () => {

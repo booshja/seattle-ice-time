@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import {
@@ -8,6 +7,8 @@ import {
     RoadmapList,
 } from "./RoadmapStyled";
 import roadmapItems from "./roadmapItems.json";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Roadmap - Seattle Area Ice Time",

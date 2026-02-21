@@ -8,10 +8,11 @@ vi.mock("next/server", () => ({
 
 import * as renderMod from "@react-email/render";
 import axios from "axios";
-import type { Mock } from "vitest";
 
 import * as emailSender from "../../lib/aws/emailSender";
 import { createGithubIssue } from "../createGithubIssue";
+
+import type { Mock } from "vitest";
 
 function makeFormData(entries: Record<string, string>): FormData {
     const fd = new FormData();

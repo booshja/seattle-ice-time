@@ -1,9 +1,10 @@
 import { useActionState } from "react";
-import type { Mock } from "vitest";
+
+import { render, screen } from "@/testing/utils";
 
 import { IssueForm } from "../IssueForm";
 
-import { render, screen } from "@/testing/utils";
+import type { Mock } from "vitest";
 
 vi.mock("next/navigation", async () => {
     const actual: Record<string, unknown> = await vi.importActual("next/navigation");

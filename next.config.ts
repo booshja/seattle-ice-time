@@ -35,9 +35,8 @@ const sentryConfigOptions = {
     // side errors will fail.
     tunnelRoute: "/monitoring",
 
-    automaticVercelMonitors: true,
-
     webpack: {
+        automaticVercelMonitors: true,
         treeshake: {
             removeDebugLogging: true,
         },

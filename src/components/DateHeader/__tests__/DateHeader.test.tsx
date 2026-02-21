@@ -1,6 +1,6 @@
-import { DateHeader } from "../DateHeader";
-
 import { render, screen, fireEvent } from "@/testing/utils";
+
+import { DateHeader } from "../DateHeader";
 
 describe("DateHeader", () => {
     describe("rendering", () => {

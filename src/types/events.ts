@@ -11,7 +11,7 @@ export interface BaseEventObject {
         military: string;
         time: string;
     };
-    // Numeric minutes since midnight for start time; used for fast sorting
+    id: string;
     start: {
         date: string;
         military: string;
@@ -19,6 +19,7 @@ export interface BaseEventObject {
     };
     title: string;
     url: string;
+    sheet?: string;
     startKey?: number;
 }
 

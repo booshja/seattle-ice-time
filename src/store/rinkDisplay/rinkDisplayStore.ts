@@ -25,9 +25,9 @@ export const initRinkDisplayStore = (): RinkDisplayState => {
         LYNNWOOD: true,
         OVA: true,
         KENT: false,
-        KIRKLAND: false,
-        RENTON: false,
-        SNOQUALMIE: false,
+        KIRKLAND: true,
+        RENTON: true,
+        SNOQUALMIE: true,
     };
 };
 
@@ -36,9 +36,9 @@ export const defaultRinkDisplayInitState: RinkDisplayState = {
     LYNNWOOD: true,
     OVA: true,
     KENT: false,
-    KIRKLAND: false,
-    RENTON: false,
-    SNOQUALMIE: false,
+    KIRKLAND: true,
+    RENTON: true,
+    SNOQUALMIE: true,
 };
 
 export const createRinkDisplayStore = (

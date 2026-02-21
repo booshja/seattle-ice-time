@@ -1,16 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import type { Mock } from "vitest";
+
+import { Providers } from "@/components/Providers/Providers";
 
 import { fetchEvents } from "../../utils/helpers/fetchEvents";
 import Home from "../page";
 
-import { Providers } from "@/components/Providers/Providers";
+import type { Mock } from "vitest";
 
 vi.mock("../../utils/helpers/fetchEvents", () => ({
-    fetchEvents: vi
-        .fn()
-        .mockResolvedValue({ kciEvents: [], licEvents: [], ovaEvents: [] }),
+    fetchEvents: vi.fn().mockResolvedValue({
+        kciEvents: [],
+        licEvents: [],
+        ovaEvents: [],
+        snoKingEvents: [],
+    }),
 }));
 
 let currentSearchParams: URLSearchParams = new URLSearchParams();
@@ -74,6 +78,7 @@ describe("SSR Home page", () => {
                 kciEvents: [],
                 licEvents: [],
                 ovaEvents: [],
+                snoKingEvents: [],
                 errors: { lic: new Error("boom") },
             });
 

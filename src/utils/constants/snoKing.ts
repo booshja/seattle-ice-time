@@ -10,15 +10,13 @@ export const SNO_KING_URL =
 export const SNO_KING_BOOKING_URL =
     "https://apps.daysmartrecreation.com/dash/x/#/online/snoking/event-registration?program_types=4&date=";
 
-export const SNO_KING_PARAMS = {
-    "page[size]": 100,
-    sort: "end,start",
-    "filter[id__in]":
-        "275726,318075,275728,276890,275727,275729,276891,305546,275730,276892,275725,276893,305547",
-    "filter[start_date__gte]": "",
-    "filter[start_date__lte]": "",
-    company: "snoking",
-};
+export const SNO_KING_RESOURCE_IDS = "1,11,12,13";
+
+export const SNO_KING_EVENT_TYPE_IDS = "13";
+
+export const SNO_KING_SKATER_EVENTS = {
+    stickNPuck: "Stick N Puck",
+} as const;
 
 export const SNO_KING_RINKS = {
     RENTON: {

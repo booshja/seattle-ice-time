@@ -1,9 +1,10 @@
 import axios from "axios";
-import type { Mock } from "vitest";
+
+import { KCI_EVENTS_URL } from "@/utils/constants/krakenCommunityIceplex";
 
 import { fetchKciEvents } from "../fetchKciEvents";
 
-import { KCI_EVENTS_URL } from "@/utils/constants/krakenCommunityIceplex";
+import type { Mock } from "vitest";
 
 vi.mock("axios");
 

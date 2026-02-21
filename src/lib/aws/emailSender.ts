@@ -2,6 +2,7 @@
 
 import { SESClient, SendRawEmailCommand } from "@aws-sdk/client-ses";
 import nodemailer from "nodemailer";
+
 import type SESTransport from "nodemailer/lib/ses-transport";
 
 interface EmailSenderProps {

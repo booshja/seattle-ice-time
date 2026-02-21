@@ -4,8 +4,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useTransition } from "react";
 import { useShallow } from "zustand/shallow";
 
-import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
-
 import { useWeekDisplayStore } from "@/store/currentWeek/currentWeekStoreProvider";
 import { useEventsStore } from "@/store/events/eventsStoreProvider";
 import {
@@ -15,6 +13,8 @@ import {
     parseLocalDateFromYmd,
     getLocalIsoDate,
 } from "@/utils/helpers/dates";
+
+import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
 
 interface DateHeaderProps {
     mondayDate?: Date;
@@ -44,13 +44,14 @@ export const DateHeader = ({ mondayDate }: DateHeaderProps) => {
         [base],
     );
 
-    const [currentWeek, initialWeek, setInitialWeek, setCurrentWeek] =
+    const [currentWeek, initialWeek, setInitialWeek, setCurrentWeek, setIsNavigating] =
         useWeekDisplayStore(
             useShallow((state) => [
                 state.currentWeek,
                 state.initialWeek,
                 state.setInitialWeek,
                 state.setCurrentWeek,
+                state.setIsNavigating,
             ]),
         );
 
@@ -81,6 +82,10 @@ export const DateHeader = ({ mondayDate }: DateHeaderProps) => {
             router.push(`${pathname}?${params.toString()}`);
         });
     };
+
+    useEffect(() => {
+        setIsNavigating(isPending);
+    }, [isPending, setIsNavigating]);
 
     useEffect(() => {
         setInitialWeek(getDisplayDatesFromBaseDate(getCurrentWeekMonday()));

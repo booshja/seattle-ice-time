@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import type { ReactNode } from "react";
-
 import { Navbar } from "@/components/Navbar/Navbar";
 import { Providers } from "@/components/Providers/Providers";
 import { inter } from "@/fonts/inter";
 import { COLORS } from "@/utils/constants/colors";
+
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
 // eslint-disable-next-line no-restricted-imports
 import "./globals.css";

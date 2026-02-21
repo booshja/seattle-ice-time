@@ -1,13 +1,13 @@
-import type { Mocked } from "vitest";
-
-import * as fetchMod from "../../../actions/fetchLicOvaEvents";
-import { getLicEvents, getOvaEvents } from "../lynnwoodOva";
-
 import {
     LIC_OVA_API_STICK_AND_PUCK_IN_WINDOW,
     OVA_API_ADULT_DROP_IN_IN_WINDOW,
 } from "@/testing/__mocks__/fixtures";
 import { RINKS } from "@/utils/constants/rinks";
+
+import * as fetchMod from "../../../actions/fetchLicOvaEvents";
+import { getLicEvents, getOvaEvents } from "../lynnwoodOva";
+
+import type { Mocked } from "vitest";
 
 vi.mock("../../../actions/fetchLicOvaEvents");
 

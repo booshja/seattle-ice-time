@@ -2,8 +2,9 @@
 
 import axios from "axios";
 
-import type { KciEvent } from "@/types/krakenCommunityIceplex";
 import { KCI_EVENTS_URL } from "@/utils/constants/krakenCommunityIceplex";
+
+import type { KciEvent } from "@/types/krakenCommunityIceplex";
 
 interface FetchKciEvents {
     end: string;

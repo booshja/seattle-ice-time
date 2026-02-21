@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 
+import { createFeedbackEmail } from "@/actions/createFeedbackEmail";
+
 import {
     ButtonStyled,
     FormAreaStyled,
@@ -15,8 +17,6 @@ import {
     TextStyled,
 } from "../FormStyled";
 import { FormLoading } from "../Loading/FormLoading";
-
-import { createFeedbackEmail } from "@/actions/createFeedbackEmail";
 
 export const FeedbackForm = () => {
     const initialState = { message: "", status: "idle" } as

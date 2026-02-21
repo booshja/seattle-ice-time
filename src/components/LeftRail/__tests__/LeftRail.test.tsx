@@ -1,6 +1,6 @@
-import { LeftRailSkeleton } from "../LeftRailSkeleton";
-
 import { render, screen } from "@/testing/utils";
+
+import { LeftRailSkeleton } from "../LeftRailSkeleton";
 
 describe("LeftRail", () => {
     describe("skeleton", () => {

@@ -18,7 +18,7 @@ export const RINKS = {
         id: "rink-sno-king-kirkland",
         key: "KIRKLAND",
         address: "14326 124th Ave NE, Kirkland, WA 98034",
-        enabled: false,
+        enabled: true,
     },
     LYNNWOOD: {
         name: "Lynnwood Ice Center",
@@ -39,14 +39,13 @@ export const RINKS = {
         id: "rink-sno-king-renton",
         key: "RENTON",
         address: "12620 164th Ave SE, Renton, WA 98059",
-        // TODO: Next!
-        enabled: false,
+        enabled: true,
     },
     SNOQUALMIE: {
         name: "Sno-King Snoqualmie",
         id: "rink-sno-king-snoqualmie",
         key: "SNOQUALMIE",
         address: "35323 SE Douglas St, Snoqualmie, WA 98065",
-        enabled: false,
+        enabled: true,
     },
 } as const;

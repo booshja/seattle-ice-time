@@ -1,5 +1,4 @@
 import type { BaseEventObject } from "./events";
-
 import type { RINKS } from "@/utils/constants/rinks";
 
 export interface KciEvent {

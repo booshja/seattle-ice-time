@@ -1,10 +1,11 @@
 import axios from "axios";
-import type { Mock } from "vitest";
-
-import { fetchLicOvaEvents } from "../fetchLicOvaEvents";
 
 import { LIC_OVA_EVENTS_URL, LIC_RINK_ID } from "@/utils/constants/lynnwoodOva";
 import { RINKS } from "@/utils/constants/rinks";
+
+import { fetchLicOvaEvents } from "../fetchLicOvaEvents";
+
+import type { Mock } from "vitest";
 
 vi.mock("axios");
 

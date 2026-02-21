@@ -1,8 +1,9 @@
 import { render } from "@react-email/render";
-import type { Mock } from "vitest";
 
 import * as emailSender from "../../lib/aws/emailSender";
 import { createFeedbackEmail } from "../createFeedbackEmail";
+
+import type { Mock } from "vitest";
 
 vi.mock("@react-email/render");
 vi.mock("../../lib/aws/emailSender", () => ({ sendEmail: vi.fn() }));
