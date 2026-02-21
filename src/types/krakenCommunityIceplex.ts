@@ -1,6 +1,6 @@
-import type { RINKS } from "@/utils/constants/rinks";
-
 import type { BaseEventObject } from "./events";
+
+import type { RINKS } from "@/utils/constants/rinks";
 
 export interface KciEvent {
     color: string;

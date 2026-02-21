@@ -1,10 +1,10 @@
 "use client";
 
+import { RinkCheckboxStyled, RinkLabelStyled } from "./RinkToggleStyled";
+
 import { useRinkDisplayStore } from "@/store/rinkDisplay/rinkDisplayStoreProvider";
 import { COLORS } from "@/utils/constants/colors";
 import type { RINKS } from "@/utils/constants/rinks";
-
-import { RinkCheckboxStyled, RinkLabelStyled } from "./RinkToggleStyled";
 
 interface RinkItemProps {
     rink: (typeof RINKS)[keyof typeof RINKS];

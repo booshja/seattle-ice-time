@@ -1,10 +1,11 @@
 "use client";
 
-import BruinsCelebration from "@/images/bruins-game-7-celebration.jpg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { TextStyled, TryAgainButtonStyled } from "../../FormStyled";
+
+import BruinsCelebration from "@/images/bruins-game-7-celebration.jpg";
 
 export const IssueFormSuccess = () => {
     const router = useRouter();

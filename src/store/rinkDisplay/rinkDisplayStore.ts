@@ -1,5 +1,6 @@
-import type { Rink } from "@/types/Rink";
 import { createStore } from "zustand/vanilla";
+
+import type { Rink } from "@/types/Rink";
 
 export type RinkDisplayState = {
     KCI: boolean;

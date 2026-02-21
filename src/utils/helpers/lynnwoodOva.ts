@@ -1,10 +1,3 @@
-import { fetchLicOvaEvents } from "@/actions/fetchLicOvaEvents";
-import type { Day } from "@/types/dates";
-import type {
-    LicOvaEvent,
-    LicOvaEventObject,
-} from "@/types/lynnwoodIceArenaAndOlympicViewArena";
-
 import { COLORS } from "../constants/colors";
 import {
     LIC_BOOKING_LINK,
@@ -16,6 +9,13 @@ import { RINKS } from "../constants/rinks";
 
 import { filterWithinWindow, resolveWeekWindow } from "./common";
 import { getDayString, getStartEndObjects } from "./dates";
+
+import { fetchLicOvaEvents } from "@/actions/fetchLicOvaEvents";
+import type { Day } from "@/types/dates";
+import type {
+    LicOvaEvent,
+    LicOvaEventObject,
+} from "@/types/lynnwoodIceArenaAndOlympicViewArena";
 
 function filterLicOvaEvents(
     events: LicOvaEvent[],

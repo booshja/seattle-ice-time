@@ -1,9 +1,10 @@
-import { Providers } from "@/components/Providers/Providers";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 
 import { fetchEvents } from "../../utils/helpers/fetchEvents";
 import Home from "../page";
+
+import { Providers } from "@/components/Providers/Providers";
 
 jest.mock("../../utils/helpers/fetchEvents", () => ({
     fetchEvents: jest

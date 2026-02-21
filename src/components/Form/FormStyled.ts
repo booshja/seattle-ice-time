@@ -1,9 +1,10 @@
 "use client";
 
-import { COLORS } from "@/utils/constants/colors";
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
+
+import { COLORS } from "@/utils/constants/colors";
 
 export const FormPageStyled = styled.div`
     width: 100%;

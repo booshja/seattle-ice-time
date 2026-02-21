@@ -1,11 +1,13 @@
 "use server";
 
+import { render } from "@react-email/render";
+import axios from "axios";
+import { after } from "next/server";
+import React from "react";
+
 import { IssueEmail } from "@/components/Email/IssueEmail";
 import { sendEmail } from "@/lib/aws/emailSender";
 import { captureError, captureMessage } from "@/lib/sentry/utils";
-import { render } from "@react-email/render";
-import axios from "axios";
-import React from "react";
 
 interface GithubIssueResponse {
     html_url: string;
@@ -43,18 +45,19 @@ export async function createGithubIssue(_: any, formData: FormData) {
             const issueData = res.data as GithubIssueResponse;
             const issueLink = issueData.html_url;
 
-            const emailElement = React.createElement(IssueEmail, {
-                title,
-                description: `${description}\n\nReporter: ${reporterEmail}`,
-                issueLink,
+            after(async () => {
+                try {
+                    const emailElement = React.createElement(IssueEmail, {
+                        title,
+                        description: `${description}\n\nReporter: ${reporterEmail}`,
+                        issueLink,
+                    });
+                    const html = await render(emailElement);
+                    await sendEmail({ subject: `New Issue: ${title}`, content: html });
+                } catch (emailErr) {
+                    captureError(emailErr, { context: "email_after_issue_creation" });
+                }
             });
-            const html = await render(emailElement);
-
-            try {
-                await sendEmail({ subject: `New Issue: ${title}`, content: html });
-            } catch (emailErr) {
-                captureError(emailErr, { context: "email_after_issue_creation" });
-            }
 
             return { message: "Issue created successfully" };
         } else {

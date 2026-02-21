@@ -1,6 +1,3 @@
-import type { Day } from "@/types/dates";
-import type { EventObject } from "@/types/events";
-
 import { EventCell } from "../EventCell/EventCell";
 
 import {
@@ -10,6 +7,25 @@ import {
     EventsContainerStyled,
 } from "./EventColumnStyled";
 
+import type { Day } from "@/types/dates";
+import type { EventObject } from "@/types/events";
+
+function getTodayInfo() {
+    const formatted = new Date().toLocaleDateString("us-PT", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+    const parts = formatted.split(" ");
+    return {
+        day: parts[0].split(",")[0],
+        dayNumber: +parts[2].split(",")[0],
+    };
+}
+
+const today = getTodayInfo();
+
 interface EventColumnProps {
     date: number;
     day: Day;
@@ -17,17 +33,7 @@ interface EventColumnProps {
 }
 
 export const EventColumn = ({ date, day, events }: EventColumnProps) => {
-    const currentDate = new Date(Date.now()).toLocaleDateString("us-PT", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
-    const splitDate = currentDate.split(" ");
-    const currentDay = splitDate[0].split(",")[0];
-    const currentDayNumber = +splitDate[2].split(",")[0];
-
-    const active = date === currentDayNumber && day === currentDay ? "true" : undefined;
+    const active = date === today.dayNumber && day === today.day ? "true" : undefined;
 
     return (
         <EventColumnStyled $day={day}>

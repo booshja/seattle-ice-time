@@ -1,9 +1,10 @@
 "use client";
 
+import styled from "@emotion/styled";
+
 import { fontWeight } from "@/utils/constants/fontSizes";
 import { lineHeight } from "@/utils/constants/fontSizes";
 import { spacing } from "@/utils/constants/spacing";
-import styled from "@emotion/styled";
 
 export const EventCellStyled = styled.div<{ color: string }>`
     border-radius: ${spacing.sm}px;

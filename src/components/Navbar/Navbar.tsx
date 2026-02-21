@@ -7,19 +7,15 @@ import { DateHeaderSkeleton } from "../DateHeader/DateHeaderSkeleton";
 
 import { LinkStyled, NavbarStyled, LogoLinkStyled } from "./NavbarStyled";
 
+const DateHeaderClient = dynamic(
+    () => import("../DateHeader/DateHeader").then((m) => ({ default: m.DateHeader })),
+    { ssr: false, loading: () => <DateHeaderSkeleton /> },
+);
+
 export const Navbar = () => {
     const pathname = usePathname();
     const showBackLink = pathname !== "/";
     const showDateHeader = pathname === "/";
-
-    const DateHeaderClient = dynamic(
-        () =>
-            import("../DateHeader/DateHeader").then((m) => ({ default: m.DateHeader })),
-        {
-            ssr: false,
-            loading: () => <DateHeaderSkeleton />,
-        },
-    );
 
     return (
         <NavbarStyled>

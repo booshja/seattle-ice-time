@@ -1,10 +1,10 @@
-import type { KciEventObject } from "@/types/krakenCommunityIceplex";
-import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
-import { RINKS } from "@/utils/constants/rinks";
-
 import { fetchEvents } from "../fetchEvents";
 import * as kci from "../krakenCommunityIceplex";
 import * as licova from "../lynnwoodOva";
+
+import type { KciEventObject } from "@/types/krakenCommunityIceplex";
+import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
+import { RINKS } from "@/utils/constants/rinks";
 
 jest.mock("../krakenCommunityIceplex");
 jest.mock("../lynnwoodOva");

@@ -1,7 +1,8 @@
-import { render, screen } from "@/testing/utils";
 import { useActionState } from "react";
 
 import { IssueForm } from "../IssueForm";
+
+import { render, screen } from "@/testing/utils";
 
 jest.mock("next/navigation", () => {
     const actual: Record<string, unknown> = jest.requireActual("next/navigation");

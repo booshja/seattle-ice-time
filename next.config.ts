@@ -4,10 +4,6 @@ import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
-    eslint: {
-        // Suppress Next's plugin detection warning during builds; we run ESLint separately
-        ignoreDuringBuilds: true,
-    },
     compiler: {
         emotion: true,
     },

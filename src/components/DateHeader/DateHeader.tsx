@@ -1,5 +1,11 @@
 "use client";
 
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
+import { useShallow } from "zustand/shallow";
+
+import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
+
 import { useWeekDisplayStore } from "@/store/currentWeek/currentWeekStoreProvider";
 import { useEventsStore } from "@/store/events/eventsStoreProvider";
 import {
@@ -9,11 +15,6 @@ import {
     parseLocalDateFromYmd,
     getLocalIsoDate,
 } from "@/utils/helpers/dates";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
-import { useShallow } from "zustand/shallow";
-
-import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
 
 interface DateHeaderProps {
     mondayDate?: Date;

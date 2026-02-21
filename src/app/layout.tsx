@@ -1,11 +1,13 @@
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+
 import { Navbar } from "@/components/Navbar/Navbar";
 import { Providers } from "@/components/Providers/Providers";
 import { inter } from "@/fonts/inter";
 import { COLORS } from "@/utils/constants/colors";
+
 // eslint-disable-next-line no-restricted-imports
 import "./globals.css";
-import type { Metadata } from "next";
-import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
     title: "Seattle Area Ice Time",

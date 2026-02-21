@@ -1,6 +1,6 @@
-import { render, screen } from "@/testing/utils";
-
 import Loading from "../loading";
+
+import { render, screen } from "@/testing/utils";
 
 describe("App loading page", () => {
     it("renders grid loading skeleton", () => {

@@ -1,19 +1,19 @@
-import type { RINKS } from "@/utils/constants/rinks";
-
 import type { BaseEventObject } from "./events";
 
+import type { RINKS } from "@/utils/constants/rinks";
+
 export interface LicOvaEvent {
-    CPCPaidUnpaid: string;
     agreementBatchId: null;
-    agreementNumber: null;
     agreemented: number;
+    agreementNumber: null;
     allDay: boolean;
-    bPadding: string;
     batchId: string;
     bookingType: string;
     bookingUsers: BookingUsers[];
+    bPadding: string;
     checkImage: string;
     color: string;
+    CPCPaidUnpaid: string;
     customField1: string | null;
     customField2: string | null;
     customField3: string | null;
@@ -29,8 +29,8 @@ export interface LicOvaEvent {
     groupId4: null;
     id: string;
     invoiceBatchId: null;
-    invoiceNumber: null;
     invoiced: number;
+    invoiceNumber: null;
     isMargin: null;
     isMultiUser: string;
     isPaid: string;

@@ -1,9 +1,9 @@
-import type { KciEventObject } from "@/types/krakenCommunityIceplex";
-import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
-
 import { getKciEvents } from "./krakenCommunityIceplex";
 import { getLicEvents } from "./lynnwoodOva";
 import { getOvaEvents } from "./lynnwoodOva";
+
+import type { KciEventObject } from "@/types/krakenCommunityIceplex";
+import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
 
 interface FetchEventsProps {
     end: string;

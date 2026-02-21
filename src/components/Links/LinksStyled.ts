@@ -1,9 +1,10 @@
 "use client";
 
-import { fontWeight } from "@/utils/constants/fontSizes";
-import { spacing } from "@/utils/constants/spacing";
 import styled from "@emotion/styled";
 import Link from "next/link";
+
+import { fontWeight } from "@/utils/constants/fontSizes";
+import { spacing } from "@/utils/constants/spacing";
 
 export const LinkStyled = styled(Link)`
     color: inherit;

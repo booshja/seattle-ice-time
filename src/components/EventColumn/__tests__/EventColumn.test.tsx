@@ -1,8 +1,8 @@
+import { EventColumn } from "../EventColumn";
+
 import { render, screen } from "@/testing/utils";
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
 import { RINKS } from "@/utils/constants/rinks";
-
-import { EventColumn } from "../EventColumn";
 
 describe("EventColumn", () => {
     describe("no events", () => {

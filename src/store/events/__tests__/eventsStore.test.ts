@@ -1,7 +1,7 @@
+import { createEventsStore, initEventsStore } from "../eventsStore";
+
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
 import { RINKS } from "@/utils/constants/rinks";
-
-import { createEventsStore, initEventsStore } from "../eventsStore";
 
 describe("eventsStore", () => {
     it("setters update current and initial arrays", () => {
