@@ -14,13 +14,13 @@ A web app to aggregate Hockey ice time schedules from the Greater Seattle Area i
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router), React 19
+- **Framework**: Next.js 16 (App Router), React 19
 - **Styling**: Emotion (`@emotion/react`, `@emotion/styled`) with SSR
 - **State**: Zustand
 - **Email**: AWS SES via `@aws-sdk/client-ses` + `nodemailer`, templated with `@react-email`
 - **HTTP**: axios
 - **Analytics**: `next-plausible`
-- **Testing**: Jest, Testing Library, jsdom, @emotion/jest, ts-jest
+- **Testing**: Vitest, Testing Library, jsdom, @emotion/jest
 - **TypeScript**: 5.x
 
 ## Environment Variables
@@ -69,16 +69,15 @@ Open http://localhost:3000
 - `yarn run build` – Build production bundle
 - `yarn run start` – Start production server
 - `yarn run lint` – Run eslint
-- `yarn run test` – Run Jest tests
-- `yarn run test:watch` – Jest in watch mode
-- `yarn run test:ci` – Jest in band with coverage
+- `yarn run test` – Run Vitest tests
+- `yarn run test:watch` – Vitest in watch mode
+- `yarn run test:ci` – Vitest with coverage
 
 ## Testing
 
-Jest is configured via `jest.config.mjs` with:
+Vitest is configured via `vitest.config.ts` with:
 
 - jsdom environment
-- ts-jest preset
 - Coverage collected for `src/**` (excluding tests, email templates, fonts, styled files, constants/strings, lib, types, and Next special files)
 
 Run tests:

@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import importPlugin from "eslint-plugin-import";
-import jestPlugin from "eslint-plugin-jest";
+import vitestPlugin from "eslint-plugin-vitest";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import unusedImportsPlugin from "eslint-plugin-unused-imports";
 import perfectionistPlugin from "eslint-plugin-perfectionist";
@@ -23,7 +23,8 @@ const eslintConfig = [
             ".next",
             "coverage",
             "eslint.config.*",
-            "jest.config.*",
+            "vitest.config.*",
+            "vitest.setup.*",
             "next.config.*",
             "next-env.d.ts",
             // User request: ignore SnoKing files
@@ -69,7 +70,7 @@ const eslintConfig = [
         files: ["**/*.ts", "**/*.tsx"],
         plugins: {
             import: importPlugin,
-            jest: jestPlugin,
+            vitest: vitestPlugin,
             "jsx-a11y": jsxA11yPlugin,
             react: reactPlugin,
             "react-hooks": reactHooksPlugin,
@@ -111,7 +112,7 @@ const eslintConfig = [
                 },
             ],
 
-            "jest/no-focused-tests": "error",
+            "vitest/no-focused-tests": "error",
 
             "jsx-a11y/label-has-associated-control": ["error", { assert: "either" }],
 
@@ -160,11 +161,11 @@ const eslintConfig = [
     {
         files: ["**/*.test.*", "**/*.tests.*"],
         plugins: {
-            jest: jestPlugin,
+            vitest: vitestPlugin,
             react: reactPlugin,
         },
         rules: {
-            "jest/consistent-test-it": [
+            "vitest/consistent-test-it": [
                 "error",
                 {
                     fn: "it",

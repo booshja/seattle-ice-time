@@ -93,11 +93,11 @@ describe("dates helpers", () => {
 
         describe("DST behaviors", () => {
             beforeAll(() => {
-                jest.useFakeTimers();
-                jest.setSystemTime(new Date("2024-03-10T10:00:00.000Z")); // DST change period US
+                vi.useFakeTimers();
+                vi.setSystemTime(new Date("2024-03-10T10:00:00.000Z")); // DST change period US
             });
             afterAll(() => {
-                jest.useRealTimers();
+                vi.useRealTimers();
             });
 
             it("DST week still displays Monday-Sunday correctly", () => {

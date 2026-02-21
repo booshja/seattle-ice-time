@@ -15,3 +15,9 @@ export const EventGridStyled = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
 `;
+
+export const EmptyStateStyled = styled.div`
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: ${spacing.xl}px 0;
+`;

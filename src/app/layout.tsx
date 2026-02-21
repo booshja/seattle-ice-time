@@ -31,6 +31,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
                     backgroundColor: COLORS.background.light,
                     color: COLORS.text.primary,
                     height: "100dvh",
+                    scrollbarGutter: "stable",
                 }}
             >
                 <Providers>

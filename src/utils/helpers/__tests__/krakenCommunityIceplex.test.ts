@@ -1,3 +1,5 @@
+import type { Mocked } from "vitest";
+
 import * as fetchMod from "../../../actions/fetchKciEvents";
 import { getKciEvents } from "../krakenCommunityIceplex";
 
@@ -7,13 +9,13 @@ import {
     KCI_API_EVENT_WRONG_SPORT,
 } from "@/testing/__mocks__/fixtures";
 
-jest.mock("../../../actions/fetchKciEvents");
+vi.mock("../../../actions/fetchKciEvents");
 
 describe("getKciEvents (helper)", () => {
     it("filters by sport, title, and date window then transforms", async () => {
         const start = "2025-09-08T00:00:00.000Z";
         const end = "2025-09-15T00:00:00.000Z";
-        const mocked = fetchMod as jest.Mocked<typeof fetchMod>;
+        const mocked = fetchMod as Mocked<typeof fetchMod>;
         mocked.fetchKciEvents.mockResolvedValueOnce([
             KCI_API_EVENT_IN_WINDOW,
             KCI_API_EVENT_OUTSIDE_WINDOW,

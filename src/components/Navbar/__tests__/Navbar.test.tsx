@@ -2,16 +2,6 @@ import { Navbar } from "../Navbar";
 
 import { render, screen } from "@/testing/utils";
 
-jest.mock("next/navigation", () => {
-    const actual: Record<string, unknown> = jest.requireActual("next/navigation");
-    return {
-        ...actual,
-        usePathname: () => "/",
-        useRouter: () => ({ push: jest.fn() }),
-        useSearchParams: () => new URLSearchParams(),
-    };
-});
-
 describe("Navbar", () => {
     describe("skeleton", () => {
         it("renders DateHeader skeleton while dynamic import loads on root path", () => {

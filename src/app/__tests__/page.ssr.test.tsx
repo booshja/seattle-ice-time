@@ -1,20 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
+import type { Mock } from "vitest";
 
 import { fetchEvents } from "../../utils/helpers/fetchEvents";
 import Home from "../page";
 
 import { Providers } from "@/components/Providers/Providers";
 
-jest.mock("../../utils/helpers/fetchEvents", () => ({
-    fetchEvents: jest
+vi.mock("../../utils/helpers/fetchEvents", () => ({
+    fetchEvents: vi
         .fn()
         .mockResolvedValue({ kciEvents: [], licEvents: [], ovaEvents: [] }),
 }));
 
 let currentSearchParams: URLSearchParams = new URLSearchParams();
-jest.mock("next/navigation", () => {
-    const actual: Record<string, unknown> = jest.requireActual("next/navigation");
+vi.mock("next/navigation", async () => {
+    const actual: Record<string, unknown> = await vi.importActual("next/navigation");
     return {
         ...actual,
         useSearchParams: () => currentSearchParams,
@@ -23,21 +24,21 @@ jest.mock("next/navigation", () => {
 
 describe("SSR Home page", () => {
     beforeEach(() => {
-        jest.useFakeTimers();
+        vi.useFakeTimers();
     });
     afterEach(() => {
-        jest.useRealTimers();
-        jest.clearAllMocks();
+        vi.useRealTimers();
+        vi.clearAllMocks();
     });
 
     it("computes start/end from current week when no param", async () => {
-        jest.setSystemTime(new Date("2025-09-10T12:00:00.000Z")); // Wed; week Monday = 2025-09-08
+        vi.setSystemTime(new Date("2025-09-10T12:00:00.000Z")); // Wed; week Monday = 2025-09-08
         const jsx = (await Home({
             searchParams: Promise.resolve({}),
         })) as React.ReactElement;
         render(<Providers>{jsx}</Providers>);
 
-        const calls = (fetchEvents as unknown as jest.Mock).mock.calls as Array<
+        const calls = (fetchEvents as unknown as Mock).mock.calls as Array<
             [{ end: string; start: string }]
         >;
         const [firstCall] = calls;
@@ -59,7 +60,7 @@ describe("SSR Home page", () => {
         })) as React.ReactElement;
         render(<Providers>{jsx}</Providers>);
 
-        const calls = (fetchEvents as unknown as jest.Mock).mock.calls as Array<
+        const calls = (fetchEvents as unknown as Mock).mock.calls as Array<
             [{ end: string; start: string }]
         >;
         const [firstCall] = calls;
@@ -69,7 +70,7 @@ describe("SSR Home page", () => {
     });
     describe("errors", () => {
         it("shows non-blocking error banner when some sources fail", async () => {
-            (fetchEvents as unknown as jest.Mock).mockResolvedValueOnce({
+            (fetchEvents as unknown as Mock).mockResolvedValueOnce({
                 kciEvents: [],
                 licEvents: [],
                 ovaEvents: [],

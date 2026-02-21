@@ -1,16 +1,18 @@
+import type { Mocked } from "vitest";
+
 import { SNO_KING_RINKS } from "@/utils/constants/snoKing";
 
 import * as sentryUtils from "../../../lib/sentry/utils";
 import * as fetchMod from "../../../actions/fetchSnoKingEvents";
 import { getSnoKingEvents } from "../snoKing";
 
-jest.mock("../../../actions/fetchSnoKingEvents");
-jest.mock("../../../lib/sentry/utils");
+vi.mock("../../../actions/fetchSnoKingEvents");
+vi.mock("../../../lib/sentry/utils");
 
 describe("snoKing", () => {
     describe("parsing", () => {
         it("transforms events across multiple days and sheets", async () => {
-            const mocked = fetchMod as jest.Mocked<typeof fetchMod>;
+            const mocked = fetchMod as Mocked<typeof fetchMod>;
             // First day returns one event; remaining 6 days return empty arrays
             mocked.fetchSnoKingEvents.mockResolvedValueOnce([
                 {
@@ -104,7 +106,7 @@ describe("snoKing", () => {
 
     describe("errors", () => {
         it("continues when a day fetch throws", async () => {
-            const mocked = fetchMod as jest.Mocked<typeof fetchMod>;
+            const mocked = fetchMod as Mocked<typeof fetchMod>;
             mocked.fetchSnoKingEvents
                 .mockResolvedValueOnce([] as any)
                 .mockRejectedValueOnce(new Error("network"))

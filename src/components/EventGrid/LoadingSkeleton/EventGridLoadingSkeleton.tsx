@@ -11,8 +11,11 @@ export const EventGridLoadingSkeleton = ({
     weekDates,
 }: EventGridLoadingSkeletonProps) => {
     return (
-        <SkeletonStatus label="Loading weekly schedule…">
-            <EventGridStyled>
+        <EventGridStyled>
+            <SkeletonStatus
+                label="Loading weekly schedule…"
+                style={{ display: "contents" }}
+            >
                 <EventColumnSkeleton day="Monday" date={weekDates[0]} events={[1, 2]} />
                 <EventColumnSkeleton
                     day="Tuesday"
@@ -32,7 +35,7 @@ export const EventGridLoadingSkeleton = ({
                 />
                 <EventColumnSkeleton day="Saturday" date={weekDates[5]} events={[1]} />
                 <EventColumnSkeleton day="Sunday" date={weekDates[6]} events={[1, 2]} />
-            </EventGridStyled>
-        </SkeletonStatus>
+            </SkeletonStatus>
+        </EventGridStyled>
     );
 };

@@ -1,31 +1,32 @@
 import { useActionState } from "react";
+import type { Mock } from "vitest";
 
 import { IssueForm } from "../IssueForm";
 
 import { render, screen } from "@/testing/utils";
 
-jest.mock("next/navigation", () => {
-    const actual: Record<string, unknown> = jest.requireActual("next/navigation");
+vi.mock("next/navigation", async () => {
+    const actual: Record<string, unknown> = await vi.importActual("next/navigation");
     return {
         ...actual,
-        useRouter: () => ({ push: jest.fn() }),
+        useRouter: () => ({ push: vi.fn() }),
     };
 });
 
-jest.mock("react", () => {
-    const actual: Record<string, unknown> = jest.requireActual("react");
-    return { ...actual, useActionState: jest.fn() };
+vi.mock("react", async () => {
+    const actual: Record<string, unknown> = await vi.importActual("react");
+    return { ...actual, useActionState: vi.fn() };
 });
 
 describe("IssueForm", () => {
     afterEach(() => {
-        jest.restoreAllMocks();
+        vi.restoreAllMocks();
     });
 
     it("renders success component when message is success", () => {
-        (useActionState as unknown as jest.Mock).mockReturnValue([
+        (useActionState as unknown as Mock).mockReturnValue([
             { message: "Issue created successfully" },
-            jest.fn(),
+            vi.fn(),
             false,
         ]);
 
@@ -36,9 +37,9 @@ describe("IssueForm", () => {
     });
 
     it("renders error component when message is failure", () => {
-        (useActionState as unknown as jest.Mock).mockReturnValue([
+        (useActionState as unknown as Mock).mockReturnValue([
             { message: "Issue creation failed" },
-            jest.fn(),
+            vi.fn(),
             false,
         ]);
 

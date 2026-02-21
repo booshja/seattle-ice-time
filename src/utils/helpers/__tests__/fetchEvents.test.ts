@@ -1,3 +1,5 @@
+import type { Mocked } from "vitest";
+
 import { fetchEvents } from "../fetchEvents";
 import * as kci from "../krakenCommunityIceplex";
 import * as licova from "../lynnwoodOva";
@@ -6,13 +8,13 @@ import type { KciEventObject } from "@/types/krakenCommunityIceplex";
 import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
 import { RINKS } from "@/utils/constants/rinks";
 
-jest.mock("../krakenCommunityIceplex");
-jest.mock("../lynnwoodOva");
+vi.mock("../krakenCommunityIceplex");
+vi.mock("../lynnwoodOva");
 
 describe("fetchEvents", () => {
     it("returns empty arrays and errors map when one source fails", async () => {
-        const kciMock = kci as jest.Mocked<typeof kci>;
-        const licovaMock = licova as jest.Mocked<typeof licova>;
+        const kciMock = kci as Mocked<typeof kci>;
+        const licovaMock = licova as Mocked<typeof licova>;
 
         const kciEvent: KciEventObject = {
             color: "#000",

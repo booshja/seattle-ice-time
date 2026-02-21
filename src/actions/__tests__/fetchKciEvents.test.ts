@@ -1,20 +1,21 @@
 import axios from "axios";
+import type { Mock } from "vitest";
 
 import { fetchKciEvents } from "../fetchKciEvents";
 
 import { KCI_EVENTS_URL } from "@/utils/constants/krakenCommunityIceplex";
 
-jest.mock("axios");
+vi.mock("axios");
 
 describe("fetchKciEvents", () => {
     it("calls axios with correct params", async function (this: void) {
-        (axios.get as jest.Mock).mockResolvedValue({ data: [] });
+        (axios.get as Mock).mockResolvedValue({ data: [] });
         const start = "2025-09-08T00:00:00.000Z";
         const end = "2025-09-15T00:00:00.000Z";
         await fetchKciEvents({ start, end });
         const calls: Array<
             [string, { params: { end: string; start: string; variant: number } }]
-        > = (axios.get as jest.Mock).mock.calls as Array<
+        > = (axios.get as Mock).mock.calls as Array<
             [string, { params: { end: string; start: string; variant: number } }]
         >;
         const [firstCall] = calls;

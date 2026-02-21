@@ -5,7 +5,7 @@ import { useShallow } from "zustand/shallow";
 
 import { EventColumn } from "../EventColumn/EventColumn";
 
-import { EventGridStyled } from "./EventGridStyled";
+import { EmptyStateStyled, EventGridStyled } from "./EventGridStyled";
 
 import { useEventsStore } from "@/store/events/eventsStoreProvider";
 import { useRinkDisplayStore } from "@/store/rinkDisplay/rinkDisplayStoreProvider";
@@ -183,14 +183,10 @@ export const EventGrid = ({
                 </>
             )}
             {isEmpty && (
-                <div
-                    role="status"
-                    aria-live="polite"
-                    style={{ textAlign: "center", width: "100%", padding: "24px 0" }}
-                >
+                <EmptyStateStyled role="status" aria-live="polite">
                     No events are scheduled for this week. Go back a week or refresh the
                     page.
-                </div>
+                </EmptyStateStyled>
             )}
         </EventGridStyled>
     );
