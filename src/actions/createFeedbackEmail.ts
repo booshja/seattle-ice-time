@@ -2,6 +2,7 @@
 
 import { FeedbackEmail } from "@/components/Email/FeedbackEmail";
 import { sendEmail } from "@/lib/aws/emailSender";
+import { captureError } from "@/lib/sentry/utils";
 import { render } from "@react-email/render";
 import React from "react";
 
@@ -31,7 +32,7 @@ export async function createFeedbackEmail(_: any, formData: FormData) {
 
         return { status: "success" as const, message: "Feedback sent" };
     } catch (e) {
-        console.error(e);
+        captureError(e);
         return { status: "error" as const, message: "Failed to send feedback" };
     }
 }

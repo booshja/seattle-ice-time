@@ -118,6 +118,7 @@ const eslintConfig = [
 
             "jsx-a11y/label-has-associated-control": ["error", { assert: "either" }],
 
+            "no-console": ["warn", { allow: ["log"] }],
             "no-empty-function": "off",
             "no-restricted-imports": [
                 "warn",

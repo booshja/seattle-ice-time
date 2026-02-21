@@ -1,9 +1,11 @@
 import { SNO_KING_RINKS } from "@/utils/constants/snoKing";
 
+import * as sentryUtils from "../../../lib/sentry/utils";
 import * as fetchMod from "../../../actions/fetchSnoKingEvents";
 import { getSnoKingEvents } from "../snoKing";
 
 jest.mock("../../../actions/fetchSnoKingEvents");
+jest.mock("../../../lib/sentry/utils");
 
 describe("snoKing", () => {
     describe("parsing", () => {
@@ -101,14 +103,6 @@ describe("snoKing", () => {
     });
 
     describe("errors", () => {
-        const originalError = console.error;
-        beforeEach(() => {
-            (console.error as any) = jest.fn();
-        });
-        afterEach(() => {
-            console.error = originalError;
-        });
-
         it("continues when a day fetch throws", async () => {
             const mocked = fetchMod as jest.Mocked<typeof fetchMod>;
             mocked.fetchSnoKingEvents
@@ -118,8 +112,7 @@ describe("snoKing", () => {
 
             const res = await getSnoKingEvents();
             expect(Array.isArray(res)).toBe(true);
-            // error logged at least once
-            expect((console.error as any).mock.calls.length).toBeGreaterThan(0);
+            expect(sentryUtils.captureError).toHaveBeenCalled();
         });
     });
 });

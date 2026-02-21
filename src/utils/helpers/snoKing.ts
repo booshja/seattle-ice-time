@@ -1,4 +1,5 @@
 import { fetchSnoKingEvents } from "@/actions/fetchSnoKingEvents";
+import { captureError } from "@/lib/sentry/utils";
 import {
     getDailyDates,
     getDayString,
@@ -77,8 +78,7 @@ export async function getSnoKingEvents() {
             events = [...events, ...dailyEvents];
             console.log("events after concat", events);
         } catch (error) {
-            console.error(`Error fetching ${date}`);
-            console.error(error);
+            captureError(error, { date });
         }
     }
     console.log("events", events);

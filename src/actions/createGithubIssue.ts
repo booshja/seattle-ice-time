@@ -2,6 +2,7 @@
 
 import { IssueEmail } from "@/components/Email/IssueEmail";
 import { sendEmail } from "@/lib/aws/emailSender";
+import { captureError, captureMessage } from "@/lib/sentry/utils";
 import { render } from "@react-email/render";
 import axios from "axios";
 import React from "react";
@@ -19,7 +20,7 @@ export async function createGithubIssue(_: any, formData: FormData) {
 
     try {
         if (!process.env.GITHUB_ISSUE_TOKEN) {
-            console.error("GITHUB_ISSUE_TOKEN not configured");
+            captureMessage("GITHUB_ISSUE_TOKEN not configured");
             return { message: "Issue creation failed: missing configuration" };
         }
         const res = await axios.post<unknown>(
@@ -52,8 +53,7 @@ export async function createGithubIssue(_: any, formData: FormData) {
             try {
                 await sendEmail({ subject: `New Issue: ${title}`, content: html });
             } catch (emailErr) {
-                console.error("Email send failed", emailErr);
-                // Do not fail the whole operation if email fails after issue creation
+                captureError(emailErr, { context: "email_after_issue_creation" });
             }
 
             return { message: "Issue created successfully" };
@@ -61,7 +61,7 @@ export async function createGithubIssue(_: any, formData: FormData) {
             return { message: "Issue creation failed" };
         }
     } catch (e) {
-        console.error(e);
+        captureError(e);
         return { message: "Issue creation failed" };
     }
 }
