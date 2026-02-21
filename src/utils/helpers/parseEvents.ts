@@ -23,28 +23,15 @@ export const parseEvents = ({
         Sunday: [],
     };
 
-    if (kciEvents) {
-        kciEvents.forEach((event) => {
-            events[event.day].push(event);
-        });
-    }
+    const allEvents = [
+        ...(kciEvents ?? []),
+        ...(licEvents ?? []),
+        ...(ovaEvents ?? []),
+    ];
 
-    if (licEvents) {
-        licEvents.forEach((event) => {
-            events[event.day].push(event);
-        });
+    for (const event of allEvents) {
+        events[event.day].push(event);
     }
-
-    if (ovaEvents) {
-        ovaEvents.forEach((event) => {
-            events[event.day].push(event);
-        });
-    }
-
-    // console.log(snoKingEvents);
-    // snoKingEvents.forEach((event) => {
-    //     events[event.day].push(event);
-    // });
 
     const days = Object.keys(events);
     days.forEach((day) => {

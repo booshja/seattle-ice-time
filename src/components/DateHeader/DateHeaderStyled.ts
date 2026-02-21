@@ -1,8 +1,9 @@
 "use client";
 
+import styled from "@emotion/styled";
+
 import { fontWeight } from "@/utils/constants/fontSizes";
 import { spacing } from "@/utils/constants/spacing";
-import styled from "@emotion/styled";
 
 export const DateHeaderStyled = styled.div`
     font-size: ${spacing.lg}px;

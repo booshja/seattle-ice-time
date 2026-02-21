@@ -1,6 +1,6 @@
-import { render, screen } from "@/testing/utils";
-
 import { DateHeader } from "../DateHeader";
+
+import { render, screen } from "@/testing/utils";
 
 describe("DateHeader", () => {
     it("renders current week display", () => {

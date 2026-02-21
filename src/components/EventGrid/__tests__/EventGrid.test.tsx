@@ -1,16 +1,8 @@
+import { EventGrid } from "../EventGrid";
+
 import { render, screen } from "@/testing/utils";
 import type { KciEventObject as KciEventObjectType } from "@/types/krakenCommunityIceplex";
 import { RINKS } from "@/utils/constants/rinks";
-
-import { EventGrid } from "../EventGrid";
-
-jest.mock("next/navigation", () => {
-    const actual: Record<string, unknown> = jest.requireActual("next/navigation");
-    return {
-        ...actual,
-        useSearchParams: () => new URLSearchParams(),
-    };
-});
 
 describe("EventGrid", () => {
     describe("empty state", () => {

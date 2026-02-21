@@ -34,15 +34,10 @@ export const sendEmail = async ({ subject, content }: EmailSenderProps) => {
         SES: { ses, aws: { SendRawEmailCommand } },
     } as unknown as SESTransport.Options);
 
-    try {
-        await transporter.sendMail({
-            from: process.env.EMAIL_FROM_ADDRESS,
-            to: process.env.EMAIL_TO_ADDRESS,
-            subject,
-            html: content,
-        });
-    } catch (err) {
-        console.error(err);
-        throw err;
-    }
+    await transporter.sendMail({
+        from: process.env.EMAIL_FROM_ADDRESS,
+        to: process.env.EMAIL_TO_ADDRESS,
+        subject,
+        html: content,
+    });
 };

@@ -1,7 +1,7 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
+import nextPlugin from "@next/eslint-plugin-next";
 import tseslint from "typescript-eslint";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
@@ -9,15 +9,10 @@ import importPlugin from "eslint-plugin-import";
 import jestPlugin from "eslint-plugin-jest";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import unusedImportsPlugin from "eslint-plugin-unused-imports";
-import typescriptSortKeysPlugin from "eslint-plugin-typescript-sort-keys";
-import nextPlugin from "@next/eslint-plugin-next";
+import perfectionistPlugin from "eslint-plugin-perfectionist";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-});
 
 const eslintConfig = [
     // Ignore paths per ESLint 9 (replaces .eslintignore)
@@ -40,14 +35,16 @@ const eslintConfig = [
         ],
     },
 
-    // Register Next.js plugin so Next build can detect it, and keep compat extends for full config
+    // Next.js plugin with recommended rules
     {
         plugins: {
             "@next/next": nextPlugin,
         },
+        rules: {
+            ...nextPlugin.configs.recommended.rules,
+            ...nextPlugin.configs["core-web-vitals"].rules,
+        },
     },
-
-    // (placeholder; Next config appended at the end to satisfy Next.js detection)
 
     // Base ESLint recommended for JS
     js.configs.recommended,
@@ -77,7 +74,7 @@ const eslintConfig = [
             react: reactPlugin,
             "react-hooks": reactHooksPlugin,
             "unused-imports": unusedImportsPlugin,
-            "typescript-sort-keys": typescriptSortKeysPlugin,
+            perfectionist: perfectionistPlugin,
         },
         settings: {
             react: {
@@ -118,6 +115,7 @@ const eslintConfig = [
 
             "jsx-a11y/label-has-associated-control": ["error", { assert: "either" }],
 
+            "no-console": ["warn", { allow: ["log"] }],
             "no-empty-function": "off",
             "no-restricted-imports": [
                 "warn",
@@ -151,7 +149,10 @@ const eslintConfig = [
             "react/prop-types": "off",
             "react/self-closing-comp": "error",
 
-            "typescript-sort-keys/interface": ["error", "asc", { requiredFirst: true }],
+            "perfectionist/sort-interfaces": [
+                "error",
+                { type: "alphabetical", order: "asc", groupKind: "required-first" },
+            ],
 
             "unused-imports/no-unused-imports": "error",
         },
@@ -175,9 +176,6 @@ const eslintConfig = [
             "react/display-name": "off",
         },
     },
-
-    // Append Next config last so Next.js detects the plugin and defaults
-    ...compat.config({ extends: ["next"] }),
 ];
 
 export default eslintConfig;

@@ -1,8 +1,8 @@
 "use client";
 
-import { spacing } from "@/utils/constants/spacing";
-
 import { SkeletonBlock, SkeletonGroup, SkeletonStatus } from "../Skeleton/SkeletonBase";
+
+import { spacing } from "@/utils/constants/spacing";
 
 export const LeftRailSkeleton = () => {
     return (

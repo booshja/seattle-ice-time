@@ -1,11 +1,16 @@
 "use client";
 
+import { useEffect, useMemo } from "react";
+import { useShallow } from "zustand/shallow";
+
+import { EventColumn } from "../EventColumn/EventColumn";
+
+import { EventGridStyled } from "./EventGridStyled";
+
 import { useEventsStore } from "@/store/events/eventsStoreProvider";
 import { useRinkDisplayStore } from "@/store/rinkDisplay/rinkDisplayStoreProvider";
-import type { Events } from "@/types/events";
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
 import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
-// import { getSnoKingEvents } from "@/utils/helpers/snoKing";
 import {
     getCurrentWeekMonday,
     getWeekDates,
@@ -13,14 +18,33 @@ import {
     getMondayDateFromBaseDate,
 } from "@/utils/helpers/dates";
 import { parseEvents } from "@/utils/helpers/parseEvents";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { useShallow } from "zustand/shallow";
 
-import { EventColumn } from "../EventColumn/EventColumn";
+const PACIFIC_TZ = "America/Los_Angeles";
 
-import { EventGridStyled } from "./EventGridStyled";
-import { EventGridLoadingSkeleton } from "./LoadingSkeleton/EventGridLoadingSkeleton";
+function getTodayColumnIndex(weekBase: Date): number {
+    const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: PACIFIC_TZ,
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+    }).formatToParts(new Date());
+    const todayYear = +parts.find((p) => p.type === "year")!.value;
+    const todayMonth = +parts.find((p) => p.type === "month")!.value;
+    const todayDay = +parts.find((p) => p.type === "day")!.value;
+
+    for (let i = 0; i < 7; i++) {
+        const colDate = new Date(weekBase);
+        colDate.setDate(weekBase.getDate() + i);
+        if (
+            colDate.getFullYear() === todayYear &&
+            colDate.getMonth() + 1 === todayMonth &&
+            colDate.getDate() === todayDay
+        ) {
+            return i;
+        }
+    }
+    return -1;
+}
 
 interface EventGridProps {
     kciEvents: Array<KciEventObject>;
@@ -35,8 +59,6 @@ export const EventGrid = ({
     ovaEvents,
     weekStartIso,
 }: EventGridProps) => {
-    const [events, setEvents] = useState<Events | null>(null);
-
     const [showKci, showLynnwood, showOva] = useRinkDisplayStore(
         useShallow((state) => [state.KCI, state.LYNNWOOD, state.OVA]),
     );
@@ -48,9 +70,6 @@ export const EventGrid = ({
         setInitialLynnwoodEvents,
         setInitialOlympicviewEvents,
         setIsCurrentWeekEmpty,
-        // setKciEvents,
-        // setLynnwoodEvents,
-        // setOlympicviewEvents,
     } = useEventsStore(
         useShallow((state) => ({
             kciEventData: state.currentKci,
@@ -60,28 +79,20 @@ export const EventGrid = ({
             setInitialLynnwoodEvents: state.setInitialLynnwoodEvents,
             setInitialOlympicviewEvents: state.setInitialOlympicviewEvents,
             setIsCurrentWeekEmpty: state.setIsCurrentWeekEmpty,
-            setKciEvents: state.setKciEvents,
-            setLynnwoodEvents: state.setLynnwoodEvents,
-            setOlympicviewEvents: state.setOlympicviewEvents,
         })),
     );
 
-    const searchParams = useSearchParams();
-    const clientWeekStart = searchParams.get("weekStart");
-
     const base = useMemo(() => {
-        if (clientWeekStart) {
-            return getMondayDateFromBaseDate(parseLocalDateFromYmd(clientWeekStart));
-        }
         if (weekStartIso) {
             return getMondayDateFromBaseDate(
                 parseLocalDateFromYmd(weekStartIso.split("T")[0]),
             );
         }
         return getCurrentWeekMonday();
-    }, [clientWeekStart, weekStartIso]);
+    }, [weekStartIso]);
 
     const weekDates = useMemo(() => getWeekDates(base), [base]);
+    const todayColumnIndex = useMemo(() => getTodayColumnIndex(base), [base]);
 
     useEffect(() => {
         setInitialKciEvents(kciEvents);
@@ -96,40 +107,21 @@ export const EventGrid = ({
         setInitialOlympicviewEvents,
     ]);
 
-    const eventsResults = useMemo(
+    const effectiveKci = kciEventData.length > 0 ? kciEventData : kciEvents;
+    const effectiveLic = licEventData.length > 0 ? licEventData : licEvents;
+    const effectiveOva = ovaEventData.length > 0 ? ovaEventData : ovaEvents;
+
+    const events = useMemo(
         () =>
             parseEvents({
-                kciEvents: showKci ? kciEventData : undefined,
-                licEvents: showLynnwood ? licEventData : undefined,
-                ovaEvents: showOva ? ovaEventData : undefined,
+                kciEvents: showKci ? effectiveKci : undefined,
+                licEvents: showLynnwood ? effectiveLic : undefined,
+                ovaEvents: showOva ? effectiveOva : undefined,
             }),
-        [showKci, showLynnwood, showOva, kciEventData, licEventData, ovaEventData],
+        [showKci, showLynnwood, showOva, effectiveKci, effectiveLic, effectiveOva],
     );
 
-    useEffect(() => {
-        setEvents(eventsResults);
-        const empty =
-            eventsResults.Monday.length === 0 &&
-            eventsResults.Tuesday.length === 0 &&
-            eventsResults.Wednesday.length === 0 &&
-            eventsResults.Thursday.length === 0 &&
-            eventsResults.Friday.length === 0 &&
-            eventsResults.Saturday.length === 0 &&
-            eventsResults.Sunday.length === 0;
-        setIsCurrentWeekEmpty(empty);
-    }, [eventsResults, setIsCurrentWeekEmpty]);
-
-    if (!events) {
-        return <EventGridLoadingSkeleton weekDates={weekDates} />;
-    }
-
-    // if (error) {
-    //     // TODO: Add error handling
-    //     return <div>Error</div>;
-    // }
-
     const isEmpty =
-        !!events &&
         events.Monday.length === 0 &&
         events.Tuesday.length === 0 &&
         events.Wednesday.length === 0 &&
@@ -137,6 +129,10 @@ export const EventGrid = ({
         events.Friday.length === 0 &&
         events.Saturday.length === 0 &&
         events.Sunday.length === 0;
+
+    useEffect(() => {
+        setIsCurrentWeekEmpty(isEmpty);
+    }, [isEmpty, setIsCurrentWeekEmpty]);
 
     return (
         <EventGridStyled>
@@ -146,36 +142,43 @@ export const EventGrid = ({
                         day="Monday"
                         date={weekDates[0]}
                         events={events.Monday}
+                        isToday={todayColumnIndex === 0}
                     />
                     <EventColumn
                         day="Tuesday"
                         date={weekDates[1]}
                         events={events.Tuesday}
+                        isToday={todayColumnIndex === 1}
                     />
                     <EventColumn
                         day="Wednesday"
                         date={weekDates[2]}
                         events={events.Wednesday}
+                        isToday={todayColumnIndex === 2}
                     />
                     <EventColumn
                         day="Thursday"
                         date={weekDates[3]}
                         events={events.Thursday}
+                        isToday={todayColumnIndex === 3}
                     />
                     <EventColumn
                         day="Friday"
                         date={weekDates[4]}
                         events={events.Friday}
+                        isToday={todayColumnIndex === 4}
                     />
                     <EventColumn
                         day="Saturday"
                         date={weekDates[5]}
                         events={events.Saturday}
+                        isToday={todayColumnIndex === 5}
                     />
                     <EventColumn
                         day="Sunday"
                         date={weekDates[6]}
                         events={events.Sunday}
+                        isToday={todayColumnIndex === 6}
                     />
                 </>
             )}

@@ -1,6 +1,6 @@
-import { render, screen } from "@/testing/utils";
-
 import { FormLoading } from "../FormLoading";
+
+import { render, screen } from "@/testing/utils";
 
 describe("FormLoading", () => {
     it("renders loading image and text", () => {

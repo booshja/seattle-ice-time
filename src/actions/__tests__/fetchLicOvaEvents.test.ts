@@ -1,8 +1,9 @@
-import { LIC_OVA_EVENTS_URL, LIC_RINK_ID } from "@/utils/constants/lynnwoodOva";
-import { RINKS } from "@/utils/constants/rinks";
 import axios from "axios";
 
 import { fetchLicOvaEvents } from "../fetchLicOvaEvents";
+
+import { LIC_OVA_EVENTS_URL, LIC_RINK_ID } from "@/utils/constants/lynnwoodOva";
+import { RINKS } from "@/utils/constants/rinks";
 
 jest.mock("axios");
 

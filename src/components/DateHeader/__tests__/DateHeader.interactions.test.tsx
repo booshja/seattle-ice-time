@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from "@/testing/utils";
-
 import { DateHeader } from "../DateHeader";
+
+import { render, screen, fireEvent } from "@/testing/utils";
 
 describe("DateHeader interactions", () => {
     it("renders next-week navigation control", () => {

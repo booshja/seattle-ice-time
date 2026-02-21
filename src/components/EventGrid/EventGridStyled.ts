@@ -1,15 +1,17 @@
 "use client";
 
+import styled from "@emotion/styled";
+
 import { COLORS } from "@/utils/constants/colors";
 import { spacing } from "@/utils/constants/spacing";
-import styled from "@emotion/styled";
 
 export const EventGridStyled = styled.div`
     background-color: ${COLORS.background.dark};
     border-radius: ${spacing.sm}px 0 0 0;
     min-height: calc(100vh - ${spacing.xxl}px);
     padding: ${spacing.xl}px ${spacing.xl}px 0 ${spacing.xl}px;
-    width: 100%;
+    flex: 1;
+    min-width: 0;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
 `;

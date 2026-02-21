@@ -1,8 +1,8 @@
 "use client";
 
-import { spacing } from "@/utils/constants/spacing";
-
 import { SkeletonBlock, SkeletonStatus } from "../Skeleton/SkeletonBase";
+
+import { spacing } from "@/utils/constants/spacing";
 
 export const NavbarSkeleton = () => {
     return (

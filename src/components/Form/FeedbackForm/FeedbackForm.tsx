@@ -1,6 +1,5 @@
 "use client";
 
-import { createFeedbackEmail } from "@/actions/createFeedbackEmail";
 import { useActionState } from "react";
 
 import {
@@ -16,6 +15,8 @@ import {
     TextStyled,
 } from "../FormStyled";
 import { FormLoading } from "../Loading/FormLoading";
+
+import { createFeedbackEmail } from "@/actions/createFeedbackEmail";
 
 export const FeedbackForm = () => {
     const initialState = { message: "", status: "idle" } as

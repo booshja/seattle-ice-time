@@ -1,10 +1,11 @@
 "use client";
 
-import SadTorontoGoalie from "@/images/sad-toronto-goalie.avif";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { TextStyled, TryAgainButtonStyled } from "../../FormStyled";
+
+import SadTorontoGoalie from "@/images/sad-toronto-goalie.avif";
 
 export const IssueFormError = () => {
     const router = useRouter();

@@ -1,9 +1,9 @@
+import { ErrorBannerStyled, PageStyled } from "./_pageStyled";
+
 import { EventGrid } from "@/components/EventGrid/EventGrid";
 import { LeftRail } from "@/components/LeftRail/LeftRail";
 import { getStartEndDatesFromBaseDate } from "@/utils/helpers/dates";
 import { fetchEvents } from "@/utils/helpers/fetchEvents";
-
-import { PageStyled } from "./_pageStyled";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -29,23 +29,12 @@ export default async function Home({ searchParams }: HomeProps) {
     return (
         <PageStyled>
             {(hasKciError || hasLicError || hasOvaError) && (
-                <div
-                    role="status"
-                    aria-live="polite"
-                    style={{
-                        background: "#fff3cd",
-                        color: "#664d03",
-                        border: "1px solid #ffecb5",
-                        padding: "8px 12px",
-                        borderRadius: 4,
-                        margin: "12px",
-                    }}
-                >
+                <ErrorBannerStyled role="status" aria-live="polite">
                     Some sources failed to load:
                     {hasKciError ? <span> Kraken Community Iceplex</span> : null}
                     {hasLicError ? <span> Lynnwood Ice Center</span> : null}
                     {hasOvaError ? <span> Olympic View Arena</span> : null}
-                </div>
+                </ErrorBannerStyled>
             )}
             <LeftRail />
             <EventGrid

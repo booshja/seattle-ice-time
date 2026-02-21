@@ -1,6 +1,7 @@
+import { createStore } from "zustand/vanilla";
+
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
 import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
-import { createStore } from "zustand/vanilla";
 
 export type EventsState = {
     currentKci: Array<KciEventObject>;

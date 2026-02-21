@@ -1,9 +1,10 @@
 "use client";
 
-import { COLORS } from "@/utils/constants/colors";
-import { spacing } from "@/utils/constants/spacing";
 import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+
+import { COLORS } from "@/utils/constants/colors";
+import { spacing } from "@/utils/constants/spacing";
 
 const background = COLORS.skeleton.background;
 const text = COLORS.skeleton.text;

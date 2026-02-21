@@ -1,9 +1,10 @@
 "use client";
 
+import styled from "@emotion/styled";
+
 import { COLORS } from "@/utils/constants/colors";
 import { fontWeight } from "@/utils/constants/fontSizes";
 import { spacing } from "@/utils/constants/spacing";
-import styled from "@emotion/styled";
 
 export const RoadmapContainer = styled.main`
     max-width: 960px;

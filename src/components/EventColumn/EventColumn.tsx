@@ -1,6 +1,3 @@
-import type { Day } from "@/types/dates";
-import type { EventObject } from "@/types/events";
-
 import { EventCell } from "../EventCell/EventCell";
 
 import {
@@ -10,24 +7,18 @@ import {
     EventsContainerStyled,
 } from "./EventColumnStyled";
 
+import type { Day } from "@/types/dates";
+import type { EventObject } from "@/types/events";
+
 interface EventColumnProps {
     date: number;
     day: Day;
     events: EventObject[];
+    isToday?: boolean;
 }
 
-export const EventColumn = ({ date, day, events }: EventColumnProps) => {
-    const currentDate = new Date(Date.now()).toLocaleDateString("us-PT", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
-    const splitDate = currentDate.split(" ");
-    const currentDay = splitDate[0].split(",")[0];
-    const currentDayNumber = +splitDate[2].split(",")[0];
-
-    const active = date === currentDayNumber && day === currentDay ? "true" : undefined;
+export const EventColumn = ({ date, day, events, isToday }: EventColumnProps) => {
+    const active = isToday ? "true" : undefined;
 
     return (
         <EventColumnStyled $day={day}>
