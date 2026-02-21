@@ -10,30 +10,15 @@ import {
 import type { Day } from "@/types/dates";
 import type { EventObject } from "@/types/events";
 
-function getTodayInfo() {
-    const formatted = new Date().toLocaleDateString("us-PT", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
-    const parts = formatted.split(" ");
-    return {
-        day: parts[0].split(",")[0],
-        dayNumber: +parts[2].split(",")[0],
-    };
-}
-
-const today = getTodayInfo();
-
 interface EventColumnProps {
     date: number;
     day: Day;
     events: EventObject[];
+    isToday?: boolean;
 }
 
-export const EventColumn = ({ date, day, events }: EventColumnProps) => {
-    const active = date === today.dayNumber && day === today.day ? "true" : undefined;
+export const EventColumn = ({ date, day, events, isToday }: EventColumnProps) => {
+    const active = isToday ? "true" : undefined;
 
     return (
         <EventColumnStyled $day={day}>

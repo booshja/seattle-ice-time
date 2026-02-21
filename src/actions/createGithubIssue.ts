@@ -15,10 +15,14 @@ interface GithubIssueResponse {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createGithubIssue(_: any, formData: FormData) {
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
+    const title = (formData.get("title") as string | null)?.trim();
+    const description = (formData.get("description") as string) ?? "";
     const reporterEmail =
         (formData.get("email") as string) || process.env.EMAIL_FROM_ADDRESS || "N/A";
+
+    if (!title) {
+        return { message: "Issue creation failed: title is required" };
+    }
 
     try {
         if (!process.env.GITHUB_ISSUE_TOKEN) {
@@ -61,6 +65,10 @@ export async function createGithubIssue(_: any, formData: FormData) {
 
             return { message: "Issue created successfully" };
         } else {
+            captureMessage(
+                `GitHub issue creation returned unexpected status ${res.status}`,
+                "warning",
+            );
             return { message: "Issue creation failed" };
         }
     } catch (e) {
