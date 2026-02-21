@@ -16,9 +16,9 @@
         "test:watch": "vitest",
         "typecheck": "tsc --noEmit",
         "analyze": "ANALYZE=true next build",
-        "change": "changeset",
+        "change": "changeset && git add .changeset/",
         "change:version": "changeset version",
-        "change:empty": "changeset add --empty",
+        "change:empty": "changeset add --empty && git add .changeset/",
         "release": "bun run change:version && git add -A && git commit -m \"chore: version packages\" && changeset tag && git push --follow-tags"
     },
     "dependencies": {
