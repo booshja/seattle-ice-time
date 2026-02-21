@@ -56,6 +56,7 @@ const sentryConfigOptions = {
 
 const withAnalyzer = withBundleAnalyzer({ enabled: process.env.ANALYZE === "true" });
 
-export default withPlausibleProxy()(
-    withAnalyzer(withSentryConfig(nextConfig, sentryConfigOptions)),
+export default withSentryConfig(
+    withPlausibleProxy()(withAnalyzer(nextConfig)),
+    sentryConfigOptions,
 );
