@@ -24,4 +24,14 @@ describe("fetchKciEvents", () => {
         expect(urlArg).toBe(KCI_EVENTS_URL);
         expect(optionsArg).toEqual({ params: { start, end, variant: 2 } });
     });
+
+    it("propagates network errors", async () => {
+        (axios.get as Mock).mockRejectedValue(new Error("Network Error"));
+        await expect(
+            fetchKciEvents({
+                start: "2025-09-08T00:00:00.000Z",
+                end: "2025-09-15T00:00:00.000Z",
+            }),
+        ).rejects.toThrow("Network Error");
+    });
 });

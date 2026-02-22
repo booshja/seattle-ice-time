@@ -1,9 +1,11 @@
+import { unstable_cache } from "next/cache";
+
 import { EventGrid } from "@/components/EventGrid/EventGrid";
 import { LeftRail } from "@/components/LeftRail/LeftRail";
 import { getStartEndDatesFromBaseDate } from "@/utils/helpers/dates";
 import { fetchEvents } from "@/utils/helpers/fetchEvents";
 
-import { ErrorBannerStyled, PageStyled } from "./_pageStyled";
+import { ContentStyled, ErrorBannerStyled, PageStyled } from "./_pageStyled";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -11,18 +13,20 @@ interface HomeProps {
     searchParams: SearchParams;
 }
 
+const getCachedEvents = unstable_cache(
+    async (start: string, end: string) => fetchEvents({ start, end }),
+    ["events"],
+    { revalidate: 300, tags: ["events"] },
+);
+
 export default async function Home({ searchParams }: HomeProps) {
     const sp = await searchParams;
     const weekStartParam = typeof sp?.weekStart === "string" ? sp.weekStart : undefined;
-    // Normalize to Monday to align UI dates with URL param
     const baseDate = weekStartParam ? new Date(weekStartParam) : new Date();
     const [start, end] = getStartEndDatesFromBaseDate(baseDate);
 
     const { kciEvents, licEvents, ovaEvents, snoKingEvents, errors } =
-        await fetchEvents({
-            start,
-            end,
-        });
+        await getCachedEvents(start, end);
     const hasKciError = Boolean(errors?.kci);
     const hasLicError = Boolean(errors?.lic);
     const hasOvaError = Boolean(errors?.ova);
@@ -39,14 +43,16 @@ export default async function Home({ searchParams }: HomeProps) {
                     {hasSnoKingError ? <span> Sno-King Ice Arenas</span> : null}
                 </ErrorBannerStyled>
             )}
-            <LeftRail />
-            <EventGrid
-                kciEvents={kciEvents}
-                licEvents={licEvents}
-                ovaEvents={ovaEvents}
-                snoKingEvents={snoKingEvents}
-                weekStartIso={start}
-            />
+            <ContentStyled>
+                <LeftRail />
+                <EventGrid
+                    kciEvents={kciEvents}
+                    licEvents={licEvents}
+                    ovaEvents={ovaEvents}
+                    snoKingEvents={snoKingEvents}
+                    weekStartIso={start}
+                />
+            </ContentStyled>
         </PageStyled>
     );
 }

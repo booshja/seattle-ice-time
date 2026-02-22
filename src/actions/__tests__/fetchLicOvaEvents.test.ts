@@ -70,4 +70,15 @@ describe("fetchLicOvaEvents", () => {
         const [, optionsArg] = calls[calls.length - 1];
         expect(optionsArg.params.rink).not.toBe(LIC_RINK_ID);
     });
+
+    it("propagates network errors", async () => {
+        (axios.get as Mock).mockRejectedValue(new Error("Network Error"));
+        await expect(
+            fetchLicOvaEvents({
+                start: "2025-09-08T00:00:00.000Z",
+                end: "2025-09-15T00:00:00.000Z",
+                rink: RINKS.LYNNWOOD.key,
+            }),
+        ).rejects.toThrow("Network Error");
+    });
 });

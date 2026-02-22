@@ -3,6 +3,7 @@ import { RINKS } from "@/utils/constants/rinks";
 import { createEventsStore, initEventsStore } from "../eventsStore";
 
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
+import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
 
 describe("eventsStore", () => {
     it("setters update current and initial arrays", () => {
@@ -39,10 +40,29 @@ describe("eventsStore", () => {
         expect(api.getState().currentLynnwood).toHaveLength(0);
         expect(api.getState().currentOlympicview).toHaveLength(0);
 
-        // @ts-expect-error minimal shape for test
-        api.getState().setLynnwoodEvents([{ day: "Monday" }]);
-        // @ts-expect-error minimal shape for test
-        api.getState().setOlympicviewEvents([{ day: "Tuesday" }]);
+        const lynnwoodEvent: LicOvaEventObject = {
+            id: "lic-test-1",
+            color: "#000",
+            day: "Monday",
+            end: { date: "2025-09-08", military: "10:00", time: "10:00am" },
+            start: { date: "2025-09-08", military: "09:00", time: "9:00am" },
+            title: "LIC Test",
+            url: "https://example.com",
+            location: RINKS.LYNNWOOD.name,
+        };
+        const ovaEvent: LicOvaEventObject = {
+            id: "ova-test-1",
+            color: "#000",
+            day: "Tuesday",
+            end: { date: "2025-09-09", military: "11:00", time: "11:00am" },
+            start: { date: "2025-09-09", military: "10:00", time: "10:00am" },
+            title: "OVA Test",
+            url: "https://example.com",
+            location: RINKS.OVA.name,
+        };
+
+        api.getState().setLynnwoodEvents([lynnwoodEvent]);
+        api.getState().setOlympicviewEvents([ovaEvent]);
 
         expect(api.getState().currentLynnwood).toHaveLength(1);
         expect(api.getState().currentOlympicview).toHaveLength(1);

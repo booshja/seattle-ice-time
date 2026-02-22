@@ -7,8 +7,12 @@ import { FeedbackEmail } from "@/components/Email/FeedbackEmail";
 import { sendEmail } from "@/lib/aws/emailSender";
 import { captureError } from "@/lib/sentry/utils";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function createFeedbackEmail(_: any, formData: FormData) {
+export interface FeedbackEmailState {
+    message: string;
+    status: "error" | "idle" | "success";
+}
+
+export async function createFeedbackEmail(_: FeedbackEmailState, formData: FormData) {
     const emailRaw = (formData.get("email") as string) || "";
     const feedbackRaw = (formData.get("feedback") as string) || "";
 

@@ -51,26 +51,6 @@ export const createRinkDisplayStore = (
                 ...state,
                 [rink]: value,
             })),
-        toggleRink: (rink) =>
-            set((state) => {
-                switch (rink) {
-                    case "KCI":
-                        return { ...state, KCI: !state.KCI };
-                    case "LYNNWOOD":
-                        return { ...state, LYNNWOOD: !state.LYNNWOOD };
-                    case "OVA":
-                        return { ...state, OVA: !state.OVA };
-                    case "KENT":
-                        return { ...state, KENT: !state.KENT };
-                    case "KIRKLAND":
-                        return { ...state, KIRKLAND: !state.KIRKLAND };
-                    case "RENTON":
-                        return { ...state, RENTON: !state.RENTON };
-                    case "SNOQUALMIE":
-                        return { ...state, SNOQUALMIE: !state.SNOQUALMIE };
-                    default:
-                        return state;
-                }
-            }),
+        toggleRink: (rink) => set((state) => ({ ...state, [rink]: !state[rink] })),
     }));
 };

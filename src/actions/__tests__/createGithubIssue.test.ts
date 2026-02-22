@@ -12,7 +12,10 @@ import axios from "axios";
 import * as emailSender from "../../lib/aws/emailSender";
 import { createGithubIssue } from "../createGithubIssue";
 
+import type { GithubIssueState } from "../createGithubIssue";
 import type { Mock } from "vitest";
+
+const initialState: GithubIssueState = { message: "" };
 
 function makeFormData(entries: Record<string, string>): FormData {
     const fd = new FormData();
@@ -38,7 +41,7 @@ describe("createGithubIssue", () => {
         it("returns failure when token missing", async () => {
             process.env.GITHUB_ISSUE_TOKEN = "";
             const res = await createGithubIssue(
-                {},
+                initialState,
                 makeFormData({ title: "t", description: "d" }),
             );
             expect(res.message).toMatch(/missing configuration/);
@@ -54,7 +57,7 @@ describe("createGithubIssue", () => {
             (renderMod.render as Mock).mockResolvedValue("<html>issue</html>");
             (emailSender.sendEmail as Mock).mockResolvedValue(undefined);
             const res = await createGithubIssue(
-                {},
+                initialState,
                 makeFormData({
                     title: "Bug",
                     description: "Desc",
@@ -71,7 +74,7 @@ describe("createGithubIssue", () => {
         it("handles non-201 response", async () => {
             (axios.post as Mock).mockResolvedValue({ status: 400, data: {} });
             const res = await createGithubIssue(
-                {},
+                initialState,
                 makeFormData({ title: "Bug", description: "Desc" }),
             );
             expect(res.message).toMatch(/Issue creation failed/);
@@ -82,7 +85,7 @@ describe("createGithubIssue", () => {
         it("handles axios error and returns failure", async () => {
             (axios.post as Mock).mockRejectedValue(new Error("boom"));
             const res = await createGithubIssue(
-                {},
+                initialState,
                 makeFormData({ title: "Bug", description: "Desc" }),
             );
             expect(res.message).toMatch(/Issue creation failed/);
@@ -96,7 +99,7 @@ describe("createGithubIssue", () => {
             (renderMod.render as Mock).mockResolvedValue("<html>issue</html>");
             (emailSender.sendEmail as Mock).mockRejectedValue(new Error("smtp"));
             const res = await createGithubIssue(
-                {},
+                initialState,
                 makeFormData({ title: "Bug", description: "Desc" }),
             );
             expect(res.message).toMatch(/Issue created successfully/);

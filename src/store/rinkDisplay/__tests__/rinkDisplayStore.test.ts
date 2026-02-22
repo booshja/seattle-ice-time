@@ -49,14 +49,5 @@ describe("rinkDisplayStore", () => {
                 !defaultRinkDisplayInitState.SNOQUALMIE,
             );
         });
-
-        it("default branch returns state unchanged", () => {
-            const store = createRinkDisplayStore({ ...defaultRinkDisplayInitState });
-            const before = store.getState();
-            // @ts-expect-error testing default branch behavior with invalid rink key
-            before.toggleRink("UNKNOWN");
-            const after = store.getState();
-            expect(after).toEqual(before);
-        });
     });
 });

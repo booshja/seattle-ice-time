@@ -8,6 +8,10 @@ import Home from "../page";
 
 import type { Mock } from "vitest";
 
+vi.mock("next/cache", () => ({
+    unstable_cache: (fn: (...args: unknown[]) => unknown) => fn,
+}));
+
 vi.mock("../../utils/helpers/fetchEvents", () => ({
     fetchEvents: vi.fn().mockResolvedValue({
         kciEvents: [],
@@ -56,7 +60,6 @@ describe("SSR Home page", () => {
     });
 
     it("uses weekStart param to compute a 7-day window starting Monday", async () => {
-        // Make EventGrid read same weekStart from client params
         currentSearchParams = new URLSearchParams("weekStart=2025-09-15");
 
         const jsx = (await Home({

@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render } from "@/testing/utils";
 
 import RoadmapPage from "../page";
 import roadmapItems from "../roadmapItems.json";
