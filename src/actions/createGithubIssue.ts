@@ -13,8 +13,11 @@ interface GithubIssueResponse {
     html_url: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function createGithubIssue(_: any, formData: FormData) {
+export interface GithubIssueState {
+    message: string;
+}
+
+export async function createGithubIssue(_: GithubIssueState, formData: FormData) {
     const title = (formData.get("title") as string | null)?.trim();
     const description = (formData.get("description") as string) ?? "";
     const reporterEmail =

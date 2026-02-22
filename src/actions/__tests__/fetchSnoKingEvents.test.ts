@@ -31,4 +31,11 @@ describe("fetchSnoKingEvents", () => {
         const result = await fetchSnoKingEvents("2026-02-23", "2026-03-01");
         expect(result).toEqual(mockEvents);
     });
+
+    it("propagates network errors", async () => {
+        (axios.get as Mock).mockRejectedValue(new Error("Network Error"));
+        await expect(fetchSnoKingEvents("2026-02-23", "2026-03-01")).rejects.toThrow(
+            "Network Error",
+        );
+    });
 });

@@ -5,7 +5,12 @@ import { KCI_SKATER_EVENTS } from "../constants/krakenCommunityIceplex";
 import { RINKS } from "../constants/rinks";
 
 import { filterWithinWindow, resolveWeekWindow } from "./common";
-import { getDayString, getStartEndObjects } from "./dates";
+import {
+    getDayString,
+    getPacificDayOfWeek,
+    getPacificStartKey,
+    getStartEndObjects,
+} from "./dates";
 
 import type { Day } from "@/types/dates";
 import type { KciEvent, KciEventObject } from "@/types/krakenCommunityIceplex";
@@ -29,11 +34,10 @@ function transformKciEvents(events: KciEvent[]): KciEventObject[] {
     const transformedEvents = events.map<KciEventObject>((event: KciEvent) => {
         const startDate = new Date(event.start);
         const endDate = new Date(event.end);
-        const startDay = startDate.getDay();
-        const day: Day = getDayString(+startDay);
+        const day: Day = getDayString(getPacificDayOfWeek(startDate));
 
         const [start, end] = getStartEndObjects(startDate, endDate);
-        const startKey = startDate.getHours() * 60 + startDate.getMinutes();
+        const startKey = getPacificStartKey(startDate);
 
         return {
             color: COLORS.rinks.KCI,

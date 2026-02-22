@@ -2,7 +2,10 @@
 
 import { useActionState } from "react";
 
-import { createFeedbackEmail } from "@/actions/createFeedbackEmail";
+import {
+    createFeedbackEmail,
+    type FeedbackEmailState,
+} from "@/actions/createFeedbackEmail";
 
 import {
     ButtonStyled,
@@ -19,10 +22,7 @@ import {
 import { FormLoading } from "../Loading/FormLoading";
 
 export const FeedbackForm = () => {
-    const initialState = { message: "", status: "idle" } as
-        | { message: string; status: "error" }
-        | { message: string; status: "idle" }
-        | { message: string; status: "success" };
+    const initialState: FeedbackEmailState = { message: "", status: "idle" };
 
     const [{ status, message }, formAction, pending] = useActionState(
         createFeedbackEmail,

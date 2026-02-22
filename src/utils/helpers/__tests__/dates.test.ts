@@ -4,6 +4,7 @@ import {
     getDisplayDates,
     getDisplayDatesFromBaseDate,
     getStartEndDatesFromBaseDate,
+    getStartEndObjects,
     getWeekDates,
     getDailyDates,
     parseLocalDateFromYmd,
@@ -178,6 +179,24 @@ describe("dates helpers", () => {
             vi.setSystemTime(new Date("2025-12-31T12:00:00.000Z"));
             const s = getDisplayDates();
             expect(s).toMatch(/December\s+29,\s+2025\s+-\s+January\s+4,\s+2026/);
+        });
+    });
+
+    describe("getStartEndObjects", () => {
+        it("displays midnight as 12:00am instead of 0:00am", () => {
+            const start = new Date("2025-09-08T07:00:00.000Z"); // midnight PT
+            const end = new Date("2025-09-08T08:00:00.000Z"); // 1:00am PT
+            const [startObj, endObj] = getStartEndObjects(start, end);
+            expect(startObj.time).toBe("12:00am");
+            expect(endObj.time).toBe("1:00am");
+        });
+
+        it("displays noon as 12:00pm", () => {
+            const start = new Date("2025-09-08T19:00:00.000Z"); // noon PT
+            const end = new Date("2025-09-08T20:00:00.000Z"); // 1:00pm PT
+            const [startObj, endObj] = getStartEndObjects(start, end);
+            expect(startObj.time).toBe("12:00pm");
+            expect(endObj.time).toBe("1:00pm");
         });
     });
 

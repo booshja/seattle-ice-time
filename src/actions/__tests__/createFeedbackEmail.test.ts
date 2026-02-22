@@ -3,7 +3,10 @@ import { render } from "@react-email/render";
 import * as emailSender from "../../lib/aws/emailSender";
 import { createFeedbackEmail } from "../createFeedbackEmail";
 
+import type { FeedbackEmailState } from "../createFeedbackEmail";
 import type { Mock } from "vitest";
+
+const initialState: FeedbackEmailState = { message: "", status: "idle" };
 
 vi.mock("@react-email/render");
 vi.mock("../../lib/aws/emailSender", () => ({ sendEmail: vi.fn() }));
@@ -16,7 +19,7 @@ describe("createFeedbackEmail", () => {
             const form = new FormData();
             form.append("email", "e@example.com");
             form.append("feedback", "m");
-            const res = await createFeedbackEmail({}, form);
+            const res = await createFeedbackEmail(initialState, form);
             expect(res.status).toBe("success");
         });
     });
@@ -27,7 +30,7 @@ describe("createFeedbackEmail", () => {
             const form = new FormData();
             form.append("email", "e@example.com");
             form.append("feedback", "m");
-            const res = await createFeedbackEmail({}, form);
+            const res = await createFeedbackEmail(initialState, form);
             expect(res.status).toBe("error");
         });
     });
@@ -38,7 +41,7 @@ describe("createFeedbackEmail", () => {
             const form = new FormData();
             form.append("email", "e@example.com");
             // no feedback
-            const res = await createFeedbackEmail({}, form);
+            const res = await createFeedbackEmail(initialState, form);
             expect(res.status).toBe("error");
         });
     });

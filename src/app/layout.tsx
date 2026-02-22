@@ -11,9 +11,40 @@ import "./globals.css";
 
 export const metadata: Metadata = {
     title: "Seattle Area Ice Time",
-    description: "Compiled hockey ice times for the Seattle area rinks",
-    icons: {
-        icon: "/favicon.ico",
+    description:
+        "All Seattle area ice rink schedules in one place. Weekly drop-in hockey and stick and puck times for Kraken Community Iceplex, Lynnwood, Olympicview Arena, and more.",
+    icons: { icon: "/favicon.ico" },
+    metadataBase: new URL("https://seattleicetime.com"),
+    alternates: { canonical: "/" },
+    keywords: [
+        "seattle ice time",
+        "seattle hockey",
+        "ice hockey schedule",
+        "seattle ice rinks",
+        "kraken community iceplex",
+        "lynnwood ice center",
+        "olympicview arena",
+        "sno-king ice arenas",
+    ],
+    category: "sports",
+    creator: "Jacob Andes",
+    authors: [{ name: "Jacob Andes", url: "https://github.com/booshja" }],
+    openGraph: {
+        title: "Seattle Area Ice Time",
+        description:
+            "All Seattle area ice rink schedules in one place. Weekly drop-in hockey and stick and puck times for Kraken Community Iceplex, Lynnwood, Olympicview Arena, and more.",
+        url: "https://seattleicetime.com",
+        siteName: "Seattle Area Ice Time",
+        type: "website",
+        locale: "en_US",
+        images: [{ url: "/images/og-image.png", width: 1200, height: 630 }],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Seattle Area Ice Time",
+        description:
+            "All Seattle area ice rink schedules in one place. Weekly drop-in hockey and stick and puck times for Kraken Community Iceplex, Lynnwood, Olympicview Arena, and more.",
+        images: ["/images/og-image.png"],
     },
 };
 

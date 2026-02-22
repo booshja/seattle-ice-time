@@ -1,5 +1,8 @@
 import { parseEvents } from "../parseEvents";
 
+import type { KciEventObject } from "@/types/krakenCommunityIceplex";
+import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
+
 describe("parseEvents", () => {
     it("empty inputs produce empty days", () => {
         const result = parseEvents({
@@ -19,6 +22,7 @@ describe("parseEvents", () => {
             const events = parseEvents({
                 kciEvents: [
                     {
+                        id: "kci-1",
                         color: "#111",
                         day: "Monday",
                         end: { date: "2025-09-08", military: "1000", time: "10:00am" },
@@ -30,8 +34,9 @@ describe("parseEvents", () => {
                         title: "B",
                         url: "#",
                         location: "Kraken Community Iceplex",
-                    } as never,
+                    } satisfies KciEventObject,
                     {
+                        id: "kci-2",
                         color: "#111",
                         day: "Monday",
                         end: { date: "2025-09-08", military: "0930", time: "9:30am" },
@@ -39,7 +44,7 @@ describe("parseEvents", () => {
                         title: "A",
                         url: "#",
                         location: "Kraken Community Iceplex",
-                    } as never,
+                    } satisfies KciEventObject,
                 ],
                 licEvents: undefined,
                 ovaEvents: undefined,
@@ -53,16 +58,18 @@ describe("parseEvents", () => {
             const events = parseEvents({
                 kciEvents: [
                     {
+                        id: "kci-3",
                         color: "#111",
                         day: "Monday",
                         end: { date: "2025-09-08", military: "0930", time: "9:30am" },
                         start: { date: "2025-09-08", military: "1500", time: "3:00pm" },
-                        startKey: 9 * 60, // 09:00
+                        startKey: 9 * 60,
                         title: "A",
                         url: "#",
                         location: "Kraken Community Iceplex",
-                    } as never,
+                    } satisfies KciEventObject,
                     {
+                        id: "kci-4",
                         color: "#111",
                         day: "Monday",
                         end: { date: "2025-09-08", military: "1000", time: "10:00am" },
@@ -71,7 +78,7 @@ describe("parseEvents", () => {
                         title: "B",
                         url: "#",
                         location: "Kraken Community Iceplex",
-                    } as never,
+                    } satisfies KciEventObject,
                 ],
                 licEvents: undefined,
                 ovaEvents: undefined,
@@ -87,6 +94,7 @@ describe("parseEvents", () => {
             const events = parseEvents({
                 kciEvents: [
                     {
+                        id: "kci-5",
                         color: "#111",
                         day: "Tuesday",
                         end: { date: "2025-09-09", military: "1100", time: "11:00am" },
@@ -99,10 +107,11 @@ describe("parseEvents", () => {
                         title: "KCI A",
                         url: "#",
                         location: "Kraken Community Iceplex",
-                    },
+                    } satisfies KciEventObject,
                 ],
                 licEvents: [
                     {
+                        id: "lic-1",
                         color: "#222",
                         day: "Tuesday",
                         end: { date: "2025-09-09", military: "1200", time: "12:00pm" },
@@ -115,7 +124,7 @@ describe("parseEvents", () => {
                         title: "LIC B",
                         url: "#",
                         location: "Lynnwood Ice Center",
-                    },
+                    } satisfies LicOvaEventObject,
                 ],
                 ovaEvents: undefined,
                 snoKingEvents: undefined,
@@ -142,13 +151,12 @@ describe("parseEvents", () => {
         it("merges and sorts across sources", () => {
             const res = parseEvents({
                 kciEvents: [
-                    // 9:00
                     {
+                        id: "kci-6",
                         color: "c1",
                         day: "Monday",
                         end: { date: "2025-01-01", military: "10:00", time: "10:00am" },
-                        location: "L1",
-                        sheet: undefined,
+                        location: "Kraken Community Iceplex",
                         start: {
                             date: "2025-01-01",
                             military: "09:00",
@@ -156,16 +164,15 @@ describe("parseEvents", () => {
                         },
                         title: "A",
                         url: "",
-                    } as never,
+                    } satisfies KciEventObject,
                 ],
                 licEvents: [
-                    // 8:30
                     {
+                        id: "lic-2",
                         color: "c2",
                         day: "Monday",
                         end: { date: "2025-01-01", military: "09:00", time: "9:00am" },
-                        location: "L2",
-                        sheet: undefined,
+                        location: "Lynnwood Ice Center",
                         start: {
                             date: "2025-01-01",
                             military: "08:30",
@@ -173,16 +180,15 @@ describe("parseEvents", () => {
                         },
                         title: "B",
                         url: "",
-                    } as never,
+                    } satisfies LicOvaEventObject,
                 ],
                 ovaEvents: [
-                    // 12:00
                     {
+                        id: "ova-1",
                         color: "c3",
                         day: "Monday",
                         end: { date: "2025-01-01", military: "12:30", time: "12:30pm" },
-                        location: "L3",
-                        sheet: undefined,
+                        location: "Olympicview Arena",
                         start: {
                             date: "2025-01-01",
                             military: "12:00",
@@ -190,7 +196,7 @@ describe("parseEvents", () => {
                         },
                         title: "C",
                         url: "",
-                    } as never,
+                    } satisfies LicOvaEventObject,
                 ],
                 snoKingEvents: undefined,
             });

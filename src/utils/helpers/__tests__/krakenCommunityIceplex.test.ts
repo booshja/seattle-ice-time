@@ -27,10 +27,7 @@ describe("getKciEvents (helper)", () => {
         expect(result[0].day).toBe("Monday");
         expect(result[0].title).toBe("Stick & Puck");
         expect(result[0].location).toBe("Kraken Community Iceplex");
-        // startKey should be numeric minutes since midnight matching start.military
-        const military = result[0].start.military.replace(":", "");
-        const hours = Number(military.slice(0, 2));
-        const minutes = Number(military.slice(2));
+        const [hours, minutes] = result[0].start.military.split(":").map(Number);
         const expectedStartKey = hours * 60 + minutes;
         expect(typeof result[0].startKey).toBe("number");
         expect(result[0].startKey).toBe(expectedStartKey);

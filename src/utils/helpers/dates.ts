@@ -1,64 +1,103 @@
 import type { Day } from "@/types/dates";
 
+const PACIFIC_TZ = "America/Los_Angeles";
+
+interface PacificParts {
+    day: number;
+    dayOfWeek: number;
+    hour: number;
+    minute: number;
+    month: number;
+    year: number;
+}
+
+function getPacificParts(date: Date): PacificParts {
+    const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: PACIFIC_TZ,
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hourCycle: "h23",
+        weekday: "short",
+    }).formatToParts(date);
+
+    const get = (type: string) =>
+        Number(parts.find((p) => p.type === type)?.value ?? 0);
+
+    const weekdayStr = parts.find((p) => p.type === "weekday")?.value ?? "";
+    const weekdayMap: Record<string, number> = {
+        Sun: 0,
+        Mon: 1,
+        Tue: 2,
+        Wed: 3,
+        Thu: 4,
+        Fri: 5,
+        Sat: 6,
+    };
+
+    return {
+        year: get("year"),
+        month: get("month"),
+        day: get("day"),
+        hour: get("hour"),
+        minute: get("minute"),
+        dayOfWeek: weekdayMap[weekdayStr] ?? 0,
+    };
+}
+
+export function getPacificStartKey(date: Date): number {
+    const { hour, minute } = getPacificParts(date);
+    return hour * 60 + minute;
+}
+
+export function getPacificDayOfWeek(date: Date): number {
+    return getPacificParts(date).dayOfWeek;
+}
+
+function normalizeToMonday(date: Date): Date {
+    const d = new Date(date);
+    const dow = d.getDay() || 7;
+    if (dow !== 1) {
+        d.setDate(d.getDate() - (dow - 1));
+    }
+    d.setHours(0, 0, 0, 0);
+    return d;
+}
+
 interface GetStartEndDatesProps {
     getAsObjects?: boolean;
 }
 
 export function getStartEndDates({ getAsObjects }: GetStartEndDatesProps) {
-    const today = new Date();
-    const monday = new Date(today);
-    const day = monday.getDay() || 7;
-    if (day !== 1) {
-        monday.setDate(monday.getDate() - (day - 1));
-    }
-    monday.setHours(0, 0, 0, 0);
-
-    const startDate = monday.toISOString();
-    const startDateObject = new Date(startDate);
+    const monday = normalizeToMonday(new Date());
 
     const endMonday = new Date(monday);
     endMonday.setDate(endMonday.getDate() + 7);
-    const endDate = endMonday.toISOString();
-    const endDateObject = new Date(endDate);
 
     if (getAsObjects) {
-        return [startDateObject, endDateObject];
+        return [new Date(monday), new Date(endMonday)];
     }
 
-    return [startDate, endDate];
+    return [monday.toISOString(), endMonday.toISOString()];
 }
 
-// New helpers for base-date driven week computations
 export function getStartEndDatesFromBaseDate(base: Date) {
-    const start = new Date(base);
-    const day = start.getDay() || 7;
-    if (day !== 1) {
-        start.setDate(start.getDate() - (day - 1));
-    }
-    start.setHours(0, 0, 0, 0);
+    const start = normalizeToMonday(base);
 
     const end = new Date(start);
     end.setDate(end.getDate() + 7);
 
-    const startIso = start.toISOString();
-    const endIso = end.toISOString();
-
-    return [startIso, endIso] as const;
+    return [start.toISOString(), end.toISOString()] as const;
 }
 
 export function getMondayIsoFromBaseDate(base: Date) {
-    const monday = getMondayDateFromBaseDate(base);
-    return getLocalIsoDate(monday);
+    return getLocalIsoDate(normalizeToMonday(base));
 }
 
 export function getMondayDateFromBaseDate(base: Date) {
-    const start = new Date(base);
-    const day = start.getDay() || 7;
-    if (day !== 1) {
-        start.setDate(start.getDate() - (day - 1));
-    }
-    start.setHours(0, 0, 0, 0);
-    return start;
+    return normalizeToMonday(base);
 }
 
 export function getLocalIsoDate(date: Date) {
@@ -76,28 +115,15 @@ export function parseLocalDateFromYmd(ymd: string) {
 }
 
 export function getCurrentWeekMonday() {
-    const today = new Date();
-    const monday = new Date(today);
-    const day = monday.getDay() || 7;
-    if (day !== 1) {
-        monday.setDate(monday.getDate() - (day - 1));
-    }
-    monday.setHours(0, 0, 0, 0);
-    return monday;
+    return normalizeToMonday(new Date());
 }
 
 export const getWeekDates = (startDate: Date) => {
-    const base = new Date(startDate);
-    const day = base.getDay() || 7;
-    if (day !== 1) {
-        base.setDate(base.getDate() - (day - 1));
-    }
-    base.setHours(0, 0, 0, 0);
+    const base = normalizeToMonday(startDate);
 
     const dates: number[] = [];
-    const d = new Date(base);
     for (let i = 0; i < 7; i++) {
-        const current = new Date(d);
+        const current = new Date(base);
         current.setDate(base.getDate() + i);
         dates.push(current.getDate());
     }
@@ -105,17 +131,11 @@ export const getWeekDates = (startDate: Date) => {
 };
 
 export const getDailyDates = (date: Date) => {
-    const base = new Date(date);
-    const day = base.getDay() || 7;
-    if (day !== 1) {
-        base.setDate(base.getDate() - (day - 1));
-    }
-    base.setHours(0, 0, 0, 0);
+    const base = normalizeToMonday(date);
 
     const dates: string[] = [];
-    const d = new Date(base);
     for (let i = 0; i < 7; i++) {
-        const current = new Date(d);
+        const current = new Date(base);
         current.setDate(base.getDate() + i);
         dates.push(current.toISOString().split("T")[0]);
     }
@@ -152,94 +172,44 @@ export const getDayString = (dateNum: number): Day => {
     return day;
 };
 
+function formatHour(militaryHour: number): number {
+    if (militaryHour === 0) return 12;
+    return militaryHour > 12 ? militaryHour - 12 : militaryHour;
+}
+
+function padMinutes(minutes: number): string {
+    return minutes < 10 ? `0${minutes}` : `${minutes}`;
+}
+
 export const getStartEndObjects = (startDate: Date, endDate: Date) => {
-    const startHourMilitary = +startDate
-        .toLocaleTimeString("en-US", {
-            hour12: false,
-            timeZone: "America/Los_Angeles",
-        })
-        .split(":")[0];
-    const startHour =
-        startHourMilitary > 12 ? startHourMilitary - 12 : startHourMilitary;
-    const endHourMilitary = +endDate
-        .toLocaleTimeString("en-US", {
-            hour12: false,
-            timeZone: "America/Los_Angeles",
-        })
-        .split(":")[0];
-    const endHour = endHourMilitary > 12 ? endHourMilitary - 12 : endHourMilitary;
+    const sp = getPacificParts(startDate);
+    const ep = getPacificParts(endDate);
 
-    const startMinutes =
-        startDate.getMinutes() < 10
-            ? `0${startDate.getMinutes()}`
-            : startDate.getMinutes();
-    const endMinutes =
-        endDate.getMinutes() < 10 ? `0${endDate.getMinutes()}` : endDate.getMinutes();
+    const startMinStr = padMinutes(sp.minute);
+    const endMinStr = padMinutes(ep.minute);
 
-    let startString = `${startDate.getFullYear()}-${
-        startDate.getMonth() + 1
-    }-${startDate.getDate()} ${startHour}:${startMinutes}`;
+    const startDisplayHour = formatHour(sp.hour);
+    const endDisplayHour = formatHour(ep.hour);
 
-    if (startHourMilitary < 12) {
-        startString += "am";
-    } else {
-        startString += "pm";
-    }
-
-    let endString = `${endDate.getFullYear()}-${
-        endDate.getMonth() + 1
-    }-${endDate.getDate()} ${endHour}:${endMinutes}`;
-
-    if (endHourMilitary < 12) {
-        endString += "am";
-    } else {
-        endString += "pm";
-    }
+    const startAmPm = sp.hour < 12 ? "am" : "pm";
+    const endAmPm = ep.hour < 12 ? "am" : "pm";
 
     const start = {
-        date: startString.split(" ")[0],
-        military: `${startHourMilitary}:${startMinutes}`,
-        time: startString.split(" ")[1],
+        date: `${sp.year}-${sp.month}-${sp.day}`,
+        military: `${sp.hour}:${startMinStr}`,
+        time: `${startDisplayHour}:${startMinStr}${startAmPm}`,
     };
     const end = {
-        date: endString.split(" ")[0],
-        military: `${endHourMilitary}:${endMinutes}`,
-        time: endString.split(" ")[1],
+        date: `${ep.year}-${ep.month}-${ep.day}`,
+        military: `${ep.hour}:${endMinStr}`,
+        time: `${endDisplayHour}:${endMinStr}${endAmPm}`,
     };
 
     return [start, end];
 };
 
 export const getDisplayDates = () => {
-    const [start, end] = getStartEndDates({ getAsObjects: true });
-
-    const startDate = start as Date;
-    const endExclusive = end as Date;
-    const endInclusive = new Date(endExclusive);
-    endInclusive.setDate(endInclusive.getDate() - 1);
-
-    const startDayNumber = startDate.getDate();
-    const endDayNumber = endInclusive.getDate();
-
-    const startDateMonth = startDate.toLocaleString("default", { month: "long" });
-    const endDateMonth = endInclusive.toLocaleString("default", { month: "long" });
-
-    const startDateYear = startDate.getFullYear();
-    const endDateYear = endInclusive.getFullYear();
-
-    let displayString = "";
-
-    if (startDateMonth === endDateMonth) {
-        displayString = `${startDateMonth} ${startDayNumber}-${endDayNumber} ${startDateYear}`;
-    } else {
-        if (startDateYear === endDateYear) {
-            displayString = `${startDateMonth} ${startDayNumber} - ${endDateMonth} ${endDayNumber} ${startDateYear}`;
-        } else {
-            displayString = `${startDateMonth} ${startDayNumber}, ${startDateYear} - ${endDateMonth} ${endDayNumber}, ${endDateYear}`;
-        }
-    }
-
-    return displayString;
+    return getDisplayDatesFromBaseDate(new Date());
 };
 
 export const getDisplayDatesFromBaseDate = (base: Date) => {
@@ -258,17 +228,11 @@ export const getDisplayDatesFromBaseDate = (base: Date) => {
     const startDateYear = startDate.getFullYear();
     const endDateYear = endInclusive.getFullYear();
 
-    let displayString = "";
-
     if (startDateMonth === endDateMonth) {
-        displayString = `${startDateMonth} ${startDayNumber}-${endDayNumber} ${startDateYear}`;
-    } else {
-        if (startDateYear === endDateYear) {
-            displayString = `${startDateMonth} ${startDayNumber} - ${endDateMonth} ${endDayNumber} ${startDateYear}`;
-        } else {
-            displayString = `${startDateMonth} ${startDayNumber}, ${startDateYear} - ${endDateMonth} ${endDayNumber}, ${endDateYear}`;
-        }
+        return `${startDateMonth} ${startDayNumber}-${endDayNumber} ${startDateYear}`;
     }
-
-    return displayString;
+    if (startDateYear === endDateYear) {
+        return `${startDateMonth} ${startDayNumber} - ${endDateMonth} ${endDayNumber} ${startDateYear}`;
+    }
+    return `${startDateMonth} ${startDayNumber}, ${startDateYear} - ${endDateMonth} ${endDayNumber}, ${endDateYear}`;
 };
