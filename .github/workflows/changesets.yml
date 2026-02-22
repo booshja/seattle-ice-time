@@ -52,8 +52,15 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Create or Update Version PR
+        id: changesets
         uses: changesets/action@v1
         with:
           version: bun run change:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge on Version PR
+        if: steps.changesets.outputs.pullRequestNumber
+        run: gh pr merge ${{ steps.changesets.outputs.pullRequestNumber }} --auto --squash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

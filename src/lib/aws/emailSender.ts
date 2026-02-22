@@ -1,9 +1,7 @@
 "use server";
 
-import { SESClient, SendRawEmailCommand } from "@aws-sdk/client-ses";
+import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
 import nodemailer from "nodemailer";
-
-import type SESTransport from "nodemailer/lib/ses-transport";
 
 interface EmailSenderProps {
     content: string;
@@ -23,8 +21,7 @@ export const sendEmail = async ({ subject, content }: EmailSenderProps) => {
         throw new Error("Email configuration not found");
     }
 
-    const ses = new SESClient({
-        apiVersion: "2010-12-01",
+    const ses = new SESv2Client({
         region: process.env.SES_REGION,
         credentials: {
             accessKeyId: process.env.SES_ACCESS_KEY,
@@ -32,8 +29,8 @@ export const sendEmail = async ({ subject, content }: EmailSenderProps) => {
         },
     });
     const transporter = nodemailer.createTransport({
-        SES: { ses, aws: { SendRawEmailCommand } },
-    } as unknown as SESTransport.Options);
+        SES: { sesClient: ses, SendEmailCommand },
+    });
 
     await transporter.sendMail({
         from: process.env.EMAIL_FROM_ADDRESS,

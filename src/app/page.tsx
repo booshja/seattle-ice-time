@@ -14,7 +14,13 @@ interface HomeProps {
 }
 
 const getCachedEvents = unstable_cache(
-    async (start: string, end: string) => fetchEvents({ start, end }),
+    async (start: string, end: string) => {
+        const result = await fetchEvents({ start, end });
+        if (result.errors) {
+            throw new Error("partial_failure");
+        }
+        return result;
+    },
     ["events"],
     { revalidate: 300, tags: ["events"] },
 );
@@ -25,8 +31,14 @@ export default async function Home({ searchParams }: HomeProps) {
     const baseDate = weekStartParam ? new Date(weekStartParam) : new Date();
     const [start, end] = getStartEndDatesFromBaseDate(baseDate);
 
-    const { kciEvents, licEvents, ovaEvents, snoKingEvents, errors } =
-        await getCachedEvents(start, end);
+    let result: Awaited<ReturnType<typeof fetchEvents>>;
+    try {
+        result = await getCachedEvents(start, end);
+    } catch {
+        result = await fetchEvents({ start, end });
+    }
+
+    const { kciEvents, licEvents, ovaEvents, snoKingEvents, errors } = result;
     const hasKciError = Boolean(errors?.kci);
     const hasLicError = Boolean(errors?.lic);
     const hasOvaError = Boolean(errors?.ova);

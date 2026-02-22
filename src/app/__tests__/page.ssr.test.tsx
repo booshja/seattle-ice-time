@@ -77,13 +77,16 @@ describe("SSR Home page", () => {
     });
     describe("errors", () => {
         it("shows non-blocking error banner when some sources fail", async () => {
-            (fetchEvents as unknown as Mock).mockResolvedValueOnce({
+            const errorResult = {
                 kciEvents: [],
                 licEvents: [],
                 ovaEvents: [],
                 snoKingEvents: [],
                 errors: { lic: new Error("boom") },
-            });
+            };
+            (fetchEvents as unknown as Mock)
+                .mockResolvedValueOnce(errorResult)
+                .mockResolvedValueOnce(errorResult);
 
             const jsx = (await Home({
                 searchParams: Promise.resolve({}),
