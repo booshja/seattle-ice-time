@@ -4,7 +4,12 @@ import { COLORS } from "../constants/colors";
 import { RINKS } from "../constants/rinks";
 import { SNO_KING_BOOKING_URL, SNO_KING_RINKS } from "../constants/snoKing";
 
-import { getDayString, getStartEndObjects } from "./dates";
+import {
+    getDayString,
+    getPacificDayOfWeek,
+    getPacificStartKey,
+    getStartEndObjects,
+} from "./dates";
 
 import type { Day } from "@/types/dates";
 import type {
@@ -41,11 +46,10 @@ function transformSnoKingEvents(events: SnoKingEvent[]) {
 
         const startDate = new Date(event.attributes.start);
         const endDate = new Date(event.attributes.end);
-        const startDay = startDate.getDay();
-        const day: Day = getDayString(+startDay);
+        const day: Day = getDayString(getPacificDayOfWeek(startDate));
 
         const [start, end] = getStartEndObjects(startDate, endDate);
-        const startKey = startDate.getHours() * 60 + startDate.getMinutes();
+        const startKey = getPacificStartKey(startDate);
 
         return {
             color,

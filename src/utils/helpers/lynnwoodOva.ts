@@ -10,7 +10,12 @@ import {
 import { RINKS } from "../constants/rinks";
 
 import { filterWithinWindow, resolveWeekWindow } from "./common";
-import { getDayString, getStartEndObjects } from "./dates";
+import {
+    getDayString,
+    getPacificDayOfWeek,
+    getPacificStartKey,
+    getStartEndObjects,
+} from "./dates";
 
 import type { Day } from "@/types/dates";
 import type {
@@ -56,10 +61,10 @@ export function transformLicOvaEvents(
 
         const startDate = new Date(event.start);
         const endDate = new Date(event.end);
-        const day: Day = getDayString(startDate.getDay());
+        const day: Day = getDayString(getPacificDayOfWeek(startDate));
 
         const [start, end] = getStartEndObjects(startDate, endDate);
-        const startKey = startDate.getHours() * 60 + startDate.getMinutes();
+        const startKey = getPacificStartKey(startDate);
 
         return {
             color,
