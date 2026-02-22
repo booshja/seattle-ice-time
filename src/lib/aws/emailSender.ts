@@ -12,9 +12,9 @@ interface EmailSenderProps {
 
 export const sendEmail = async ({ subject, content }: EmailSenderProps) => {
     if (
-        !process.env.AWS_ACCESS_KEY ||
-        !process.env.AWS_SECRET_KEY ||
-        !process.env.AWS_REGION
+        !process.env.SES_ACCESS_KEY ||
+        !process.env.SES_SECRET_KEY ||
+        !process.env.SES_REGION
     ) {
         throw new Error("AWS credentials not found");
     }
@@ -25,10 +25,10 @@ export const sendEmail = async ({ subject, content }: EmailSenderProps) => {
 
     const ses = new SESClient({
         apiVersion: "2010-12-01",
-        region: process.env.AWS_REGION,
+        region: process.env.SES_REGION,
         credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY,
-            secretAccessKey: process.env.AWS_SECRET_KEY,
+            accessKeyId: process.env.SES_ACCESS_KEY,
+            secretAccessKey: process.env.SES_SECRET_KEY,
         },
     });
     const transporter = nodemailer.createTransport({
