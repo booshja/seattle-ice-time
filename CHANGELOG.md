@@ -1,5 +1,11 @@
 # seattle-ice-time
 
+## 0.4.0
+
+### Minor Changes
+
+- 9da2191: Add support for mobile
+
 ## 0.3.0
 
 ### Minor Changes
