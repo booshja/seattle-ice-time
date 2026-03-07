@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useCallback, Suspense, lazy } from "react";
 import { useShallow } from "zustand/shallow";
 
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useWeekNavigation } from "@/hooks/useWeekNavigation";
 import { useWeekDisplayStore } from "@/store/currentWeek/currentWeekStoreProvider";
 import { useEventsStore } from "@/store/events/eventsStoreProvider";
 import { useRinkDisplayStore } from "@/store/rinkDisplay/rinkDisplayStoreProvider";
+import { useSelectedDayStore } from "@/store/selectedDay/selectedDayStoreProvider";
 import { RINKS } from "@/utils/constants/rinks";
 import {
     getCurrentWeekMonday,
@@ -15,6 +18,8 @@ import {
 } from "@/utils/helpers/dates";
 import { parseEvents } from "@/utils/helpers/parseEvents";
 
+import { DateHeaderSkeleton } from "../DateHeader/DateHeaderSkeleton";
+import { DaySelector } from "../DaySelector/DaySelector";
 import { EventColumn } from "../EventColumn/EventColumn";
 
 import {
@@ -22,13 +27,30 @@ import {
     EventGridOverlayStyled,
     EventGridStyled,
     EventGridWrapperStyled,
+    MobileDateHeaderWrapperStyled,
 } from "./EventGridStyled";
 
+import type { Day } from "@/types/dates";
 import type { KciEventObject } from "@/types/krakenCommunityIceplex";
 import type { LicOvaEventObject } from "@/types/lynnwoodIceArenaAndOlympicViewArena";
 import type { SnoKingEventObject } from "@/types/snoKing";
 
+const DateHeaderLazy = lazy(() =>
+    import("../DateHeader/DateHeader").then((m) => ({ default: m.DateHeader })),
+);
+
 const PACIFIC_TZ = "America/Los_Angeles";
+const DAYS: Day[] = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+];
+const SWIPE_THRESHOLD = 50;
+const EDGE_MARGIN = 20;
 
 function getTodayColumnIndex(weekBase: Date): number {
     const parts = new Intl.DateTimeFormat("en-US", {
@@ -70,7 +92,19 @@ export const EventGrid = ({
     snoKingEvents,
     weekStartIso,
 }: EventGridProps) => {
+    const tier = useMediaQuery();
+    const isMobile = tier === "mobile";
     const isNavigating = useWeekDisplayStore((state) => state.isNavigating);
+    const setIsNavigating = useWeekDisplayStore((state) => state.setIsNavigating);
+    const selectedIndex = useSelectedDayStore((state) => state.selectedIndex);
+    const setSelectedIndex = useSelectedDayStore((state) => state.setSelectedIndex);
+    const nextDay = useSelectedDayStore((state) => state.next);
+    const prevDay = useSelectedDayStore((state) => state.prev);
+
+    const { navigateToWeek, isCurrentWeek, isPending } = useWeekNavigation();
+
+    const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+    const swipeNavigatedRef = useRef(false);
 
     const [showKci, showLynnwood, showOva, showRenton, showKirkland, showSnoqualmie] =
         useRinkDisplayStore(
@@ -93,6 +127,7 @@ export const EventGrid = ({
         setInitialOlympicviewEvents,
         setInitialSnoKingEvents,
         setIsCurrentWeekEmpty,
+        isCurrentWeekEmpty,
     } = useEventsStore(
         useShallow((state) => ({
             kciEventData: state.currentKci,
@@ -104,6 +139,7 @@ export const EventGrid = ({
             setInitialOlympicviewEvents: state.setInitialOlympicviewEvents,
             setInitialSnoKingEvents: state.setInitialSnoKingEvents,
             setIsCurrentWeekEmpty: state.setIsCurrentWeekEmpty,
+            isCurrentWeekEmpty: state.isCurrentWeekEmpty,
         })),
     );
 
@@ -118,6 +154,16 @@ export const EventGrid = ({
 
     const weekDates = useMemo(() => getWeekDates(base), [base]);
     const todayColumnIndex = useMemo(() => getTodayColumnIndex(base), [base]);
+
+    useEffect(() => {
+        if (swipeNavigatedRef.current) {
+            swipeNavigatedRef.current = false;
+            return;
+        }
+        if (isMobile && todayColumnIndex >= 0) {
+            setSelectedIndex(todayColumnIndex);
+        }
+    }, [isMobile, todayColumnIndex, setSelectedIndex]);
 
     useEffect(() => {
         setInitialKciEvents(kciEvents);
@@ -183,63 +229,113 @@ export const EventGrid = ({
         setIsCurrentWeekEmpty(isEmpty);
     }, [isEmpty, setIsCurrentWeekEmpty]);
 
+    useEffect(() => {
+        setIsNavigating(isPending);
+    }, [isPending, setIsNavigating]);
+
+    const handleTouchStart = useCallback(
+        (e: React.TouchEvent) => {
+            if (!isMobile) return;
+            const touch = e.touches[0];
+            if (
+                touch.clientX < EDGE_MARGIN ||
+                touch.clientX > window.innerWidth - EDGE_MARGIN
+            ) {
+                return;
+            }
+            touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+        },
+        [isMobile],
+    );
+
+    const handleTouchEnd = useCallback(
+        (e: React.TouchEvent) => {
+            if (!isMobile || !touchStartRef.current) return;
+            const touch = e.changedTouches[0];
+            const dx = touch.clientX - touchStartRef.current.x;
+            const dy = touch.clientY - touchStartRef.current.y;
+            touchStartRef.current = null;
+            if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dy) > Math.abs(dx)) return;
+            if (dx < 0) {
+                if (selectedIndex === 6 && !isCurrentWeekEmpty) {
+                    swipeNavigatedRef.current = true;
+                    navigateToWeek("next");
+                    setSelectedIndex(0);
+                } else {
+                    nextDay();
+                }
+            } else {
+                if (selectedIndex === 0 && !isCurrentWeek) {
+                    swipeNavigatedRef.current = true;
+                    navigateToWeek("previous");
+                    setSelectedIndex(6);
+                } else {
+                    prevDay();
+                }
+            }
+        },
+        [
+            isMobile,
+            nextDay,
+            prevDay,
+            selectedIndex,
+            isCurrentWeekEmpty,
+            isCurrentWeek,
+            navigateToWeek,
+            setSelectedIndex,
+        ],
+    );
+
+    const renderColumns = () => {
+        if (isEmpty) {
+            return (
+                <EmptyStateStyled role="status" aria-live="polite">
+                    No events are scheduled for this week. Go back a week or refresh the
+                    page.
+                </EmptyStateStyled>
+            );
+        }
+
+        if (isMobile) {
+            const day = DAYS[selectedIndex];
+            return (
+                <EventColumn
+                    day={day}
+                    date={weekDates[selectedIndex]}
+                    events={events[day]}
+                    isToday={todayColumnIndex === selectedIndex}
+                />
+            );
+        }
+
+        return DAYS.map((day, index) => (
+            <EventColumn
+                key={day}
+                day={day}
+                date={weekDates[index]}
+                events={events[day]}
+                isToday={todayColumnIndex === index}
+            />
+        ));
+    };
+
     return (
-        <EventGridWrapperStyled>
+        <EventGridWrapperStyled
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+        >
+            {isMobile && (
+                <>
+                    <MobileDateHeaderWrapperStyled>
+                        <Suspense fallback={<DateHeaderSkeleton />}>
+                            <DateHeaderLazy />
+                        </Suspense>
+                    </MobileDateHeaderWrapperStyled>
+                    <DaySelector weekDates={weekDates} />
+                </>
+            )}
             {isNavigating && <EventGridOverlayStyled />}
-            <EventGridStyled>
-                {!isEmpty && (
-                    <>
-                        <EventColumn
-                            day="Monday"
-                            date={weekDates[0]}
-                            events={events.Monday}
-                            isToday={todayColumnIndex === 0}
-                        />
-                        <EventColumn
-                            day="Tuesday"
-                            date={weekDates[1]}
-                            events={events.Tuesday}
-                            isToday={todayColumnIndex === 1}
-                        />
-                        <EventColumn
-                            day="Wednesday"
-                            date={weekDates[2]}
-                            events={events.Wednesday}
-                            isToday={todayColumnIndex === 2}
-                        />
-                        <EventColumn
-                            day="Thursday"
-                            date={weekDates[3]}
-                            events={events.Thursday}
-                            isToday={todayColumnIndex === 3}
-                        />
-                        <EventColumn
-                            day="Friday"
-                            date={weekDates[4]}
-                            events={events.Friday}
-                            isToday={todayColumnIndex === 4}
-                        />
-                        <EventColumn
-                            day="Saturday"
-                            date={weekDates[5]}
-                            events={events.Saturday}
-                            isToday={todayColumnIndex === 5}
-                        />
-                        <EventColumn
-                            day="Sunday"
-                            date={weekDates[6]}
-                            events={events.Sunday}
-                            isToday={todayColumnIndex === 6}
-                        />
-                    </>
-                )}
-                {isEmpty && (
-                    <EmptyStateStyled role="status" aria-live="polite">
-                        No events are scheduled for this week. Go back a week or refresh
-                        the page.
-                    </EmptyStateStyled>
-                )}
-            </EventGridStyled>
+            <EventGridStyled>{renderColumns()}</EventGridStyled>
         </EventGridWrapperStyled>
     );
 };

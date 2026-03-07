@@ -16,7 +16,9 @@ export const FormPageStyled = styled.div`
 
 export const FormAreaStyled = styled.div`
     color: ${COLORS.text.primary};
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -27,6 +29,11 @@ export const HeaderStyled = styled.h1`
     font-size: 42px;
     line-height: calc(36px * 1.5);
     align-self: center;
+
+    @media (max-width: 767px) {
+        font-size: 28px;
+        line-height: calc(28px * 1.5);
+    }
 `;
 
 export const TextStyled = styled.p`
@@ -100,8 +107,9 @@ const loadingKeyframes = keyframes`
 
 export const LoadingImageStyled = styled(Image)`
     animation: ${loadingKeyframes} 1s ease-in-out infinite alternate;
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
 `;
 
 export const TryAgainButtonStyled = styled.p`

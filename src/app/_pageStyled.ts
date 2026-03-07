@@ -2,6 +2,8 @@
 
 import styled from "@emotion/styled";
 
+import { mq } from "@/utils/constants/breakpoints";
+
 export const PageStyled = styled.main`
     display: flex;
     flex-direction: column;
@@ -10,6 +12,10 @@ export const PageStyled = styled.main`
 export const ContentStyled = styled.div`
     display: flex;
     flex-direction: row;
+
+    ${mq.mobile} {
+        flex-direction: column;
+    }
 `;
 
 export const ErrorBannerStyled = styled.div`

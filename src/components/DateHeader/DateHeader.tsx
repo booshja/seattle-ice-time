@@ -1,17 +1,17 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useTransition } from "react";
+import { useEffect, useMemo } from "react";
 import { useShallow } from "zustand/shallow";
 
+import { useWeekNavigation } from "@/hooks/useWeekNavigation";
 import { useWeekDisplayStore } from "@/store/currentWeek/currentWeekStoreProvider";
 import { useEventsStore } from "@/store/events/eventsStoreProvider";
 import {
     getCurrentWeekMonday,
     getDisplayDatesFromBaseDate,
+    getLocalIsoDate,
     getMondayIsoFromBaseDate,
     parseLocalDateFromYmd,
-    getLocalIsoDate,
 } from "@/utils/helpers/dates";
 
 import { DateChangeButtonStyled, DateHeaderStyled } from "./DateHeaderStyled";
@@ -21,66 +21,46 @@ interface DateHeaderProps {
 }
 
 export const DateHeader = ({ mondayDate }: DateHeaderProps) => {
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const weekStartParam = searchParams.get("weekStart");
+    const {
+        base: hookBase,
+        isPending,
+        isCurrentWeek: hookIsCurrentWeek,
+        navigateToWeek,
+    } = useWeekNavigation();
+
     const base = useMemo(() => {
         if (mondayDate) {
             const normalized = getMondayIsoFromBaseDate(mondayDate);
             return parseLocalDateFromYmd(normalized);
         }
-        if (weekStartParam) {
-            // Parse as local date (Y-M-D) and normalize to Monday
-            const normalized = getMondayIsoFromBaseDate(
-                parseLocalDateFromYmd(weekStartParam),
-            );
-            return parseLocalDateFromYmd(normalized);
-        }
-        return getCurrentWeekMonday();
-    }, [mondayDate, weekStartParam]);
+        return hookBase;
+    }, [mondayDate, hookBase]);
+
+    const isCurrentWeek = useMemo(() => {
+        if (!mondayDate) return hookIsCurrentWeek;
+        const currentMondayISO = getLocalIsoDate(getCurrentWeekMonday());
+        const baseMondayISO = getMondayIsoFromBaseDate(new Date(base));
+        return baseMondayISO === currentMondayISO;
+    }, [mondayDate, hookIsCurrentWeek, base]);
+
     const displayString = useMemo(
         () => getDisplayDatesFromBaseDate(new Date(base)),
         [base],
     );
 
-    const [currentWeek, initialWeek, setInitialWeek, setCurrentWeek, setIsNavigating] =
-        useWeekDisplayStore(
-            useShallow((state) => [
-                state.currentWeek,
-                state.initialWeek,
-                state.setInitialWeek,
-                state.setCurrentWeek,
-                state.setIsNavigating,
-            ]),
-        );
+    const [currentWeek, setCurrentWeek, setIsNavigating] = useWeekDisplayStore(
+        useShallow((state) => [
+            state.currentWeek,
+            state.setCurrentWeek,
+            state.setIsNavigating,
+        ]),
+    );
 
     const isEmptyWeek = useEventsStore((state) => state.isCurrentWeekEmpty);
-    const [isPending, startTransition] = useTransition();
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         const name = e.currentTarget.name;
-        const currentMonday = getCurrentWeekMonday();
-        const currentMondayISO = getLocalIsoDate(currentMonday);
-        const currentBase = new Date(base);
-        const nextBase = new Date(currentBase);
-        if (name === "previous") {
-            nextBase.setDate(nextBase.getDate() - 7);
-        } else {
-            nextBase.setDate(nextBase.getDate() + 7);
-        }
-        const nextMondayISO = getMondayIsoFromBaseDate(new Date(nextBase));
-        if (name === "previous" && nextMondayISO <= currentMondayISO) {
-            startTransition(() => {
-                router.push(`${pathname}`);
-            });
-            return;
-        }
-        const params = new URLSearchParams(searchParams.toString());
-        params.set("weekStart", nextMondayISO);
-        startTransition(() => {
-            router.push(`${pathname}?${params.toString()}`);
-        });
+        navigateToWeek(name as "next" | "previous");
     };
 
     useEffect(() => {
@@ -88,16 +68,12 @@ export const DateHeader = ({ mondayDate }: DateHeaderProps) => {
     }, [isPending, setIsNavigating]);
 
     useEffect(() => {
-        setInitialWeek(getDisplayDatesFromBaseDate(getCurrentWeekMonday()));
-    }, [setInitialWeek]);
-
-    useEffect(() => {
         setCurrentWeek(displayString);
     }, [displayString, setCurrentWeek]);
 
     return (
         <DateHeaderStyled style={{ opacity: isPending ? 0.5 : 1 }}>
-            {displayString !== initialWeek && (
+            {!isCurrentWeek && (
                 <DateChangeButtonStyled
                     name="previous"
                     aria-label="Go to previous week"

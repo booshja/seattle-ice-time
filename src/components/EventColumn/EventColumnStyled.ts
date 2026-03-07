@@ -2,6 +2,7 @@
 
 import styled from "@emotion/styled";
 
+import { mq } from "@/utils/constants/breakpoints";
 import { COLORS } from "@/utils/constants/colors";
 import { fontWeight } from "@/utils/constants/fontSizes";
 import { spacing } from "@/utils/constants/spacing";
@@ -15,11 +16,20 @@ export const EventColumnStyled = styled.div<{ $day: Day }>`
             return `border-right: 1px solid ${COLORS.text.secondary}`;
         }
     }};
+
+    ${mq.mobile} {
+        border-left: none;
+        border-right: none;
+    }
 `;
 
 export const EventColumnHeaderStyled = styled.div`
     border-bottom: 1px solid ${COLORS.text.secondary};
     padding: ${spacing.sm}px;
+
+    ${mq.mobile} {
+        display: none;
+    }
 `;
 
 export const EventDateContainerStyled = styled.div<{ $active: "true" | undefined }>`
@@ -42,6 +52,12 @@ export const EventDateContainerStyled = styled.div<{ $active: "true" | undefined
         font-size: ${spacing.lg}px;
         font-weight: ${fontWeight.bold};
     }
+
+    ${mq.tablet} {
+        & > p {
+            font-size: ${spacing.md}px;
+        }
+    }
 `;
 
 export const EventsContainerStyled = styled.div`
@@ -49,4 +65,8 @@ export const EventsContainerStyled = styled.div`
     display: flex;
     flex-direction: column;
     gap: ${spacing.sm}px;
+
+    ${mq.mobile} {
+        padding: ${spacing.md}px;
+    }
 `;

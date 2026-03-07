@@ -3,6 +3,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 
+import { mq } from "@/utils/constants/breakpoints";
 import { fontWeight } from "@/utils/constants/fontSizes";
 import { spacing } from "@/utils/constants/spacing";
 
@@ -23,4 +24,15 @@ export const LinksContainerStyled = styled.div`
     position: fixed;
     bottom: ${spacing.xxl}px;
     left: ${spacing.md}px;
+
+    ${mq.mobile} {
+        display: none;
+    }
+`;
+
+export const LinksStaticContainerStyled = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${spacing.sm}px;
 `;
