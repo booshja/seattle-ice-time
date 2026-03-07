@@ -71,7 +71,7 @@ interface GetStartEndDatesProps {
 }
 
 export function getStartEndDates({ getAsObjects }: GetStartEndDatesProps) {
-    const monday = normalizeToMonday(new Date());
+    const monday = getCurrentWeekMonday();
 
     const endMonday = new Date(monday);
     endMonday.setDate(endMonday.getDate() + 7);
@@ -114,8 +114,13 @@ export function parseLocalDateFromYmd(ymd: string) {
     return date;
 }
 
+function getPacificToday(): Date {
+    const { year, month, day } = getPacificParts(new Date());
+    return new Date(year, month - 1, day);
+}
+
 export function getCurrentWeekMonday() {
-    return normalizeToMonday(new Date());
+    return normalizeToMonday(getPacificToday());
 }
 
 export const getWeekDates = (startDate: Date) => {
@@ -209,7 +214,7 @@ export const getStartEndObjects = (startDate: Date, endDate: Date) => {
 };
 
 export const getDisplayDates = () => {
-    return getDisplayDatesFromBaseDate(new Date());
+    return getDisplayDatesFromBaseDate(getCurrentWeekMonday());
 };
 
 export const getDisplayDatesFromBaseDate = (base: Date) => {

@@ -2,7 +2,11 @@ import { unstable_cache } from "next/cache";
 
 import { EventGrid } from "@/components/EventGrid/EventGrid";
 import { LeftRail } from "@/components/LeftRail/LeftRail";
-import { getStartEndDatesFromBaseDate } from "@/utils/helpers/dates";
+import {
+    getCurrentWeekMonday,
+    getStartEndDatesFromBaseDate,
+    parseLocalDateFromYmd,
+} from "@/utils/helpers/dates";
 import { fetchEvents } from "@/utils/helpers/fetchEvents";
 
 import { ContentStyled, ErrorBannerStyled, PageStyled } from "./_pageStyled";
@@ -28,7 +32,9 @@ const getCachedEvents = unstable_cache(
 export default async function Home({ searchParams }: HomeProps) {
     const sp = await searchParams;
     const weekStartParam = typeof sp?.weekStart === "string" ? sp.weekStart : undefined;
-    const baseDate = weekStartParam ? new Date(weekStartParam) : new Date();
+    const baseDate = weekStartParam
+        ? parseLocalDateFromYmd(weekStartParam)
+        : getCurrentWeekMonday();
     const [start, end] = getStartEndDatesFromBaseDate(baseDate);
 
     let result: Awaited<ReturnType<typeof fetchEvents>>;
@@ -48,7 +54,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <PageStyled>
             {(hasKciError || hasLicError || hasOvaError || hasSnoKingError) && (
                 <ErrorBannerStyled role="status" aria-live="polite">
-                    Some sources failed to load:
+                    Some rinks failed to load:
                     {hasKciError ? <span> Kraken Community Iceplex</span> : null}
                     {hasLicError ? <span> Lynnwood Ice Center</span> : null}
                     {hasOvaError ? <span> Olympic View Arena</span> : null}

@@ -11,3 +11,11 @@ export const breakpoints = {
     desktopMd: 1366,
     desktopLg: 1440,
 } as const;
+
+export const mq = {
+    mobile: `@media (max-width: ${breakpoints.tabletSm - 1}px)`,
+    tablet: `@media (min-width: ${breakpoints.tabletSm}px) and (max-width: ${breakpoints.desktopSm - 1}px)`,
+    desktop: `@media (min-width: ${breakpoints.desktopSm}px)`,
+    tabletUp: `@media (min-width: ${breakpoints.tabletSm}px)`,
+    mobileOnly: `@media (max-width: ${breakpoints.tabletSm - 1}px)`,
+} as const;

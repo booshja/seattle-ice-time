@@ -9,7 +9,7 @@ import { spacing } from "@/utils/constants/spacing";
 export const RoadmapContainer = styled.main`
     max-width: 960px;
     margin: 0 auto;
-    padding: ${spacing.lg}px;
+    padding: ${spacing.lg}px ${spacing.md}px;
     display: flex;
     flex-direction: column;
     align-items: center;

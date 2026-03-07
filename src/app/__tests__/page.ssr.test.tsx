@@ -26,6 +26,8 @@ vi.mock("next/navigation", async () => {
     const actual: Record<string, unknown> = await vi.importActual("next/navigation");
     return {
         ...actual,
+        usePathname: () => "/",
+        useRouter: () => ({ push: vi.fn(), replace: vi.fn(), prefetch: vi.fn() }),
         useSearchParams: () => currentSearchParams,
     };
 });
@@ -76,7 +78,7 @@ describe("SSR Home page", () => {
         expect(typeof args.end).toBe("string");
     });
     describe("errors", () => {
-        it("shows non-blocking error banner when some sources fail", async () => {
+        it("shows non-blocking error banner when some rinks fail", async () => {
             const errorResult = {
                 kciEvents: [],
                 licEvents: [],
@@ -95,7 +97,7 @@ describe("SSR Home page", () => {
 
             const [banner] = screen.getAllByRole("status");
             expect(banner).toBeInTheDocument();
-            expect(banner.textContent).toMatch(/Some sources failed to load/i);
+            expect(banner.textContent).toMatch(/Some rinks failed to load/i);
             expect(banner.textContent).toMatch(/Lynnwood Ice Center/);
             expect(
                 screen.getByText(/No events are scheduled for this week/i),

@@ -2,6 +2,7 @@
 
 import styled from "@emotion/styled";
 
+import { mq } from "@/utils/constants/breakpoints";
 import { fontWeight } from "@/utils/constants/fontSizes";
 import { lineHeight } from "@/utils/constants/fontSizes";
 import { spacing } from "@/utils/constants/spacing";
@@ -21,6 +22,14 @@ export const EventCellStyled = styled.div<{ $bgColor: string; $textColor: string
         line-height: ${lineHeight.md}px;
         font-weight: ${fontWeight.bold};
     }
+
+    ${mq.mobile} {
+        padding: ${spacing.md}px;
+
+        & > p:not(:is(:first-of-type)) {
+            font-size: 14px;
+        }
+    }
 `;
 
 export const RegistrationLinkStyled = styled.a<{ $textColor: string }>`
@@ -31,4 +40,11 @@ export const RegistrationLinkStyled = styled.a<{ $textColor: string }>`
     text-decoration: underline;
     margin-top: ${spacing.xs}px;
     display: block;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+
+    ${mq.mobile} {
+        font-size: 14px;
+    }
 `;

@@ -28,6 +28,7 @@ export const sendEmail = async ({ subject, content }: EmailSenderProps) => {
             secretAccessKey: process.env.SES_SECRET_KEY,
         },
     });
+
     const transporter = nodemailer.createTransport({
         SES: { sesClient: ses, SendEmailCommand },
     });

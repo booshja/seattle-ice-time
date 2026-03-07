@@ -1,11 +1,21 @@
-import { LinksContainerStyled, LinkStyled } from "./LinksStyled";
+import {
+    LinksContainerStyled,
+    LinksStaticContainerStyled,
+    LinkStyled,
+} from "./LinksStyled";
 
-export const Links = () => {
+interface LinksProps {
+    isDrawer?: boolean;
+}
+
+export const Links = ({ isDrawer = false }: LinksProps) => {
+    const Container = isDrawer ? LinksStaticContainerStyled : LinksContainerStyled;
+
     return (
-        <LinksContainerStyled>
+        <Container>
             <LinkStyled href="/issue">📣 Report an issue</LinkStyled>
             <LinkStyled href="/feedback">💬 Give feedback</LinkStyled>
             <LinkStyled href="/roadmap">🧭 Feature Roadmap</LinkStyled>
-        </LinksContainerStyled>
+        </Container>
     );
 };

@@ -21,6 +21,12 @@
 body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    scrollbar-gutter: stable;
+}
+@media (max-width: 767px) {
+    body {
+        scrollbar-gutter: auto;
+    }
 }
 /*
   5. Improve media defaults

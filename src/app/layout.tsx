@@ -1,3 +1,4 @@
+import { Drawer } from "@/components/Drawer/Drawer";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { Providers } from "@/components/Providers/Providers";
 import { inter } from "@/fonts/inter";
@@ -62,10 +63,10 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
                     backgroundColor: COLORS.background.light,
                     color: COLORS.text.primary,
                     height: "100dvh",
-                    scrollbarGutter: "stable",
                 }}
             >
                 <Providers>
+                    <Drawer />
                     <Navbar />
                     {children}
                 </Providers>
